@@ -10,8 +10,7 @@ export const Movie = () => {
   const [searchActive, setSearchActive] = useState(true);
   const [response, setResponse] = useState("false")
 
-  let movieAPI = import.meta.env.VITE_REST_API_KEY
-
+  let movieAPI = import.meta.env.VITE_MOVIE_KEY
   const {
     data: movie, isFetching, isError } = useQuery(["searchMovie"],
       () =>

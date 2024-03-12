@@ -97,3 +97,40 @@
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
+  .drawContainer{
+    margin-top: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .loading{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    margin: auto;
+    width: 40%;
+  }
+  .loading-bar{
+    width: 0px;
+    height: 8px;
+    background: #DE1B89;
+  }
+
+  .loading-text{
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .loading-bar-full{
+    width: 512px;
+    height: 8px;
+    background: #DE1B89;
+    transition: 30s;
+  }
+
+  .display-none{
+    display: none;
+  }

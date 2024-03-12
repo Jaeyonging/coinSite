@@ -1,53 +1,48 @@
-import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useState } from "react";
 
 export const Draw = () => {
   const [imageURL, setImageURL] = useState('');
+  const [prompt, setPrompt] = useState('');
+  const [loading, setLoading] = useState(false)
+  const REST_API_KEY = import.meta.env.VITE_KAKAO_KEY;
 
-  const REST_API_KEY = 'a1cc0d588fdc21b6976481dad9b2c226';
-
-  const t2i = async (prompt : string, negativePrompt:string) => {
-    try {
-      const response = await axios.post(
-        'https://api.kakaobrain.com/v2/inference/karlo/t2i',
-        {
-          model: 'v2.1',
-          prompt: prompt,
-          negative_prompt: negativePrompt,
-          height: 1024,
-          width: 512
-        },
-        {
-          headers: {
-            "Authorization": `KakaoAK ${REST_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
+  const generatePic = () => {
+    setLoading(true)
+    axios.post(
+      'https://api.kakaobrain.com/v2/inference/karlo/t2i',
+      {
+        version: 'v2.1',
+        prompt: prompt,
+        height: 600,
+        width: 768,
+      },
+      {
+        headers: {
+          Authorization: `KakaoAK ${REST_API_KEY}`,
+          'Content-Type': 'application/json'
         }
-      );
-      return response.data;
-    } catch (error) {
+      }
+    ).then(response => {
+      setImageURL(response.data.images[0].image);
+      setLoading(false)
+    }).catch(error => {
       console.error('Error fetching image:', error);
-      return null;
-    }
-  };
-
-  const handleGenerateImage = async () => {
-    const prompt = 'A photo of a cute tiny monster on the beach, daylight';
-    const negativePrompt = '';
-
-    const response = await t2i(prompt, negativePrompt);
-    if (response && response.images && response.images.length > 0) {
-      const imageSrc = response.images[0].image;
-      setImageURL(imageSrc);
-    } else {
-      console.error('No image found in response');
-    }
+    });
   };
 
   return (
-    <div>
-      <button onClick={handleGenerateImage}>Generate Image</button>
-      {imageURL && <img src={imageURL} alt="Generated" />}
-    </div>
+    <>
+      <div className="drawContainer">
+        Making an Image with prompt
+        <input onChange={(e) => setPrompt(e.target.value)} placeholder="Type anything you want to make an image" />
+        <button onClick={generatePic}>Generate Image</button>
+        <div className="loading">
+          <div className={loading ? "loading-bar-full" : "loading-bar"}></div>
+          <div className={loading ? "loading-text" : "display-none"}>Loading...</div>
+        </div>
+        {imageURL ? <img src={imageURL} alt="Generated" /> : null}
+      </div>
+    </>
   );
-}
+};

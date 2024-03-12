@@ -11,6 +11,7 @@ interface Movie {
     Plot: string;
     Poster: string;
     imdbRating: string;
+    Runtime: string,
   };
 }
 
@@ -23,6 +24,12 @@ export const MovieCard = ({ movie }: Movie) => {
         <div className="movieDescr">
           <div>
             <span className="movieDir">감독:</span> {movie.Director}
+          </div>
+          <div>
+            <span className="movieDir">시간:</span> {movie.Runtime}
+          </div>
+          <div>
+            <span className="movieDir">배우:</span> {movie.Actors}
           </div>
           <div>
             <span className="movieDir">개봉일:</span> {movie.Year}
