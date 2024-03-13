@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/configureStore";
 import { setCoinState } from "../store/coinSlice";
 import { setCoinName } from "../store/coinsSlice";
-import { FetchTodayDollar } from "../api";
+import { FetchDollarPrice, FetchKrwPrice, FetchTodayDollar } from "../api";
 import { FormatPrice } from "../function/data";
 
 interface Coin {
@@ -29,7 +29,6 @@ export const Home = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
   const [initialDataFetched, setInitialDataFetched] = useState(false);
   const coinState = useSelector((state: RootState) => state.coin);
-  const coinsState = useSelector((state: RootState) => state.coins);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     FetchTodayDollar()
@@ -76,16 +75,13 @@ export const Home = () => {
 
     fetchKrwCoins();
   }, []);
-  const updateCoinPrices = async (coinState: Record<string, Coin>) => {
+
+  const updateCoinPrices = async () => {
     const markets = Object.keys(coinState).join(",");
-    try {
-      const response = await axios.get(
-        `https://api.upbit.com/v1/ticker?markets=${markets}`
-      );
+    const newCoinState = { ...coinState };
 
-      const newCoinState = { ...coinState };
-
-      response.data.forEach((item: any) => {
+    FetchKrwPrice(markets).then((data) => {
+      data.forEach((item: any) => {
         const market = item.market;
         const fontColor =
           newCoinState[market].krwprice !== item.trade_price
@@ -101,10 +97,10 @@ export const Home = () => {
           fontColor,
         };
       });
-      const response2 = await axios.get(
-        "https://api.binance.com/api/v3/ticker/24hr"
-      );
-      response2.data.forEach((item: any) => {
+    })
+
+    FetchDollarPrice().then((data) => {
+      data.forEach((item: any) => {
         const symbol = item.symbol;
         const market = Object.keys(newCoinState).find(
           (key) => newCoinState[key].usSymbol === symbol
@@ -117,14 +113,12 @@ export const Home = () => {
         }
       });
       dispatch(setCoinState(newCoinState));
-    } catch (error) {
-      console.error("Error fetching coin prices:", error);
-    }
+    })
   };
 
   const { isLoading, isError } = useQuery(
     "coinPrices",
-    () => updateCoinPrices(coinState),
+    () => updateCoinPrices(),
     {
       refetchInterval: 650,
       enabled: initialDataFetched,
