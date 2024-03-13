@@ -1,14 +1,12 @@
-//Home.tsx
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/configureStore";
-import { setCoinState } from "../store/coinSlice";
-import { FetchTodayDollar } from "../function/data";
-import { setCoinName } from "../store/coinsSlice";
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store/configureStore';
+import { FetchTodayDollar, formatPrice } from '../function/data';
+import axios from 'axios';
+import { setCoinState, setCoinState2 } from '../store/coinSlice';
+import { useQuery } from 'react-query';
+import { Table } from 'react-bootstrap';
+import coins, { setCoinName } from '../store/coinsSlice';
 
 interface Coin {
   krwName: string;
@@ -24,12 +22,15 @@ interface Coin {
   fontColor: string;
 }
 
-export const Home = () => {
+
+export const Socket = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
-  const [initialDataFetched, setInitialDataFetched] = useState(false);
+  const [isDataFinished, setDataFinished] = useState(false)
   const coinState = useSelector((state: RootState) => state.coin);
   const coinsState = useSelector((state: RootState) => state.coins);
   const dispatch = useDispatch<AppDispatch>();
+
+
   useEffect(() => {
     FetchTodayDollar()
       .then((dollar) => {
@@ -38,6 +39,7 @@ export const Home = () => {
       .catch((error) => {
         console.error("Error fetching today's dollar:", error);
       });
+
 
     const fetchKrwCoins = async () => {
       try {
@@ -67,82 +69,65 @@ export const Home = () => {
         });
 
         dispatch(setCoinState(newCoinState));
-        setInitialDataFetched(true);
+        setDataFinished(true)
       } catch (error) {
         console.error("Error fetching KR₩ coins:", error);
       }
     };
 
     fetchKrwCoins();
-  }, []);
-  const updateCoinPrices = async (coinState: Record<string, Coin>) => {
-    const markets = Object.keys(coinState).join(",");
-    try {
-      const response = await axios.get(
-        `https://api.upbit.com/v1/ticker?markets=${markets}`
-      );
+  }, [])
 
+  useEffect(() => {
+    const ws = new WebSocket("wss://api.upbit.com/websocket/v1")
+    ws.onopen = () => {
+      console.log("WebSocket connected!");
+      ws.send(JSON.stringify([
+        { "ticket": "test example" },
+        { "type": "ticker", "codes": coinsState.coinNames },
+        { "format": "DEFAULT" }
+      ]));
+    }
+    ws.onmessage = async e => {
+      const { data } = e;
+      const text = await new Response(data).text();
+      const updatedCoins = JSON.parse(text);
       const newCoinState = { ...coinState };
-
-      response.data.forEach((item: any) => {
-        const market = item.market;
+      let code = updatedCoins.code;
+      if (newCoinState[code]) {
         const fontColor =
-          newCoinState[market].krwprice !== item.trade_price
-            ? "redColor"
-            : "blackColor";
-        newCoinState[market] = {
-          ...newCoinState[market],
-          krwprice: item.trade_price,
-          prevPrice: item.prev_closing_price,
-          change: item.change,
-          changePercent: item.change_rate,
-          absValue: item.change_price,
+          newCoinState[code].krwprice != updatedCoins.trade_price
+            ? "red"
+            : "black";
+
+        newCoinState[code] = {
+          ...newCoinState[code],
+          krwprice: updatedCoins.trade_price,
+          prevPrice: updatedCoins.prev_closing_price,
+          change: updatedCoins.change,
+          changePercent: updatedCoins.change_rate,
+          absValue: updatedCoins.change_price,
           fontColor,
         };
-      });
-      const response2 = await axios.get(
-        "https://api.binance.com/api/v3/ticker/24hr"
-      );
-      response2.data.forEach((item: any) => {
-        const symbol = item.symbol;
-        const market = Object.keys(newCoinState).find(
-          (key) => newCoinState[key].usSymbol === symbol
-        );
-        if (market) {
-          newCoinState[market] = {
-            ...newCoinState[market],
-            usprice: item.lastPrice,
-          };
-        }
-      });
-      dispatch(setCoinState(newCoinState));
-    } catch (error) {
-      console.error("Error fetching coin prices:", error);
-    }
-  };
 
-  const formatPrice = (price: number) => {
-    if (price > 1000) {
-      return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } else if (price > 100) {
-      return price.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } else if (price < 1) {
-      const formattedPrice = parseFloat(price.toFixed(5)).toString();
-      return formattedPrice;
-    } else {
-      return price.toFixed(2);
-    }
-  };
+        dispatch(setCoinState2({ code, updatedCoin: newCoinState[code] }));
+      }
+    };
 
-  const { isLoading, isError } = useQuery(
-    "coinPrices",
-    () => updateCoinPrices(coinState),
-    {
-      refetchInterval: 650,
-      enabled: initialDataFetched,
-    }
-  )
 
+
+    ws.onclose = () => {
+      console.log("WebSocket closed!");
+    };
+
+    ws.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, [isDataFinished])
   return (
     <div
       className="App"
@@ -172,7 +157,7 @@ export const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(coinState).length > 0 && !isLoading ? (
+          {Object.keys(coinState).length > 0 ? (
             Object.keys(coinState).map((market, idx) => {
               const coin = coinState[market];
               return (
@@ -285,13 +270,6 @@ export const Home = () => {
             })
           ) : (
             <tr>
-              <td colSpan={6}>
-                {isLoading
-                  ? "Loading..."
-                  : isError
-                    ? "Error fetching data"
-                    : "데이터가 없습니다"}
-              </td>
             </tr>
           )}
         </tbody>

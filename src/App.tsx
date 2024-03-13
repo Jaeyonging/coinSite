@@ -6,6 +6,7 @@ import { Home } from "./routes/Home";
 import { Chart } from "./routes/Chart";
 import { Draw } from "./routes/Draw";
 import { Movie } from "./routes/Movie";
+import { Socket } from "./routes/Socket";
 
 function App() {
   return (
@@ -14,9 +15,10 @@ function App() {
       <Suspense fallback={<div>로딩중</div>}>
         <Routes>
           <Route path="/" element={<Home></Home>} />
-          <Route path="/list" element={<Chart/>} />
-          <Route path="/draw" element={<Draw/>} />
-          <Route path="/movie" element={<Movie/>} />
+          <Route path="/list" element={<Chart />} />
+          <Route path="/draw" element={<Draw />} />
+          <Route path="/movie" element={<Movie />} />
+          <Route path="/socket" element={<Socket />} />
         </Routes>
       </Suspense>
     </>

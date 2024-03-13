@@ -27,12 +27,14 @@ const coin = createSlice({
       state = action.payload
       return action.payload;
     },
-    getUsPrice:(state)=>{
-      
+    setCoinState2: (state, action: PayloadAction<{ code: string; updatedCoin: any }>) => {
+      const { code, updatedCoin } = action.payload;
+      state[code] = updatedCoin;
     }
   },
 });
 
-export const { setCoinState } = coin.actions;
+
+export const { setCoinState, setCoinState2 } = coin.actions;
 
 export default coin;

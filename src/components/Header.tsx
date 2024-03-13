@@ -3,7 +3,7 @@ import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
@@ -16,8 +16,9 @@ export const Header = () => {
             <Nav.Link onClick={((e) => navigate("/list"))}>Charts</Nav.Link>
             <Nav.Link onClick={((e) => navigate("/draw"))}>Draw</Nav.Link>
             <Nav.Link onClick={((e) => navigate("/movie"))}>Movie</Nav.Link>
+            <Nav.Link onClick={((e) => navigate("/socket"))}>Socket</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
-    </Navbar>  )
+    </Navbar>)
 }
