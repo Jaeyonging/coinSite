@@ -7,8 +7,9 @@ import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/configureStore";
 import { setCoinState } from "../store/coinSlice";
-import { FetchTodayDollar } from "../function/data";
 import { setCoinName } from "../store/coinsSlice";
+import { FetchTodayDollar } from "../api";
+import { FormatPrice } from "../function/data";
 
 interface Coin {
   krwName: string;
@@ -121,19 +122,6 @@ export const Home = () => {
     }
   };
 
-  const formatPrice = (price: number) => {
-    if (price > 1000) {
-      return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } else if (price > 100) {
-      return price.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    } else if (price < 1) {
-      const formattedPrice = parseFloat(price.toFixed(5)).toString();
-      return formattedPrice;
-    } else {
-      return price.toFixed(2);
-    }
-  };
-
   const { isLoading, isError } = useQuery(
     "coinPrices",
     () => updateCoinPrices(coinState),
@@ -195,10 +183,10 @@ export const Home = () => {
                   </td>
 
                   <td className={coin.fontColor}>
-                    <div>{formatPrice(coin.krwprice)}원</div>
+                    <div>{FormatPrice(coin.krwprice)}원</div>
                     <div className="binance">
                       {coin.usprice !== 0 &&
-                        formatPrice(
+                        FormatPrice(
                           coin.usprice * todayDollar < 100
                             ? parseFloat(
                               (coin.usprice * todayDollar).toFixed(2)
@@ -234,14 +222,14 @@ export const Home = () => {
 
                     <div className="binance">
                       {coin.usprice != 0 &&
-                        formatPrice(
+                        FormatPrice(
                           coin.krwprice - coin.usprice * todayDollar
                         ) + "원"}
                     </div>
                   </td>
                   <td>
                     {/* 전일종가 */}
-                    {formatPrice(coin.prevPrice)}원
+                    {FormatPrice(coin.prevPrice)}원
                     {coin.change === "RISE" ? (
                       <span className="rise">⬆️</span>
                     ) : coin.change === "FALL" ? (
@@ -251,17 +239,14 @@ export const Home = () => {
                     )}
                   </td>
                   <td>
-                    {" "}
                     {/* 변동액 */}
                     {coin.change === "RISE" ? (
                       <span className="rise">
-                        {" "}
-                        +{formatPrice(coin.absValue)}원
+                        +{FormatPrice(coin.absValue)}원
                       </span>
                     ) : coin.change === "FALL" ? (
                       <span className="fall">
-                        {" "}
-                        -{formatPrice(coin.absValue)}원
+                        -{FormatPrice(coin.absValue)}원
                       </span>
                     ) : (
                       <span>{coin.absValue}원</span>

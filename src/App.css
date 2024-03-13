@@ -1,136 +1,137 @@
-.App{
-    text-align: center;
-    letter-spacing: -0.8px;
+.App {
+  text-align: center;
+  letter-spacing: -0.8px;
 }
 
 
-.me-auto{
-    background-color: yellow;
-    margin-left: 50%;
+.me-auto {
+  background-color: yellow;
+  margin-left: 50%;
 }
 
-.HomeDiv{
-    display: flex;
-} 
-
-.redColor{
-    color: red;
-    transition: 0.3s color;
+.HomeDiv {
+  display: flex;
 }
 
-.blackColor{
-    color: black;
-    transition: 0.3s color;
+.redColor {
+  color: red;
+  transition: 0.3s color;
+}
+
+.blackColor {
+  color: black;
+  transition: 0.3s color;
 
 }
 
 .rise {
-    color: green;
-  }
-  
-  .fall {
-    color: red;
-  }
+  color: green;
+}
 
-  .coinName:hover,
-  .coinPrice:hover,
-  .prevPrice:hover,
-  .prevalue:hover,
-  .kimp:hover,
-  .prepercent:hover {
-    cursor: pointer;
-  }
-  
-  .green {
-    color: green;
-  }
-  
-  .red {
-    color: red;
-  }
+.fall {
+  color: red;
+}
 
-  .binance{
-    font-size: 13px;
-    color: gray;
-  }
+.coinName:hover,
+.coinPrice:hover,
+.prevPrice:hover,
+.prevalue:hover,
+.kimp:hover,
+.prepercent:hover {
+  cursor: pointer;
+}
 
-  .logo{
-    width: 20px;
-    height: auto;
-    margin-right: 5px;
-  }
-  
+.green {
+  color: green;
+}
 
-  .movieContainer{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
+.red {
+  color: red;
+}
 
-  .movieTitle{
-    font-size: 30px;
-    text-align: center;
-  }
+.binance {
+  font-size: 13px;
+  color: gray;
+}
 
-  .movieDescr{
-    font-size: 20px;
-  }
+.logo {
+  width: 20px;
+  height: auto;
+  margin-right: 5px;
+}
 
-  .movieDescr > div > span{
-    font-weight: bold;
-  }
 
-  .movieCardContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
+.movieContainer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .moviePoster{
-    margin-top: 30px;
-  }
+.movieTitle {
+  font-size: 30px;
+  text-align: center;
+}
 
-  .movieDescr{
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+.movieDescr {
+  font-size: 20px;
+}
 
-  .drawContainer{
-    margin-top: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
+.movieDescr>div>span {
+  font-weight: bold;
+}
 
-  .loading{
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    margin: auto;
-    width: 40%;
-  }
-  .loading-bar{
-    width: 0px;
-    height: 8px;
-    background: #DE1B89;
-  }
+.movieCardContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .loading-text{
-    font-size: 18px;
-    text-align: center;
-  }
+.moviePoster {
+  margin-top: 30px;
+}
 
-  .loading-bar-full{
-    width: 512px;
-    height: 8px;
-    background: #DE1B89;
-    transition: 30s;
-  }
+.movieDescr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 
-  .display-none{
-    display: none;
-  }
+.drawContainer {
+  margin-top: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loading {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin: auto;
+  width: 40%;
+}
+
+.loading-bar {
+  width: 0px;
+  height: 8px;
+  background: #DE1B89;
+}
+
+.loading-text {
+  font-size: 18px;
+  text-align: center;
+}
+
+.loading-bar-full {
+  width: 512px;
+  height: 8px;
+  background: #DE1B89;
+  transition: 30s;
+}
+
+.display-none {
+  display: none;
+}

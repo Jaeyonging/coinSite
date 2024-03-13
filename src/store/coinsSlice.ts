@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CoinState } from '../types/coin';
 
 
 interface CoinsState {
