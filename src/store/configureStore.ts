@@ -2,11 +2,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import coin from './coinSlice';
 import coins from './coinsSlice';
+import KrwCoinPrice from './coinKrwPrice';
+import USCoinPrice from './coinUsPrice';
+import UpbitCoins from './upbitCoins';
 
 const store = configureStore({
   reducer: {
     coin: coin.reducer,
     coins: coins.reducer,
+    KrwCoin: KrwCoinPrice.reducer,
+    USCoin: USCoinPrice.reducer,
+    UpbitCoin: UpbitCoins.reducer
   },
 });
 

@@ -27,6 +27,7 @@ interface Coin {
 
 export const Home = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
+  const [isbinanceWorking, setBinance] = useState(false)
   const [initialDataFetched, setInitialDataFetched] = useState(false);
   const coinState = useSelector((state: RootState) => state.coin);
   const dispatch = useDispatch<AppDispatch>();
@@ -114,6 +115,9 @@ export const Home = () => {
       });
       dispatch(setCoinState(newCoinState));
     })
+      .catch((err) => {
+        dispatch(setCoinState(newCoinState));
+      })
   };
 
   const { isLoading, isError } = useQuery(

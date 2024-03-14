@@ -13,6 +13,35 @@ export interface Coin {
     fontColor: string;
 }
 
+
+export interface UpbitCoins {
+    [key: string]: {
+        english_name: string;
+        korean_name: string;
+        market_KRW: string
+        market_USDT: string
+    }
+}
+export interface USCoin {
+    [key: string]: {
+        engName: string;
+        usSymbol: string;
+        usprice: number;
+    };
+}
+
+export interface KrwCoin {
+    [key: string]: {
+        krwSymbol: string;
+        krwprice: number;
+        prevPrice: number;
+        change: string;
+        changePercent: number;
+        absValue: number;
+    };
+}
+
+
 export interface CoinState {
     coinNameList: {
         [key: string]: {
