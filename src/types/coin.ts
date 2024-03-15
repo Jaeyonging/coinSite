@@ -24,7 +24,6 @@ export interface UpbitCoins {
 }
 export interface USCoin {
     [key: string]: {
-        engName: string;
         usSymbol: string;
         usprice: number;
     };
