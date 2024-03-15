@@ -66,7 +66,6 @@ export const Home = () => {
           };
           dispatch(setCoinName(coin.market))
         });
-
         dispatch(setCoinState(newCoinState));
         setInitialDataFetched(true);
       } catch (error) {
@@ -75,9 +74,11 @@ export const Home = () => {
     };
 
     fetchKrwCoins();
+
   }, []);
 
   const updateCoinPrices = async () => {
+
     const markets = Object.keys(coinState).join(",");
     const newCoinState = { ...coinState };
 

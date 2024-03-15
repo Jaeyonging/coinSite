@@ -38,7 +38,21 @@ export interface KrwCoin {
         change: string;
         changePercent: number;
         absValue: number;
-    };
+    }
+}
+
+export interface KrwCoin2 {
+    coins: {
+        [key: string]: {
+            krwSymbol: string;
+            krwprice: number;
+            prevPrice: number;
+            change: string;
+            changePercent: number;
+            absValue: number;
+        }
+    },
+    loading: string
 }
 
 

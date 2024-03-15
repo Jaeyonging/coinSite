@@ -1,6 +1,8 @@
-// coinSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { KrwCoin, UpbitCoins } from '../types/coin';
+import { FetchKrwCoins } from '../api';
+
+
 
 const initialState: UpbitCoins = {};
 
@@ -10,7 +12,6 @@ const UpbitCoins = createSlice({
     reducers: {
         syncCoins: (state, action: PayloadAction<UpbitCoins>) => {
             state = action.payload
-            console.log(state)
             return state
         },
     },
