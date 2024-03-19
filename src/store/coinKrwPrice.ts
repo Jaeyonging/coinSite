@@ -41,7 +41,6 @@ const KrwCoinPrice = createSlice({
                 data.forEach((item: any) => {
                     const market = item.market.substring(4);
                     state.coins[market] = {
-                        krwSymbol: item.market,
                         krwprice: item.trade_price,
                         prevPrice: item.prev_closing_price,
                         change: item.change,

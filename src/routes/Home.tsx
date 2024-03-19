@@ -125,7 +125,7 @@ export const Home = () => {
     "coinPrices",
     () => updateCoinPrices(),
     {
-      refetchInterval: 650,
+      refetchInterval: 700,
       enabled: initialDataFetched,
     }
   )
@@ -212,7 +212,7 @@ export const Home = () => {
                         coin.usprice != 0 &&
                         Math.floor(
                           ((coin.krwprice - coin.usprice * todayDollar) /
-                            coin.krwprice) *
+                            (coin.usprice * todayDollar)) *
                           10000
                         ) /
                         100 +

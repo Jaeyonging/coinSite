@@ -37,12 +37,11 @@ export const Socket = () => {
         );
         const newUpbitCoinState: UpbitCoins = {};
         const newUSCOIN: USCoin = {};
-
         krwCoins.forEach((coin: any) => {
           const coinSymbol = coin.market.substring(4);
           newUpbitCoinState[coinSymbol] = {
             ...newUpbitCoinState[coinSymbol],
-            english_name: coinSymbol,
+            english_name: coin.english_name,
             korean_name: coin.korean_name,
             market_KRW: coin.market,
             market_USDT: coinSymbol + "USDT"
@@ -82,6 +81,7 @@ export const Socket = () => {
       const convertedPairs = coinsState.coinNames.map(pair => {
         const currency = pair.split('-')[1].toLowerCase()
         return `${currency}usdt@aggTrade`;
+        // return `${currency}usdt@markPrice@1s`;
       });
       const combinedString = convertedPairs.join('/');
 
@@ -118,9 +118,7 @@ export const Socket = () => {
         const updatedCoins = JSON.parse(text);
         const NewcoinKrwPriceState = { ...coinKrwPriceState };
         let coinSymbol = updatedCoins.code.substring(4);
-        const krwSymbol = updatedCoins.code;
         const updatedCoin = {
-          krwSymbol: krwSymbol,
           krwprice: updatedCoins.trade_price,
           prevPrice: updatedCoins.prev_closing_price,
           change: updatedCoins.change,
@@ -212,12 +210,9 @@ export const Socket = () => {
                                 : parseFloat((uscoin.usprice * todayDollar).toFixed(1))
                             ) + "원"
                           ) : (
-                            "N/A"
+                            ""
                           )}
                         </div>
-
-
-
                       </td>
                       <td>
                         {/* 김프 */}
@@ -225,7 +220,7 @@ export const Socket = () => {
                           className={
                             krcoin.krwprice &&
                               (krcoin.krwprice - uscoin.usprice * todayDollar) /
-                              krcoin.krwprice >
+                              (uscoin.usprice * todayDollar) >
                               0
                               ? "green"
                               : "red"
@@ -235,7 +230,7 @@ export const Socket = () => {
                             uscoin.usprice != 0 &&
                             Math.floor(
                               ((krcoin.krwprice - uscoin.usprice * todayDollar) /
-                                krcoin.krwprice) *
+                                (uscoin.usprice * todayDollar)) *
                               10000
                             ) /
                             100 +
