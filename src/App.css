@@ -135,3 +135,11 @@
 .display-none {
   display: none;
 }
+
+.nav-bank {
+  width: 90%;
+  margin: auto;
+  background-color: yellow;
+  display: flex;
+  flex-direction: row;
+}

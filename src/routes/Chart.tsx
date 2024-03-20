@@ -16,7 +16,7 @@ export const Chart = () => {
     xAxis: [
       {
         id: "barCategories",
-        data: top3Coins.map((coin) => coin.koreanName),
+        data: top3Coins.map((coin) => coin.krwName),
         scaleType: "band" as const,
       },
     ],

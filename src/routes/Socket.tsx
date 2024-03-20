@@ -80,8 +80,8 @@ export const Socket = () => {
       const upbtitWS = new WebSocket("wss://api.upbit.com/websocket/v1")
       const convertedPairs = coinsState.coinNames.map(pair => {
         const currency = pair.split('-')[1].toLowerCase()
-        return `${currency}usdt@aggTrade`;
-        // return `${currency}usdt@markPrice@1s`;
+        //return `${currency}usdt@aggTrade`;
+        return `${currency}usdt@markPrice@1s`;
       });
       const combinedString = convertedPairs.join('/');
 
