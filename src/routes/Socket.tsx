@@ -56,7 +56,6 @@ export const Socket = () => {
         dispatch(setUSCoin(newUSCOIN))
       })
       .catch((error) => {
-        console.log
       })
 
   }, [])
@@ -88,7 +87,6 @@ export const Socket = () => {
       const binanceWS = new WebSocket(`wss://fstream.binance.com/stream?streams=${combinedString}`);
       // const binanceWS = new WebSocket(`wss://fstream.binance.com/stream?streams=btcusdt@aggTrade`);
       binanceWS.onopen = () => {
-        console.log("open binance")
       }
       binanceWS.onmessage = async e => {
         const { data } = e;
@@ -104,7 +102,6 @@ export const Socket = () => {
       }
 
       upbtitWS.onopen = () => {
-        console.log("open upbit")
         upbtitWS.send(JSON.stringify([
           { "ticket": "test example" },
           { "type": "ticker", "codes": coinsState.coinNames },
@@ -132,9 +129,7 @@ export const Socket = () => {
         dispatch(syncKRWPrice2({ code: coinSymbol, updatedCoin: NewcoinKrwPriceState.coins[coinSymbol] }));
       };
       upbtitWS.onclose = () => {
-        console.log("WebSocket closed!");
       };
-
       upbtitWS.onerror = (error) => {
         console.error("WebSocket error:", error);
       };

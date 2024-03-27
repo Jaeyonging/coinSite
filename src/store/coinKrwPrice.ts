@@ -8,7 +8,6 @@ export const fetchKRWPrice = createAsyncThunk(
     async (markets: string) => {
         try {
             const data = await FetchKrwPrice(markets);
-            console.log()
             return data;
         } catch (error) {
             throw Error("Error fetching KRW price: " + error);
