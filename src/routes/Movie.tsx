@@ -15,7 +15,7 @@ export const Movie = () => {
     data: movie, isFetching, isError } = useQuery(["searchMovie"],
       () =>
         axios
-          .get(`http://www.omdbapi.com/?t=${title}&apiKey=` + movieAPI)
+          .get(`https://www.omdbapi.com/?t=${title}&apiKey=` + movieAPI)
           .then((res) => {
             setSearchActive(false);
             setStart(false);
