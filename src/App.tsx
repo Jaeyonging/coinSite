@@ -15,7 +15,6 @@ function App() {
       <Suspense fallback={<div>로딩중</div>}>
         <Routes>
           <Route path="/" element={<Home></Home>} />
-          <Route path="/list" element={<Chart />} />
           <Route path="/draw" element={<Draw />} />
           <Route path="/movie" element={<Movie />} />
           <Route path="/socket" element={<Socket />} />

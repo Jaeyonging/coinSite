@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { USCoin } from '../types/coin';
 
-
 const initialState: USCoin = {};
 
 const USCoinPrice = createSlice({

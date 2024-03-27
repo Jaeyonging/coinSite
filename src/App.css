@@ -5,7 +5,6 @@
 
 
 .me-auto {
-  background-color: yellow;
   margin-left: 50%;
 }
 
@@ -139,7 +138,6 @@
 .nav-bank {
   width: 90%;
   margin: auto;
-  background-color: yellow;
   display: flex;
   flex-direction: row;
 }

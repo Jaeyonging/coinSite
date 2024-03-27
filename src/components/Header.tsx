@@ -28,7 +28,6 @@ export const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link onClick={((e) => navigate("/"))}>Home</Nav.Link>
-              <Nav.Link onClick={((e) => navigate("/list"))}>Charts</Nav.Link>
               <Nav.Link onClick={((e) => navigate("/draw"))}>Draw</Nav.Link>
               <Nav.Link onClick={((e) => navigate("/movie"))}>Movie</Nav.Link>
               <Nav.Link onClick={((e) => navigate("/socket"))}>Socket</Nav.Link>
