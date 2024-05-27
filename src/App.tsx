@@ -16,6 +16,8 @@ function App() {
           <Route path="/socket" element={<Socket />} />
         </Routes>
       </Suspense>
+      <Footer></Footer>
+
     </>
   );
 }

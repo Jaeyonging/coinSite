@@ -10,7 +10,6 @@ import { setCoinState } from "../store/coinSlice";
 import { setCoinName } from "../store/coinsSlice";
 import { FetchDollarPrice, FetchKrwPrice, FetchTodayDollar } from "../api";
 import { FormatPrice } from "../function/data";
-import { Footer } from "../components/Footer";
 
 interface Coin {
   krwName: string;
@@ -281,7 +280,6 @@ export const Home = () => {
           )}
         </tbody>
       </Table>
-      <Footer></Footer>
     </div>
   );
 };
