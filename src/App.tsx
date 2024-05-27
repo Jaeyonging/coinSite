@@ -3,10 +3,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import { Header } from "./components/Header";
 import { Home } from "./routes/Home";
-import { Chart } from "./routes/Chart";
-import { Draw } from "./routes/Draw";
-import { Movie } from "./routes/Movie";
 import { Socket } from "./routes/Socket";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
@@ -18,6 +16,7 @@ function App() {
           <Route path="/socket" element={<Socket />} />
         </Routes>
       </Suspense>
+      <Footer></Footer>
     </>
   );
 }
