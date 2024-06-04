@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/configureStore';
 import { Table } from 'react-bootstrap';
@@ -7,19 +7,20 @@ import { KrwCoin, USCoin, UpbitCoins } from '../types/coin';
 import { FetchDollarPrice, FetchKrwCoins, FetchKrwPrice, FetchTodayDollar } from '../api';
 import { FormatPrice } from '../function/data';
 import { syncCoins } from '../store/upbitCoins';
-import { fetchKRWPrice, syncKRWPrice, syncKRWPrice2, } from '../store/coinKrwPrice';
+import { fetchKRWPrice, syncKRWPrice, syncKRWPrice2 } from '../store/coinKrwPrice';
 import { setUSCoin, syncUSPRICE } from '../store/coinUsPrice';
 
 export const Socket = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
-  const [fetchFinished, setFetchedFinished] = useState(false)
-  const [USfetchFinished, setUSFetchedFinished] = useState(false)
+  const [fetchFinished, setFetchedFinished] = useState(false);
+  const [USfetchFinished, setUSFetchedFinished] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
+
   const coinsState = useSelector((state: RootState) => state.coins);
   const coinKrwPriceState = useSelector((state: RootState) => state.KrwCoin);
   const coinUSPriceState = useSelector((state: RootState) => state.USCoin);
   const upbitCoinState = useSelector((state: RootState) => state.UpbitCoin);
   const dispatch = useDispatch<AppDispatch>();
-
 
   useEffect(() => {
     FetchTodayDollar()
@@ -32,9 +33,7 @@ export const Socket = () => {
 
     FetchKrwCoins()
       .then((data) => {
-        const krwCoins = data.filter((coin: any) =>
-          coin.market.startsWith("KRW-")
-        );
+        const krwCoins = data.filter((coin: any) => coin.market.startsWith("KRW-"));
         const newUpbitCoinState: UpbitCoins = {};
         const newUSCOIN: USCoin = {};
         krwCoins.forEach((coin: any) => {
@@ -50,56 +49,50 @@ export const Socket = () => {
             usSymbol: coinSymbol,
             usprice: 0
           };
-          dispatch(setCoinName(coin.market))
-        })
+          dispatch(setCoinName(coin.market));
+        });
         dispatch(syncCoins(newUpbitCoinState));
-        dispatch(setUSCoin(newUSCOIN))
+        dispatch(setUSCoin(newUSCOIN));
       })
       .catch((error) => {
-      })
-
-  }, [])
+        console.error('Error fetching KRW coins:', error);
+      });
+  }, [dispatch]);
 
   useEffect(() => {
-    if (coinKrwPriceState.loading == "success") {
-      setFetchedFinished(true)
+    if (coinKrwPriceState.loading === "success") {
+      setFetchedFinished(true);
     }
-  }, [coinKrwPriceState.loading])
+  }, [coinKrwPriceState.loading]);
 
   useEffect(() => {
-    const markets = coinsState.coinNames.join(',')
+    const markets = coinsState.coinNames.join(',');
     if (markets) {
-      const newCoinState = { ...coinKrwPriceState };
-      const apiAction = dispatch(fetchKRWPrice(markets))
+      dispatch(fetchKRWPrice(markets));
     }
-  }, [upbitCoinState])
+  }, [upbitCoinState, coinsState.coinNames, dispatch]);
 
   useEffect(() => {
     if (fetchFinished) {
-      const upbtitWS = new WebSocket("wss://api.upbit.com/websocket/v1")
+      const upbtitWS = new WebSocket("wss://api.upbit.com/websocket/v1");
       const convertedPairs = coinsState.coinNames.map(pair => {
-        const currency = pair.split('-')[1].toLowerCase()
-        //return `${currency}usdt@aggTrade`;
+        const currency = pair.split('-')[1].toLowerCase();
         return `${currency}usdt@markPrice@1s`;
       });
       const combinedString = convertedPairs.join('/');
 
       const binanceWS = new WebSocket(`wss://fstream.binance.com/stream?streams=${combinedString}`);
-      // const binanceWS = new WebSocket(`wss://fstream.binance.com/stream?streams=btcusdt@aggTrade`);
-      binanceWS.onopen = () => {
-      }
+
       binanceWS.onmessage = async e => {
         const { data } = e;
         const text = await new Response(data).text();
         const updatedCoins = JSON.parse(text).data;
 
-        const usSymbole = updatedCoins.s.replace("USDT", "")
-        const updatedCoin = {
-          usprice: parseFloat(updatedCoins.p)
-        };
+        const usSymbole = updatedCoins.s.replace("USDT", "");
+        const updatedCoin = { usprice: parseFloat(updatedCoins.p) };
 
-        dispatch(syncUSPRICE({ code: usSymbole, updatedCoin: updatedCoin }));
-      }
+        dispatch(syncUSPRICE({ code: usSymbole, updatedCoin }));
+      };
 
       upbtitWS.onopen = () => {
         upbtitWS.send(JSON.stringify([
@@ -107,14 +100,13 @@ export const Socket = () => {
           { "type": "ticker", "codes": coinsState.coinNames },
           { "format": "DEFAULT" }
         ]));
-      }
+      };
 
       upbtitWS.onmessage = async e => {
         const { data } = e;
         const text = await new Response(data).text();
         const updatedCoins = JSON.parse(text);
-        const NewcoinKrwPriceState = { ...coinKrwPriceState };
-        let coinSymbol = updatedCoins.code.substring(4);
+        const coinSymbol = updatedCoins.code.substring(4);
         const updatedCoin = {
           krwprice: updatedCoins.trade_price,
           prevPrice: updatedCoins.prev_closing_price,
@@ -122,60 +114,108 @@ export const Socket = () => {
           changePercent: updatedCoins.change_rate * 100,
           absValue: updatedCoins.change_price
         };
-        NewcoinKrwPriceState.coins = {
-          [coinSymbol]: updatedCoin
-        };
 
-        dispatch(syncKRWPrice2({ code: coinSymbol, updatedCoin: NewcoinKrwPriceState.coins[coinSymbol] }));
-      };
-      upbtitWS.onclose = () => {
-      };
-      upbtitWS.onerror = (error) => {
-        console.error("WebSocket error:", error);
+        dispatch(syncKRWPrice2({ code: coinSymbol, updatedCoin }));
       };
 
       return () => {
         upbtitWS.close();
+        binanceWS.close();
       };
     }
-  }, [fetchFinished])
+  }, [fetchFinished, coinsState.coinNames, dispatch]);
+
+  const handleSort = (key: string) => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedCoins = () => {
+    if (!sortConfig) {
+      return Object.keys(upbitCoinState);
+    }
+    const sorted = [...Object.keys(upbitCoinState)];
+    sorted.sort((a, b) => {
+      const coinA = upbitCoinState[a];
+      const coinB = upbitCoinState[b];
+      let aValue, bValue;
+      switch (sortConfig.key) {
+        case 'koreanName':
+          aValue = coinA.korean_name;
+          bValue = coinB.korean_name;
+          break;
+        case 'price':
+          aValue = coinKrwPriceState.coins[a].krwprice;
+          bValue = coinKrwPriceState.coins[b].krwprice;
+          break;
+        case 'kimp':
+          const usPriceA = coinUSPriceState[a]?.usprice ?? 0;
+          const usPriceB = coinUSPriceState[b]?.usprice ?? 0;
+          aValue = coinKrwPriceState.coins[a].krwprice - (usPriceA * todayDollar);
+          bValue = coinKrwPriceState.coins[b].krwprice - (usPriceB * todayDollar);
+          break;
+        case 'prevPrice':
+          aValue = coinKrwPriceState.coins[a].prevPrice;
+          bValue = coinKrwPriceState.coins[b].prevPrice;
+          break;
+        case 'absValue':
+          aValue = coinKrwPriceState.coins[a].absValue;
+          bValue = coinKrwPriceState.coins[b].absValue;
+          break;
+        case 'changePercent':
+          aValue = coinKrwPriceState.coins[a].changePercent;
+          bValue = coinKrwPriceState.coins[b].changePercent;
+          break;
+        default:
+          return 0;
+      }
+      if (aValue < bValue) {
+        return sortConfig.direction === 'ascending' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'ascending' ? 1 : -1;
+      }
+      return 0;
+    });
+    return sorted;
+  };
 
   return (
     <>
       {fetchFinished ? (
-        <div
-          className="App"
-          style={{ marginTop: "185px", wordBreak: "keep-all" }}
-        >
+        <div className="App" style={{ marginTop: "185px", wordBreak: "keep-all" }}>
           <Table>
             <thead>
               <tr>
-                <th>
+                <th onClick={() => handleSort('koreanName')}>
                   <span className="coinName">Korean Name</span>
                 </th>
-                <th>
+                <th onClick={() => handleSort('price')}>
                   <span className="coinPrice">Price</span>
                 </th>
-                <th>
+                <th onClick={() => handleSort('kimp')}>
                   <span className="kimp">김치프리미엄</span>
                 </th>
-                <th className='display-none'>
+                <th className='display-none' onClick={() => handleSort('prevPrice')}>
                   <span className="prevPrice">전일종가</span>
                 </th>
-                <th>
+                <th onClick={() => handleSort('absValue')}>
                   <span className="prevalue">변동액</span>
                 </th>
-                <th>
+                <th onClick={() => handleSort('changePercent')}>
                   <span className="prepercent">변화율</span>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {Object.keys(upbitCoinState).length > 0 ? (
-                Object.keys(upbitCoinState).map((market, idx) => {
+              {sortedCoins().length > 0 ? (
+                sortedCoins().map((market, idx) => {
                   const coin = upbitCoinState[market];
-                  const uscoin = coinUSPriceState[market]
-                  const krcoin = coinKrwPriceState.coins[market]
+                  const uscoin = coinUSPriceState[market];
+                  const krcoin = coinKrwPriceState.coins[market];
                   return (
                     <tr key={idx + 1}>
                       <td>
@@ -194,7 +234,6 @@ export const Socket = () => {
                           {coin.english_name} {market.replace("KRW-", "")}
                         </div>
                       </td>
-
                       <td>
                         <div className="font-10px">{FormatPrice(krcoin.krwprice)}원</div>
                         <div className="binance">
@@ -210,7 +249,6 @@ export const Socket = () => {
                         </div>
                       </td>
                       <td>
-                        {/* 김프 */}
                         <div
                           className={
                             krcoin.krwprice &&
@@ -231,7 +269,6 @@ export const Socket = () => {
                             100 +
                             "%"}
                         </div>
-
                         <div className="binance">
                           {uscoin.usprice != 0 &&
                             FormatPrice(
@@ -240,7 +277,6 @@ export const Socket = () => {
                         </div>
                       </td>
                       <td className="font-10px display-none">
-                        {/* 전일종가 */}
                         {FormatPrice(krcoin.prevPrice)}원
                         {krcoin.change === "RISE" ? (
                           <span className="rise">⬆️</span>
@@ -251,7 +287,6 @@ export const Socket = () => {
                         )}
                       </td>
                       <td className="font-10px">
-                        {/* 변동액 */}
                         {krcoin.change === "RISE" ? (
                           <span className="rise">
                             +{FormatPrice(krcoin.absValue)}원
@@ -281,19 +316,14 @@ export const Socket = () => {
                   );
                 })
               ) : (
-                <tr>
-
-                </tr>
+                <tr></tr>
               )}
             </tbody>
           </Table>
         </div>
       ) : (
-        <div>
-
-        </div>
+        <div>Loading...</div>
       )}
-
     </>
-  )
+  );
 };

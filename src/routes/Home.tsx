@@ -29,6 +29,8 @@ export const Home = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
   const [isbinanceWorking, setBinance] = useState(false)
   const [initialDataFetched, setInitialDataFetched] = useState(false);
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
+
   const coinState = useSelector((state: RootState) => state.coin);
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -129,6 +131,16 @@ export const Home = () => {
       enabled: initialDataFetched,
     }
   )
+
+  const handleSort = (key: string) => {
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  };
+
+
 
   return (
     <div
