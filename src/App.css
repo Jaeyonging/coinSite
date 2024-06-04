@@ -59,82 +59,6 @@
   margin-right: 5px;
 }
 
-
-.movieContainer {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.movieTitle {
-  font-size: 30px;
-  text-align: center;
-}
-
-.movieDescr {
-  font-size: 20px;
-}
-
-.movieDescr>div>span {
-  font-weight: bold;
-}
-
-.movieCardContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.moviePoster {
-  margin-top: 30px;
-}
-
-.movieDescr {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.drawContainer {
-  margin-top: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.loading {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  margin: auto;
-  width: 40%;
-}
-
-.loading-bar {
-  width: 0px;
-  height: 8px;
-  background: #DE1B89;
-}
-
-.loading-text {
-  font-size: 18px;
-  text-align: center;
-}
-
-.loading-bar-full {
-  width: 512px;
-  height: 8px;
-  background: #DE1B89;
-  transition: 30s;
-}
-
-.display-none {
-  display: none;
-}
-
 .nav-bank {
   width: 90%;
   margin: auto;
@@ -172,3 +96,42 @@
   font-size: 20px;
   font-weight: bold;
 }
+
+@media screen and (max-width: 768px){
+  .coinName{
+    font-size: 10px;
+  }
+  .coinPrice{
+    font-size: 10px;
+  }
+  .kimp{
+    font-size: 10px;
+  }
+  .prevPrice{
+    font-size: 10px
+  }
+
+  .prevalue{
+    font-size: 10px
+  }
+
+  .prepercent{
+    font-size: 10px;
+  }
+
+  .logo{
+    width: 15px;
+    height: auto;
+  }
+  .font-10px{
+    font-size: 10px;
+  }
+
+  .binance{
+    font-size: 10px;
+  }
+}
+
+<th>
+  <span className="prepercent">변화율</span>
+</th>

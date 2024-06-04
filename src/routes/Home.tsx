@@ -133,7 +133,7 @@ export const Home = () => {
   return (
     <div
       className="App"
-      style={{ marginTop: "185px", marginLeft: "50px", marginRight: "50px" }}
+      style={{ marginTop: "185px", wordBreak: "keep-all" }}
     >
       <Table>
         <thead>
@@ -148,7 +148,7 @@ export const Home = () => {
               <span className="kimp">김치프리미엄</span>
             </th>
             <th>
-              <span className="prevPrice">전일종가 00시 기준</span>
+              <span className="prevPrice">전일종가</span>
             </th>
             <th>
               <span className="prevalue">변동액</span>
@@ -174,14 +174,14 @@ export const Home = () => {
                           ".png"
                         }
                       ></img>
-                      <span>{coin.krwName}</span>
+                      <span className="font-10px">{coin.krwName}</span>
                     </div>
-                    <div>
+                    <div className="font-10px">
                       {coin.engName} {market.replace("KRW-", "")}
                     </div>
                   </td>
 
-                  <td className={coin.fontColor}>
+                  <td className={"font-10px " + coin.fontColor}>
                     <div>{FormatPrice(coin.krwprice)}원</div>
                     <div className="binance">
                       {coin.usprice !== 0 &&
@@ -204,8 +204,8 @@ export const Home = () => {
                           (coin.krwprice - coin.usprice * todayDollar) /
                           coin.krwprice >
                           0
-                          ? "green"
-                          : "red"
+                          ? "font-10px green"
+                          : "font-10px red"
                       }
                     >
                       {coin.krwprice &&
@@ -226,7 +226,7 @@ export const Home = () => {
                         ) + "원"}
                     </div>
                   </td>
-                  <td>
+                  <td className="font-10px">
                     {/* 전일종가 */}
                     {FormatPrice(coin.prevPrice)}원
                     {coin.change === "RISE" ? (
@@ -237,7 +237,7 @@ export const Home = () => {
                       ""
                     )}
                   </td>
-                  <td>
+                  <td className="font-10px">
                     {/* 변동액 */}
                     {coin.change === "RISE" ? (
                       <span className="rise">
@@ -251,7 +251,7 @@ export const Home = () => {
                       <span>{coin.absValue}원</span>
                     )}
                   </td>
-                  <td>
+                  <td className="font-10px">
                     {coin.change === "RISE" ? (
                       <span className="rise">
                         +{(coin.changePercent * 100).toFixed(2)}%

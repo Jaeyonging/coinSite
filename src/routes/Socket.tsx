@@ -145,7 +145,7 @@ export const Socket = () => {
       {fetchFinished ? (
         <div
           className="App"
-          style={{ marginTop: "185px", marginLeft: "50px", marginRight: "50px" }}
+          style={{ marginTop: "185px", wordBreak: "keep-all" }}
         >
           <Table>
             <thead>
@@ -160,7 +160,7 @@ export const Socket = () => {
                   <span className="kimp">김치프리미엄</span>
                 </th>
                 <th>
-                  <span className="prevPrice">전일종가 00시 기준</span>
+                  <span className="prevPrice">전일종가</span>
                 </th>
                 <th>
                   <span className="prevalue">변동액</span>
@@ -188,15 +188,15 @@ export const Socket = () => {
                               ".png"
                             }
                           ></img>
-                          <span>{coin.korean_name}</span>
+                          <span className="font-10px">{coin.korean_name}</span>
                         </div>
-                        <div>
+                        <div className="font-10px">
                           {coin.english_name} {market.replace("KRW-", "")}
                         </div>
                       </td>
 
                       <td>
-                        <div>{FormatPrice(krcoin.krwprice)}원</div>
+                        <div className="font-10px">{FormatPrice(krcoin.krwprice)}원</div>
                         <div className="binance">
                           {uscoin && uscoin.usprice !== undefined && uscoin.usprice !== 0 ? (
                             FormatPrice(
@@ -217,8 +217,8 @@ export const Socket = () => {
                               (krcoin.krwprice - uscoin.usprice * todayDollar) /
                               (uscoin.usprice * todayDollar) >
                               0
-                              ? "green"
-                              : "red"
+                              ? "font-10px green"
+                              : "font-10px red"
                           }
                         >
                           {krcoin.krwprice &&
@@ -239,7 +239,7 @@ export const Socket = () => {
                             ) + "원"}
                         </div>
                       </td>
-                      <td>
+                      <td className="font-10px">
                         {/* 전일종가 */}
                         {FormatPrice(krcoin.prevPrice)}원
                         {krcoin.change === "RISE" ? (
@@ -250,7 +250,7 @@ export const Socket = () => {
                           ""
                         )}
                       </td>
-                      <td>
+                      <td className="font-10px">
                         {/* 변동액 */}
                         {krcoin.change === "RISE" ? (
                           <span className="rise">
@@ -264,7 +264,7 @@ export const Socket = () => {
                           <span>{krcoin.absValue}원</span>
                         )}
                       </td>
-                      <td>
+                      <td className="font-10px">
                         {krcoin.change === "RISE" ? (
                           <span className="rise">
                             +{(krcoin.changePercent).toFixed(2)}%
