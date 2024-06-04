@@ -181,8 +181,8 @@ export const Home = () => {
                     </div>
                   </td>
 
-                  <td className={"font-10px " + coin.fontColor}>
-                    <div>{FormatPrice(coin.krwprice)}원</div>
+                  <td>
+                    <div className={"font-10px " + coin.fontColor}>{FormatPrice(coin.krwprice)}원</div>
                     <div className="binance">
                       {coin.usprice !== 0 &&
                         FormatPrice(
