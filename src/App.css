@@ -130,6 +130,14 @@
   .binance{
     font-size: 10px;
   }
+
+  .display-none{
+    display: none;
+  }
+
+  .me-auto{
+    margin-left: 80%;
+  }
 }
 
 <th>

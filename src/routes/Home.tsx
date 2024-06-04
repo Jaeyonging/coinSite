@@ -147,7 +147,7 @@ export const Home = () => {
             <th>
               <span className="kimp">김치프리미엄</span>
             </th>
-            <th>
+            <th className="display-none">
               <span className="prevPrice">전일종가</span>
             </th>
             <th>
@@ -226,7 +226,7 @@ export const Home = () => {
                         ) + "원"}
                     </div>
                   </td>
-                  <td className="font-10px">
+                  <td className="font-10px display-none">
                     {/* 전일종가 */}
                     {FormatPrice(coin.prevPrice)}원
                     {coin.change === "RISE" ? (
@@ -237,7 +237,7 @@ export const Home = () => {
                       ""
                     )}
                   </td>
-                  <td className="font-10px">
+                  <td className="font-10px ">
                     {/* 변동액 */}
                     {coin.change === "RISE" ? (
                       <span className="rise">

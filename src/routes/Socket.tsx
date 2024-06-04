@@ -159,7 +159,7 @@ export const Socket = () => {
                 <th>
                   <span className="kimp">김치프리미엄</span>
                 </th>
-                <th>
+                <th className='display-none'>
                   <span className="prevPrice">전일종가</span>
                 </th>
                 <th>
@@ -239,7 +239,7 @@ export const Socket = () => {
                             ) + "원"}
                         </div>
                       </td>
-                      <td className="font-10px">
+                      <td className="font-10px display-none">
                         {/* 전일종가 */}
                         {FormatPrice(krcoin.prevPrice)}원
                         {krcoin.change === "RISE" ? (
