@@ -26,7 +26,6 @@ interface Coin {
 
 export const Home = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
-  const [isbinanceWorking, setBinance] = useState(false);
   const [initialDataFetched, setInitialDataFetched] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -205,7 +204,7 @@ export const Home = () => {
         placeholder="Search by name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginBottom: "20px", width: "50%", }}
+        style={{ marginBottom: "20px", width: "100%", }}
       />
       <Table>
         <thead>

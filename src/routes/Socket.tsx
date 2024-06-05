@@ -13,7 +13,6 @@ import { setUSCoin, syncUSPRICE } from '../store/coinUsPrice';
 export const Socket = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
   const [fetchFinished, setFetchedFinished] = useState(false);
-  const [USfetchFinished, setUSFetchedFinished] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
@@ -234,7 +233,7 @@ export const Socket = () => {
             placeholder="Search by name"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ marginBottom: "20px", width: "50%" }}
+            style={{ marginBottom: "20px", width: "100%" }}
           />
           <Table>
             <thead>
