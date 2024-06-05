@@ -129,7 +129,7 @@ export const Home = () => {
   });
 
   const handleSort = (key: string) => {
-    setIsRendered(true)
+    setIsRendered(true);
     let direction = "ascending";
     if (sortConfig && sortConfig.key === key) {
       if (sortConfig.direction === "ascending") {
@@ -180,7 +180,7 @@ export const Home = () => {
   };
 
   const renderSortIcon = (key: string) => {
-    if (!sortConfig || sortConfig.key !== key) return null;
+    if (!sortConfig || sortConfig.key !== key) return <span>△▽</span>;
     if (sortConfig.direction === "ascending") {
       return <span>▲▽</span>;
     } else if (sortConfig.direction === "descending") {
@@ -189,6 +189,7 @@ export const Home = () => {
       return <span>△▽</span>;
     }
   };
+
 
   const filteredCoins = sortedCoins().filter((market) => {
     const coin = coinState[market];
