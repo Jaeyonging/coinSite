@@ -139,55 +139,69 @@ export const Socket = () => {
     setSortConfig({ key, direction });
   };
 
+
+
   const sortedCoins = () => {
-    if (!sortConfig) {
+    if (!sortConfig || sortConfig.direction === "default") {
       return Object.keys(upbitCoinState);
     }
+
     const sorted = [...Object.keys(upbitCoinState)];
     sorted.sort((a, b) => {
       const coinA = upbitCoinState[a];
       const coinB = upbitCoinState[b];
-      let aValue, bValue;
+      let comparison = 0;
+
+      let valueA, valueB;
       switch (sortConfig.key) {
         case 'koreanName':
-          aValue = coinA.korean_name;
-          bValue = coinB.korean_name;
+          comparison = coinA.korean_name.localeCompare(coinB.korean_name);
           break;
         case 'price':
-          aValue = coinKrwPriceState.coins[a].krwprice;
-          bValue = coinKrwPriceState.coins[b].krwprice;
+          valueA = coinKrwPriceState.coins[a]?.krwprice ?? 0;
+          valueB = coinKrwPriceState.coins[b]?.krwprice ?? 0;
+          comparison = valueA - valueB;
           break;
         case 'kimp':
           const usPriceA = coinUSPriceState[a]?.usprice ?? 0;
           const usPriceB = coinUSPriceState[b]?.usprice ?? 0;
-          aValue = (coinKrwPriceState.coins[a].krwprice - usPriceA * todayDollar) / (usPriceA * todayDollar) * 100;
-          bValue = (coinKrwPriceState.coins[b].krwprice - usPriceB * todayDollar) / (usPriceB * todayDollar) * 100;
+          valueA = (coinKrwPriceState.coins[a].krwprice - usPriceA * todayDollar) / (usPriceA * todayDollar) * 100;
+          valueB = (coinKrwPriceState.coins[b].krwprice - usPriceB * todayDollar) / (usPriceB * todayDollar) * 100;
+          comparison = valueA - valueB;
           break;
         case 'prevPrice':
-          aValue = coinKrwPriceState.coins[a].prevPrice;
-          bValue = coinKrwPriceState.coins[b].prevPrice;
+          valueA = coinKrwPriceState.coins[a]?.prevPrice ?? 0;
+          valueB = coinKrwPriceState.coins[b]?.prevPrice ?? 0;
+          comparison = valueA - valueB;
           break;
         case 'absValue':
-          aValue = coinKrwPriceState.coins[a].absValue;
-          bValue = coinKrwPriceState.coins[b].absValue;
+          valueA = coinKrwPriceState.coins[a]?.absValue ?? 0;
+          valueB = coinKrwPriceState.coins[b]?.absValue ?? 0;
+          const actualValueA = coinKrwPriceState.coins[a]?.change === "RISE" ? valueA : -valueA;
+          const actualValueB = coinKrwPriceState.coins[b]?.change === "RISE" ? valueB : -valueB;
+          comparison = actualValueA - actualValueB;
           break;
         case 'changePercent':
-          aValue = coinKrwPriceState.coins[a].changePercent;
-          bValue = coinKrwPriceState.coins[b].changePercent;
+          valueA = coinKrwPriceState.coins[a]?.changePercent ?? 0;
+          valueB = coinKrwPriceState.coins[b]?.changePercent ?? 0;
+          const actualPercentA = coinKrwPriceState.coins[a]?.change === "RISE" ? valueA : -valueA;
+          const actualPercentB = coinKrwPriceState.coins[b]?.change === "RISE" ? valueB : -valueB;
+          comparison = actualPercentA - actualPercentB;
           break;
         default:
           return 0;
       }
-      if (aValue < bValue) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
+
+      if (sortConfig.direction === 'descending') {
+        comparison *= -1;
       }
-      if (aValue > bValue) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
-      }
-      return 0;
+
+      return comparison;
     });
+
     return sorted;
   };
+
 
 
   const renderSortIcon = (key: string) => {
