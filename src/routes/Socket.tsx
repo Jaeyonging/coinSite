@@ -207,15 +207,16 @@ export const Socket = () => {
 
 
   const renderSortIcon = (key: string) => {
-    if (!sortConfig || sortConfig.key !== key) return null;
-    if (sortConfig.direction === 'ascending') {
-      return <span>▲</span>;
-    } else if (sortConfig.direction === 'descending') {
-      return <span>▼</span>;
+    if (!sortConfig || sortConfig.key !== key) return <span>△▽</span>;
+    if (sortConfig.direction === "ascending") {
+      return <span>▲▽</span>;
+    } else if (sortConfig.direction === "descending") {
+      return <span>△▼</span>;
     } else {
-      return null;
+      return <span>△▽</span>;
     }
   };
+
 
   const filteredCoins = sortedCoins().filter((market) => {
     const coin = upbitCoinState[market];
