@@ -1,5 +1,3 @@
-//Home.tsx
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
@@ -22,17 +20,19 @@ interface Coin {
   change: string;
   changePercent: number;
   absValue: number;
+  kimp: number;
   fontColor: string;
 }
 
 export const Home = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
-  const [isbinanceWorking, setBinance] = useState(false)
+  const [isbinanceWorking, setBinance] = useState(false);
   const [initialDataFetched, setInitialDataFetched] = useState(false);
-  const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
+  const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
 
   const coinState = useSelector((state: RootState) => state.coin);
   const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
     FetchTodayDollar()
       .then((dollar) => {
@@ -44,12 +44,8 @@ export const Home = () => {
 
     const fetchKrwCoins = async () => {
       try {
-        const response = await axios.get(
-          "https://api.upbit.com/v1/market/all?isDetails=false"
-        );
-        const krwCoins = response.data.filter((coin: any) =>
-          coin.market.startsWith("KRW-")
-        );
+        const response = await axios.get("https://api.upbit.com/v1/market/all?isDetails=false");
+        const krwCoins = response.data.filter((coin: any) => coin.market.startsWith("KRW-"));
 
         const newCoinState: Record<string, Coin> = {};
         krwCoins.forEach((coin: any) => {
@@ -64,9 +60,10 @@ export const Home = () => {
             change: "",
             changePercent: 0,
             absValue: 0,
+            kimp: 0,
             fontColor: "blackColor",
           };
-          dispatch(setCoinName(coin.market))
+          dispatch(setCoinName(coin.market));
         });
         dispatch(setCoinState(newCoinState));
         setInitialDataFetched(true);
@@ -76,21 +73,17 @@ export const Home = () => {
     };
 
     fetchKrwCoins();
-
-  }, []);
+  }, [dispatch]);
 
   const updateCoinPrices = async () => {
-
     const markets = Object.keys(coinState).join(",");
     const newCoinState = { ...coinState };
 
-    FetchKrwPrice(markets).then((data) => {
-      data.forEach((item: any) => {
+    try {
+      const krwData = await FetchKrwPrice(markets);
+      krwData.forEach((item: any) => {
         const market = item.market;
-        const fontColor =
-          newCoinState[market].krwprice !== item.trade_price
-            ? "redColor"
-            : "blackColor";
+        const fontColor = newCoinState[market].krwprice !== item.trade_price ? "redColor" : "blackColor";
         newCoinState[market] = {
           ...newCoinState[market],
           krwprice: item.trade_price,
@@ -99,16 +92,14 @@ export const Home = () => {
           changePercent: item.change_rate,
           absValue: item.change_price,
           fontColor,
+
         };
       });
-    })
 
-    FetchDollarPrice().then((data) => {
-      data.forEach((item: any) => {
+      const usdData = await FetchDollarPrice();
+      usdData.forEach((item: any) => {
         const symbol = item.symbol;
-        const market = Object.keys(newCoinState).find(
-          (key) => newCoinState[key].usSymbol === symbol
-        );
+        const market = Object.keys(newCoinState).find((key) => newCoinState[key].usSymbol === symbol);
         if (market) {
           newCoinState[market] = {
             ...newCoinState[market],
@@ -116,63 +107,117 @@ export const Home = () => {
           };
         }
       });
+
+      // Calculate 김치프리미엄 (kimp) for each coin
+      Object.keys(newCoinState).forEach((market) => {
+        const coin = newCoinState[market];
+        if (coin.krwprice && coin.usprice) {
+          const kimp = ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 100;
+          newCoinState[market].kimp = kimp;
+        }
+      });
+
       dispatch(setCoinState(newCoinState));
-    })
-      .catch((err) => {
-        dispatch(setCoinState(newCoinState));
-      })
+    } catch (error) {
+      console.error("Error updating coin prices:", error);
+      dispatch(setCoinState(newCoinState));
+    }
   };
 
-  const { isLoading, isError } = useQuery(
-    "coinPrices",
-    () => updateCoinPrices(),
-    {
-      refetchInterval: 700,
-      enabled: initialDataFetched,
-    }
-  )
+  const { isLoading, isError } = useQuery("coinPrices", updateCoinPrices, {
+    refetchInterval: 700,
+    enabled: initialDataFetched,
+  });
 
   const handleSort = (key: string) => {
-    let direction = 'ascending';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction = "ascending";
+    if (sortConfig && sortConfig.key === key) {
+      if (sortConfig.direction === "ascending") {
+        direction = "descending";
+      } else if (sortConfig.direction === "descending") {
+        direction = "default";
+      }
     }
     setSortConfig({ key, direction });
   };
 
+  const sortedCoins = () => {
+    if (!sortConfig || sortConfig.direction === "default") return Object.keys(coinState);
 
+    const sorted = [...Object.keys(coinState)];
+    sorted.sort((a, b) => {
+      const coinA = coinState[a];
+      const coinB = coinState[b];
+      let comparison = 0;
+
+      if (sortConfig.key === "krwName") {
+        comparison = coinA.krwName.localeCompare(coinB.krwName);
+      } else {
+        const valueA = coinA[sortConfig.key as keyof Coin];
+        const valueB = coinB[sortConfig.key as keyof Coin];
+
+        if (sortConfig.key === "absValue" || sortConfig.key === "changePercent") {
+          const actualValueA = coinA.change === "RISE" ? valueA : -valueA;
+          const actualValueB = coinB.change === "RISE" ? valueB : -valueB;
+          if (typeof actualValueA === "number" && typeof actualValueB === "number") {
+            comparison = actualValueA - actualValueB;
+          }
+        } else {
+          if (typeof valueA === "number" && typeof valueB === "number") {
+            comparison = valueA - valueB;
+          }
+        }
+      }
+
+      if (sortConfig.direction === "descending") {
+        comparison *= -1;
+      }
+
+      return comparison;
+    });
+
+    return sorted;
+  };
+
+  const renderSortIcon = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return null;
+    if (sortConfig.direction === "ascending") {
+      return <span>▲</span>;
+    } else if (sortConfig.direction === "descending") {
+      return <span>▼</span>;
+    } else {
+      return null;
+    }
+  };
 
   return (
-    <div
-      className="App"
-      style={{ marginTop: "185px", wordBreak: "keep-all" }}
-    >
+    <div className="App" style={{ marginTop: "185px", wordBreak: "keep-all" }}>
       <Table>
         <thead>
           <tr>
-            <th>
-              <span className="coinName">Korean Name</span>
+            <th onClick={() => handleSort("krwName")}>
+              <span className="coinName">Korean Name</span> {renderSortIcon("krwName")}
             </th>
-            <th>
-              <span className="coinPrice">Price</span>
+            <th onClick={() => handleSort("krwprice")}>
+              <span className="coinPrice">Price</span> {renderSortIcon("krwprice")}
             </th>
-            <th>
-              <span className="kimp">김치프리미엄</span>
+            <th onClick={() => handleSort("kimp")}>
+              <span className="kimp">김치프리미엄</span> {renderSortIcon("kimp")}
             </th>
-            <th className="display-none">
-              <span className="prevPrice">전일종가</span>
+            <th className="display-none" onClick={() => handleSort("prevPrice")}>
+              <span className="prevPrice">전일종가</span> {renderSortIcon("prevPrice")}
             </th>
-            <th>
-              <span className="prevalue">변동액</span>
+            <th onClick={() => handleSort("absValue")}>
+              <span className="prevalue">변동액</span> {renderSortIcon("absValue")}
             </th>
-            <th>
-              <span className="prepercent">변화율</span>
+            <th onClick={() => handleSort("changePercent")}>
+              <span className="prepercent">변화율</span> {renderSortIcon("changePercent")}
             </th>
           </tr>
         </thead>
         <tbody>
           {Object.keys(coinState).length > 0 && !isLoading ? (
-            Object.keys(coinState).map((market, idx) => {
+            sortedCoins().map((market, idx) => {
               const coin = coinState[market];
               return (
                 <tr key={idx + 1}>
@@ -180,11 +225,8 @@ export const Home = () => {
                     <div>
                       <img
                         className="logo"
-                        src={
-                          "https://static.upbit.com/logos/" +
-                          market.replace("KRW-", "") +
-                          ".png"
-                        }
+                        src={"https://static.upbit.com/logos/" + market.replace("KRW-", "") + ".png"}
+                        alt={coin.krwName}
                       ></img>
                       <span className="font-10px">{coin.krwName}</span>
                     </div>
@@ -199,47 +241,34 @@ export const Home = () => {
                       {coin.usprice !== 0 &&
                         FormatPrice(
                           coin.usprice * todayDollar < 100
-                            ? parseFloat(
-                              (coin.usprice * todayDollar).toFixed(2)
-                            )
-                            : parseFloat(
-                              (coin.usprice * todayDollar).toFixed(1)
-                            )
+                            ? parseFloat((coin.usprice * todayDollar).toFixed(2))
+                            : parseFloat((coin.usprice * todayDollar).toFixed(1))
                         ) + "원"}
                     </div>
                   </td>
                   <td>
-                    {/* 김프 */}
                     <div
                       className={
                         coin.krwprice &&
-                          (coin.krwprice - coin.usprice * todayDollar) /
-                          coin.krwprice >
-                          0
+                          (coin.krwprice - coin.usprice * todayDollar) / coin.krwprice > 0
                           ? "font-10px green"
                           : "font-10px red"
                       }
                     >
                       {coin.krwprice &&
-                        coin.usprice != 0 &&
+                        coin.usprice !== 0 &&
                         Math.floor(
-                          ((coin.krwprice - coin.usprice * todayDollar) /
-                            (coin.usprice * todayDollar)) *
-                          10000
+                          ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 10000
                         ) /
                         100 +
                         "%"}
                     </div>
 
                     <div className="binance">
-                      {coin.usprice != 0 &&
-                        FormatPrice(
-                          coin.krwprice - coin.usprice * todayDollar
-                        ) + "원"}
+                      {coin.usprice !== 0 && FormatPrice(coin.krwprice - coin.usprice * todayDollar) + "원"}
                     </div>
                   </td>
                   <td className="font-10px display-none">
-                    {/* 전일종가 */}
                     {FormatPrice(coin.prevPrice)}원
                     {coin.change === "RISE" ? (
                       <span className="rise">⬆️</span>
@@ -249,29 +278,20 @@ export const Home = () => {
                       ""
                     )}
                   </td>
-                  <td className="font-10px ">
-                    {/* 변동액 */}
+                  <td className="font-10px">
                     {coin.change === "RISE" ? (
-                      <span className="rise">
-                        +{FormatPrice(coin.absValue)}원
-                      </span>
+                      <span className="rise">+{FormatPrice(coin.absValue)}원</span>
                     ) : coin.change === "FALL" ? (
-                      <span className="fall">
-                        -{FormatPrice(coin.absValue)}원
-                      </span>
+                      <span className="fall">-{FormatPrice(coin.absValue)}원</span>
                     ) : (
-                      <span>{coin.absValue}원</span>
+                      <span>{FormatPrice(coin.absValue)}원</span>
                     )}
                   </td>
                   <td className="font-10px">
                     {coin.change === "RISE" ? (
-                      <span className="rise">
-                        +{(coin.changePercent * 100).toFixed(2)}%
-                      </span>
+                      <span className="rise">+{(coin.changePercent * 100).toFixed(2)}%</span>
                     ) : coin.change === "FALL" ? (
-                      <span className="fall">
-                        -{(coin.changePercent * 100).toFixed(2)}%
-                      </span>
+                      <span className="fall">-{(coin.changePercent * 100).toFixed(2)}%</span>
                     ) : (
                       <span>{(coin.changePercent * 100).toFixed(2)}%</span>
                     )}
@@ -281,13 +301,7 @@ export const Home = () => {
             })
           ) : (
             <tr>
-              <td colSpan={6}>
-                {isLoading
-                  ? "Loading..."
-                  : isError
-                    ? "Error fetching data"
-                    : "데이터가 없습니다"}
-              </td>
+              <td colSpan={6}>{isLoading ? "Loading..." : isError ? "Error fetching data" : "데이터가 없습니다"}</td>
             </tr>
           )}
         </tbody>

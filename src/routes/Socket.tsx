@@ -154,8 +154,8 @@ export const Socket = () => {
         case 'kimp':
           const usPriceA = coinUSPriceState[a]?.usprice ?? 0;
           const usPriceB = coinUSPriceState[b]?.usprice ?? 0;
-          aValue = coinKrwPriceState.coins[a].krwprice - (usPriceA * todayDollar);
-          bValue = coinKrwPriceState.coins[b].krwprice - (usPriceB * todayDollar);
+          aValue = (coinKrwPriceState.coins[a].krwprice - usPriceA * todayDollar) / (usPriceA * todayDollar) * 100;
+          bValue = (coinKrwPriceState.coins[b].krwprice - usPriceB * todayDollar) / (usPriceB * todayDollar) * 100;
           break;
         case 'prevPrice':
           aValue = coinKrwPriceState.coins[a].prevPrice;
@@ -183,6 +183,17 @@ export const Socket = () => {
     return sorted;
   };
 
+  const renderSortIcon = (key: string) => {
+    if (!sortConfig || sortConfig.key !== key) return null;
+    if (sortConfig.direction === 'ascending') {
+      return <span>▲</span>;
+    } else if (sortConfig.direction === 'descending') {
+      return <span>▼</span>;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <>
       {fetchFinished ? (
@@ -191,22 +202,22 @@ export const Socket = () => {
             <thead>
               <tr>
                 <th onClick={() => handleSort('koreanName')}>
-                  <span className="coinName">Korean Name</span>
+                  <span className="coinName">Korean Name</span> {renderSortIcon('koreanName')}
                 </th>
                 <th onClick={() => handleSort('price')}>
-                  <span className="coinPrice">Price</span>
+                  <span className="coinPrice">Price</span> {renderSortIcon('price')}
                 </th>
                 <th onClick={() => handleSort('kimp')}>
-                  <span className="kimp">김치프리미엄</span>
+                  <span className="kimp">김치프리미엄</span> {renderSortIcon('kimp')}
                 </th>
                 <th className='display-none' onClick={() => handleSort('prevPrice')}>
-                  <span className="prevPrice">전일종가</span>
+                  <span className="prevPrice">전일종가</span> {renderSortIcon('prevPrice')}
                 </th>
                 <th onClick={() => handleSort('absValue')}>
-                  <span className="prevalue">변동액</span>
+                  <span className="prevalue">변동액</span> {renderSortIcon('absValue')}
                 </th>
                 <th onClick={() => handleSort('changePercent')}>
-                  <span className="prepercent">변화율</span>
+                  <span className="prepercent">변화율</span> {renderSortIcon('changePercent')}
                 </th>
               </tr>
             </thead>

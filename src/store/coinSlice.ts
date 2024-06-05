@@ -14,6 +14,7 @@ interface CoinState {
     changePercent: number;
     absValue: number;
     fontColor: string;
+    kimp: number,
   };
 }
 
