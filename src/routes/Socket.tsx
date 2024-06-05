@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/configureStore';
 import { Table } from 'react-bootstrap';
 import { setCoinName } from '../store/coinsSlice';
-import { KrwCoin, USCoin, UpbitCoins } from '../types/coin';
+import { KrwCoin, KrwCoin2, USCoin, UpbitCoins } from '../types/coin';
 import { FetchDollarPrice, FetchKrwCoins, FetchKrwPrice, FetchTodayDollar } from '../api';
 import { FormatPrice } from '../function/data';
 import { syncCoins } from '../store/upbitCoins';
@@ -118,6 +118,8 @@ export const Socket = () => {
         dispatch(syncKRWPrice2({ code: coinSymbol, updatedCoin }));
       };
 
+
+
       return () => {
         upbtitWS.close();
         binanceWS.close();
@@ -126,9 +128,13 @@ export const Socket = () => {
   }, [fetchFinished, coinsState.coinNames, dispatch]);
 
   const handleSort = (key: string) => {
-    let direction = 'ascending';
-    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
+    let direction = "ascending";
+    if (sortConfig && sortConfig.key === key) {
+      if (sortConfig.direction === "ascending") {
+        direction = "descending";
+      } else if (sortConfig.direction === "descending") {
+        direction = "default";
+      }
     }
     setSortConfig({ key, direction });
   };
@@ -182,6 +188,7 @@ export const Socket = () => {
     });
     return sorted;
   };
+
 
   const renderSortIcon = (key: string) => {
     if (!sortConfig || sortConfig.key !== key) return null;

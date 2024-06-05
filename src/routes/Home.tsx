@@ -108,7 +108,6 @@ export const Home = () => {
         }
       });
 
-      // Calculate 김치프리미엄 (kimp) for each coin
       Object.keys(newCoinState).forEach((market) => {
         const coin = newCoinState[market];
         if (coin.krwprice && coin.usprice) {
