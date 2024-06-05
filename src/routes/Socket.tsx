@@ -15,6 +15,7 @@ export const Socket = () => {
   const [fetchFinished, setFetchedFinished] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isRendered, setIsRendered] = useState(false)
 
   const coinsState = useSelector((state: RootState) => state.coins);
   const coinKrwPriceState = useSelector((state: RootState) => state.KrwCoin);
@@ -128,6 +129,7 @@ export const Socket = () => {
   }, [fetchFinished, coinsState.coinNames, dispatch]);
 
   const handleSort = (key: string) => {
+    setIsRendered(true)
     let direction = "ascending";
     if (sortConfig && sortConfig.key === key) {
       if (sortConfig.direction === "ascending") {
@@ -239,22 +241,22 @@ export const Socket = () => {
             <thead>
               <tr>
                 <th onClick={() => handleSort('koreanName')}>
-                  <span className="coinName">Korean Name</span> {renderSortIcon('koreanName')}
+                  <span className="coinName">Korean Name</span> {!isRendered ? <span>△▽</span> : renderSortIcon('koreanName')}
                 </th>
                 <th onClick={() => handleSort('price')}>
-                  <span className="coinPrice">Price</span> {renderSortIcon('price')}
+                  <span className="coinPrice">Price</span> {!isRendered ? <span>△▽</span> : renderSortIcon('price')}
                 </th>
                 <th onClick={() => handleSort('kimp')}>
-                  <span className="kimp">김치프리미엄</span> {renderSortIcon('kimp')}
+                  <span className="kimp">김치프리미엄</span> {!isRendered ? <span>△▽</span> : renderSortIcon('kimp')}
                 </th>
                 <th className='display-none' onClick={() => handleSort('prevPrice')}>
-                  <span className="prevPrice">전일종가</span> {renderSortIcon('prevPrice')}
+                  <span className="prevPrice">전일종가</span> {!isRendered ? <span>△▽</span> : renderSortIcon('prevPrice')}
                 </th>
                 <th onClick={() => handleSort('absValue')}>
-                  <span className="prevalue">변동액</span> {renderSortIcon('absValue')}
+                  <span className="prevalue">변동액</span> {!isRendered ? <span>△▽</span> : renderSortIcon('absValue')}
                 </th>
                 <th onClick={() => handleSort('changePercent')}>
-                  <span className="prepercent">변화율</span> {renderSortIcon('changePercent')}
+                  <span className="prepercent">변화율</span> {!isRendered ? <span>△▽</span> : renderSortIcon('changePercent')}
                 </th>
               </tr>
             </thead>

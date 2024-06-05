@@ -29,7 +29,7 @@ export const Home = () => {
   const [initialDataFetched, setInitialDataFetched] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
+  const [isRendered, setIsRendered] = useState(false)
   const coinState = useSelector((state: RootState) => state.coin);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -129,6 +129,7 @@ export const Home = () => {
   });
 
   const handleSort = (key: string) => {
+    setIsRendered(true)
     let direction = "ascending";
     if (sortConfig && sortConfig.key === key) {
       if (sortConfig.direction === "ascending") {
@@ -181,11 +182,11 @@ export const Home = () => {
   const renderSortIcon = (key: string) => {
     if (!sortConfig || sortConfig.key !== key) return null;
     if (sortConfig.direction === "ascending") {
-      return <span>▲</span>;
+      return <span>▲▽</span>;
     } else if (sortConfig.direction === "descending") {
-      return <span>▼</span>;
+      return <span>△▼</span>;
     } else {
-      return null;
+      return <span>△▽</span>;
     }
   };
 
@@ -210,22 +211,22 @@ export const Home = () => {
         <thead>
           <tr>
             <th onClick={() => handleSort("krwName")}>
-              <span className="coinName">Korean Name</span> {renderSortIcon("krwName")}
+              <span className="coinName">Korean Name</span> {!isRendered ? <span>△▽</span> : renderSortIcon("krwName")}
             </th>
             <th onClick={() => handleSort("krwprice")}>
-              <span className="coinPrice">Price</span> {renderSortIcon("krwprice")}
+              <span className="coinPrice">Price</span> {!isRendered ? <span>△▽</span> : renderSortIcon("krwprice")}
             </th>
             <th onClick={() => handleSort("kimp")}>
-              <span className="kimp">김치프리미엄</span> {renderSortIcon("kimp")}
+              <span className="kimp">김치프리미엄</span> {!isRendered ? <span>△▽</span> : renderSortIcon("kimp")}
             </th>
             <th className="display-none" onClick={() => handleSort("prevPrice")}>
-              <span className="prevPrice">전일종가</span> {renderSortIcon("prevPrice")}
+              <span className="prevPrice">전일종가</span> {!isRendered ? <span>△▽</span> : renderSortIcon("prevPrice")}
             </th>
             <th onClick={() => handleSort("absValue")}>
-              <span className="prevalue">변동액</span> {renderSortIcon("absValue")}
+              <span className="prevalue">변동액</span> {!isRendered ? <span>△▽</span> : renderSortIcon("absValue")}
             </th>
             <th onClick={() => handleSort("changePercent")}>
-              <span className="prepercent">변화율</span> {renderSortIcon("changePercent")}
+              <span className="prepercent">변화율</span> {!isRendered ? <span>△▽</span> : renderSortIcon("changePercent")}
             </th>
           </tr>
         </thead>
