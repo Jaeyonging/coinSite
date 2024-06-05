@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/configureStore';
-import { Table } from 'react-bootstrap';
+import { Form, Table } from 'react-bootstrap';
 import { setCoinName } from '../store/coinsSlice';
 import { KrwCoin, KrwCoin2, USCoin, UpbitCoins } from '../types/coin';
 import { FetchDollarPrice, FetchKrwCoins, FetchKrwPrice, FetchTodayDollar } from '../api';
@@ -15,6 +15,7 @@ export const Socket = () => {
   const [fetchFinished, setFetchedFinished] = useState(false);
   const [USfetchFinished, setUSFetchedFinished] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const coinsState = useSelector((state: RootState) => state.coins);
   const coinKrwPriceState = useSelector((state: RootState) => state.KrwCoin);
@@ -215,10 +216,26 @@ export const Socket = () => {
     }
   };
 
+  const filteredCoins = sortedCoins().filter((market) => {
+    const coin = upbitCoinState[market];
+    return (
+      coin.korean_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      coin.english_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
+
   return (
     <>
       {fetchFinished ? (
         <div className="App" style={{ marginTop: "50px", wordBreak: "keep-all" }}>
+          <Form.Control
+            type="text"
+            placeholder="Search by name"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ marginBottom: "20px", width: "50%" }}
+          />
           <Table>
             <thead>
               <tr>
@@ -244,7 +261,7 @@ export const Socket = () => {
             </thead>
             <tbody>
               {sortedCoins().length > 0 ? (
-                sortedCoins().map((market, idx) => {
+                filteredCoins.map((market, idx) => {
                   const coin = upbitCoinState[market];
                   const uscoin = coinUSPriceState[market];
                   const krcoin = coinKrwPriceState.coins[market];

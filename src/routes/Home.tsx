@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/configureStore";
@@ -29,6 +29,7 @@ export const Home = () => {
   const [isbinanceWorking, setBinance] = useState(false);
   const [initialDataFetched, setInitialDataFetched] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const coinState = useSelector((state: RootState) => state.coin);
   const dispatch = useDispatch<AppDispatch>();
@@ -189,8 +190,23 @@ export const Home = () => {
     }
   };
 
+  const filteredCoins = sortedCoins().filter((market) => {
+    const coin = coinState[market];
+    return (
+      coin.krwName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      coin.engName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
+
   return (
     <div className="App" style={{ marginTop: "50px", wordBreak: "keep-all" }}>
+      <Form.Control
+        type="text"
+        placeholder="Search by name"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ marginBottom: "20px", width: "50%", }}
+      />
       <Table>
         <thead>
           <tr>
@@ -216,7 +232,7 @@ export const Home = () => {
         </thead>
         <tbody>
           {Object.keys(coinState).length > 0 && !isLoading ? (
-            sortedCoins().map((market, idx) => {
+            filteredCoins.map((market, idx) => {
               const coin = coinState[market];
               return (
                 <tr key={idx + 1}>
