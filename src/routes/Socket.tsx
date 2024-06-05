@@ -207,13 +207,13 @@ export const Socket = () => {
 
 
   const renderSortIcon = (key: string) => {
-    if (!sortConfig || sortConfig.key !== key) return <span>△▽</span>;
+    if (!sortConfig || sortConfig.key !== key) return <span style={{ fontSize: "10px" }}>△▽</span>;
     if (sortConfig.direction === "ascending") {
-      return <span>▲▽</span>;
+      return <span style={{ fontSize: "10px" }}>▲▽</span>;
     } else if (sortConfig.direction === "descending") {
-      return <span>△▼</span>;
+      return <span style={{ fontSize: "10px" }}>△▼</span>;
     } else {
-      return <span>△▽</span>;
+      return <span style={{ fontSize: "10px" }}>△▽</span>;
     }
   };
 
@@ -242,22 +242,22 @@ export const Socket = () => {
             <thead>
               <tr>
                 <th onClick={() => handleSort('koreanName')}>
-                  <span className="coinName">Korean Name</span> {!isRendered ? <span>△▽</span> : renderSortIcon('koreanName')}
+                  <span className="coinName">Korean Name</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('koreanName')}
                 </th>
                 <th onClick={() => handleSort('price')}>
-                  <span className="coinPrice">Price</span> {!isRendered ? <span>△▽</span> : renderSortIcon('price')}
+                  <span className="coinPrice">Price</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('price')}
                 </th>
                 <th onClick={() => handleSort('kimp')}>
-                  <span className="kimp">김치프리미엄</span> {!isRendered ? <span>△▽</span> : renderSortIcon('kimp')}
+                  <span className="kimp">김치프리미엄</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('kimp')}
                 </th>
                 <th className='display-none' onClick={() => handleSort('prevPrice')}>
-                  <span className="prevPrice">전일종가</span> {!isRendered ? <span>△▽</span> : renderSortIcon('prevPrice')}
+                  <span className="prevPrice">전일종가</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('prevPrice')}
                 </th>
                 <th onClick={() => handleSort('absValue')}>
-                  <span className="prevalue">변동액</span> {!isRendered ? <span>△▽</span> : renderSortIcon('absValue')}
+                  <span className="prevalue">변동액</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('absValue')}
                 </th>
                 <th onClick={() => handleSort('changePercent')}>
-                  <span className="prepercent">변화율</span> {!isRendered ? <span>△▽</span> : renderSortIcon('changePercent')}
+                  <span className="prepercent">변화율</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon('changePercent')}
                 </th>
               </tr>
             </thead>

@@ -2,10 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Table, Form } from "react-bootstrap";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../store/configureStore";
-import { setCoinState } from "../store/coinSlice";
-import { setCoinName } from "../store/coinsSlice";
 import { FetchDollarPrice, FetchKrwPrice, FetchTodayDollar } from "../api";
 import { FormatPrice } from "../function/data";
 
@@ -24,109 +20,112 @@ interface Coin {
   fontColor: string;
 }
 
-export const Home = () => {
+export const Home2 = () => {
   const [todayDollar, setTodayDollar] = useState<number>(0);
-  const [initialDataFetched, setInitialDataFetched] = useState(false);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [isRendered, setIsRendered] = useState(false)
-  const coinState = useSelector((state: RootState) => state.coin);
-  const dispatch = useDispatch<AppDispatch>();
+  const [isRendered, setIsRendered] = useState(false);
+  const [coinState, setCoinState] = useState<Record<string, Coin> | null>(null);  // 수정된 부분
 
-  useEffect(() => {
-    FetchTodayDollar()
-      .then((dollar) => {
-        setTodayDollar(dollar);
-      })
-      .catch((error) => {
-        console.error("Error fetching today's dollar:", error);
-      });
-
-    const fetchKrwCoins = async () => {
-      try {
-        const response = await axios.get("https://api.upbit.com/v1/market/all?isDetails=false");
-        const krwCoins = response.data.filter((coin: any) => coin.market.startsWith("KRW-"));
-
-        const newCoinState: Record<string, Coin> = {};
-        krwCoins.forEach((coin: any) => {
-          newCoinState[coin.market] = {
-            krwName: coin.korean_name,
-            krwSymbol: coin.market,
-            engName: coin.english_name,
-            usSymbol: coin.market.split("-")[1] + "USDT",
-            krwprice: 0,
-            usprice: 0,
-            prevPrice: 0,
-            change: "",
-            changePercent: 0,
-            absValue: 0,
-            kimp: 0,
-            fontColor: "blackColor",
-          };
-          dispatch(setCoinName(coin.market));
-        });
-        dispatch(setCoinState(newCoinState));
-        setInitialDataFetched(true);
-      } catch (error) {
-        console.error("Error fetching KR₩ coins:", error);
-      }
-    };
-
-    fetchKrwCoins();
-  }, [dispatch]);
-
-  const updateCoinPrices = async () => {
-    const markets = Object.keys(coinState).join(",");
-    const newCoinState = { ...coinState };
-
+  const fetchTodayDollar = async () => {
     try {
-      const krwData = await FetchKrwPrice(markets);
-      krwData.forEach((item: any) => {
-        const market = item.market;
-        const fontColor = newCoinState[market].krwprice !== item.trade_price ? "redColor" : "blackColor";
-        newCoinState[market] = {
-          ...newCoinState[market],
-          krwprice: item.trade_price,
-          prevPrice: item.prev_closing_price,
-          change: item.change,
-          changePercent: item.change_rate,
-          absValue: item.change_price,
-          fontColor,
-
-        };
-      });
-
-      const usdData = await FetchDollarPrice();
-      usdData.forEach((item: any) => {
-        const symbol = item.symbol;
-        const market = Object.keys(newCoinState).find((key) => newCoinState[key].usSymbol === symbol);
-        if (market) {
-          newCoinState[market] = {
-            ...newCoinState[market],
-            usprice: item.lastPrice,
-          };
-        }
-      });
-
-      Object.keys(newCoinState).forEach((market) => {
-        const coin = newCoinState[market];
-        if (coin.krwprice && coin.usprice) {
-          const kimp = ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 100;
-          newCoinState[market].kimp = kimp;
-        }
-      });
-
-      dispatch(setCoinState(newCoinState));
+      const dollar = await FetchTodayDollar();
+      setTodayDollar(dollar);
     } catch (error) {
-      console.error("Error updating coin prices:", error);
-      dispatch(setCoinState(newCoinState));
+      console.error("Error fetching today's dollar:", error);
     }
   };
 
-  const { isLoading, isError } = useQuery("coinPrices", updateCoinPrices, {
-    refetchInterval: 700,
-    enabled: initialDataFetched,
-  });
+  useEffect(() => {
+    fetchTodayDollar();
+  }, []);
+
+  const fetchKrwCoins = async () => {
+    const response = await axios.get("https://api.upbit.com/v1/market/all?isDetails=false");
+    const krwCoins = response.data.filter((coin: any) => coin.market.startsWith("KRW-"));
+
+    const newCoinState: Record<string, Coin> = {};
+    krwCoins.forEach((coin: any) => {
+      newCoinState[coin.market] = {
+        krwName: coin.korean_name,
+        krwSymbol: coin.market,
+        engName: coin.english_name,
+        usSymbol: coin.market.split("-")[1] + "USDT",
+        krwprice: 0,
+        usprice: 0,
+        prevPrice: 0,
+        change: "",
+        changePercent: 0,
+        absValue: 0,
+        kimp: 0,
+        fontColor: "blackColor",
+      };
+    });
+    return newCoinState;
+  };
+
+  const fetchCoinPrices = async (coinState: Record<string, Coin>) => {
+    const markets = Object.keys(coinState).join(",");
+    const newCoinState = { ...coinState };
+
+    const krwData = await FetchKrwPrice(markets);
+    krwData.forEach((item: any) => {
+      const market = item.market;
+      const fontColor = newCoinState[market].krwprice !== item.trade_price ? "redColor" : "blackColor";
+      newCoinState[market] = {
+        ...newCoinState[market],
+        krwprice: item.trade_price,
+        prevPrice: item.prev_closing_price,
+        change: item.change,
+        changePercent: item.change_rate,
+        absValue: item.change_price,
+        fontColor,
+      };
+    });
+
+    const usdData = await FetchDollarPrice();
+    usdData.forEach((item: any) => {
+      const symbol = item.symbol;
+      const market = Object.keys(newCoinState).find((key) => newCoinState[key].usSymbol === symbol);
+      if (market) {
+        newCoinState[market] = {
+          ...newCoinState[market],
+          usprice: item.lastPrice,
+        };
+      }
+    });
+
+    Object.keys(newCoinState).forEach((market) => {
+      const coin = newCoinState[market];
+      if (coin.krwprice && coin.usprice) {
+        const kimp = ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 100;
+        newCoinState[market].kimp = kimp;
+      }
+    });
+
+    return newCoinState;
+  };
+
+  const { data: initialCoinState, refetch: refetchCoins, isLoading, isError } = useQuery(
+    "krwCoins",
+    fetchKrwCoins,
+    {
+      onSuccess: async (coinState) => {
+        const updatedCoinState = await fetchCoinPrices(coinState);
+        setCoinState(updatedCoinState);  // 수정된 부분
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (coinState) {
+      const interval = setInterval(() => {
+        refetchCoins();
+      }, 700);
+
+      return () => clearInterval(interval);
+    }
+  }, [coinState, refetchCoins]);
 
   const handleSort = (key: string) => {
     setIsRendered(true);
@@ -142,12 +141,12 @@ export const Home = () => {
   };
 
   const sortedCoins = () => {
-    if (!sortConfig || sortConfig.direction === "default") return Object.keys(coinState);
+    if (!sortConfig || sortConfig.direction === "default") return Object.keys(coinState || {});
 
-    const sorted = [...Object.keys(coinState)];
+    const sorted = [...Object.keys(coinState || {})];
     sorted.sort((a, b) => {
-      const coinA = coinState[a];
-      const coinB = coinState[b];
+      const coinA = coinState![a];
+      const coinB = coinState![b];
       let comparison = 0;
 
       if (sortConfig.key === "krwName") {
@@ -180,19 +179,18 @@ export const Home = () => {
   };
 
   const renderSortIcon = (key: string) => {
-    if (!sortConfig || sortConfig.key !== key) return <span style={{ fontSize: "10px" }}>△▽</span>;
+    if (!sortConfig || sortConfig.key !== key) return <span>△▽</span>;
     if (sortConfig.direction === "ascending") {
-      return <span style={{ fontSize: "10px" }}>▲▽</span>;
+      return <span>▲▽</span>;
     } else if (sortConfig.direction === "descending") {
-      return <span style={{ fontSize: "10px" }}>△▼</span>;
+      return <span>△▼</span>;
     } else {
-      return <span style={{ fontSize: "10px" }}>△▽</span>;
+      return <span>△▽</span>;
     }
   };
 
-
   const filteredCoins = sortedCoins().filter((market) => {
-    const coin = coinState[market];
+    const coin = coinState![market];
     return (
       coin.krwName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       coin.engName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -212,29 +210,29 @@ export const Home = () => {
         <thead>
           <tr>
             <th onClick={() => handleSort("krwName")}>
-              <span className="coinName">Korean Name</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("krwName")}
+              <span className="coinName">Korean Name</span> {!isRendered ? <span>△▽</span> : renderSortIcon("krwName")}
             </th>
             <th onClick={() => handleSort("krwprice")}>
-              <span className="coinPrice">Price</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("krwprice")}
+              <span className="coinPrice">Price</span> {!isRendered ? <span>△▽</span> : renderSortIcon("krwprice")}
             </th>
             <th onClick={() => handleSort("kimp")}>
-              <span className="kimp">김치프리미엄</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("kimp")}
+              <span className="kimp">김치프리미엄</span> {!isRendered ? <span>△▽</span> : renderSortIcon("kimp")}
             </th>
             <th className="display-none" onClick={() => handleSort("prevPrice")}>
-              <span className="prevPrice">전일종가</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("prevPrice")}
+              <span className="prevPrice">전일종가</span> {!isRendered ? <span>△▽</span> : renderSortIcon("prevPrice")}
             </th>
             <th onClick={() => handleSort("absValue")}>
-              <span className="prevalue">변동액</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("absValue")}
+              <span className="prevalue">변동액</span> {!isRendered ? <span>△▽</span> : renderSortIcon("absValue")}
             </th>
             <th onClick={() => handleSort("changePercent")}>
-              <span className="prepercent">변화율</span> {!isRendered ? <span style={{ fontSize: "10px" }}>△▽</span> : renderSortIcon("changePercent")}
+              <span className="prepercent">변화율</span> {!isRendered ? <span>△▽</span> : renderSortIcon("changePercent")}
             </th>
           </tr>
         </thead>
         <tbody>
-          {Object.keys(coinState).length > 0 && !isLoading ? (
+          {Object.keys(coinState || {}).length > 0 && !isLoading ? (
             filteredCoins.map((market, idx) => {
-              const coin = coinState[market];
+              const coin = coinState![market];
               return (
                 <tr key={idx + 1}>
                   <td>
