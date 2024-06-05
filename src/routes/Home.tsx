@@ -190,7 +190,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="App" style={{ marginTop: "185px", wordBreak: "keep-all" }}>
+    <div className="App" style={{ marginTop: "50px", wordBreak: "keep-all" }}>
       <Table>
         <thead>
           <tr>
