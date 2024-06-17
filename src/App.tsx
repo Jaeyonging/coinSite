@@ -11,12 +11,12 @@ const TRACKING_ID = import.meta.env.VITE_GA_PROPERTYID;
 ReactGA.initialize(TRACKING_ID);
 
 function App() {
-  const location = useLocation();
+  // const location = useLocation();
 
-  useEffect(() => {
-    ReactGA.set({ page: location.pathname });
-    ReactGA.send('pageview');
-  }, [location]);
+  // useEffect(() => {
+  //   ReactGA.set({ page: location.pathname });
+  //   ReactGA.send('pageview');
+  // }, [location]);
   return (
     <>
       <Header></Header>
