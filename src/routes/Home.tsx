@@ -272,12 +272,23 @@ export const Home = () => {
                       }
                     >
                       {coin.krwprice &&
-                        coin.usprice !== 0 &&
-                        Math.floor(
-                          ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 10000
-                        ) /
-                        100 +
-                        "%"}
+                        coin.usprice !== 0 ? (
+                        isFinite(
+                          Math.floor(
+                            ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 10000
+                          ) /
+                          100
+                        ) ? (
+                          Math.floor(
+                            ((coin.krwprice - coin.usprice * todayDollar) / (coin.usprice * todayDollar)) * 10000
+                          ) /
+                          100 + "%"
+                        ) : (
+                          "Kimchi"
+                        )
+                      ) : (
+                        "Kimchi"
+                      )}
                     </div>
 
                     <div className="binance">

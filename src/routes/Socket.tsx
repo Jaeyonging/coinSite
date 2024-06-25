@@ -311,14 +311,23 @@ export const Socket = () => {
                           }
                         >
                           {krcoin.krwprice &&
-                            uscoin.usprice != 0 &&
-                            Math.floor(
-                              ((krcoin.krwprice - uscoin.usprice * todayDollar) /
-                                (uscoin.usprice * todayDollar)) *
-                              10000
-                            ) /
-                            100 +
-                            "%"}
+                            uscoin.usprice !== 0 ? (
+                            isFinite(
+                              Math.floor(
+                                ((krcoin.krwprice - uscoin.usprice * todayDollar) / (uscoin.usprice * todayDollar)) * 10000
+                              ) /
+                              100
+                            ) ? (
+                              Math.floor(
+                                ((krcoin.krwprice - uscoin.usprice * todayDollar) / (uscoin.usprice * todayDollar)) * 10000
+                              ) /
+                              100 + "%"
+                            ) : (
+                              "Kimchi"
+                            )
+                          ) : (
+                            "Kimchi"
+                          )}
                         </div>
                         <div className="binance">
                           {uscoin.usprice != 0 &&
