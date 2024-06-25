@@ -11,7 +11,8 @@ export const Header = () => {
       setTodayDollar(dollar);
     })
     .catch((error) => {
-      console.error("Error fetching today's dollar:", error);
+      setTodayDollar(1390);
+      console.log("Error fetching today's dollar:", error);
     });
   return (
     <>
