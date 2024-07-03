@@ -39,7 +39,7 @@ export const Home = () => {
         setTodayDollar(dollar);
       })
       .catch((error) => {
-        setTodayDollar(1379);
+        setTodayDollar(1389);
         console.error("Error fetching today's dollar:", error);
       });
 
