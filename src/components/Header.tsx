@@ -28,8 +28,6 @@ export const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className='navbar' id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link onClick={((e) => navigate("/"))}>Home</Nav.Link>
-              <Nav.Link onClick={((e) => navigate("/socket"))}>Socket</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
