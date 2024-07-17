@@ -22,7 +22,8 @@ function App() {
       <Header></Header>
       <Suspense fallback={<div>로딩중</div>}>
         <Routes>
-          <Route path="/" element={<Socket />} />
+          <Route path="/" element={<Home></Home>} />
+          <Route path="/socket" element={<Socket />} />
         </Routes>
       </Suspense>
       <Footer></Footer>
