@@ -25,7 +25,7 @@ export async function FetchTodayDollar() {
 }
 
 export async function FetchKrwCoins() {
-    const response = await axios.get("https://api.upbit.com/v1/market/all?isDetails=false"
+    const response = await axios.get("/api/v1/market/all?isDetails=false"
     )
     return response.data
 }
@@ -34,7 +34,7 @@ export async function FetchKrwPrice(markets: string) {
     if (markets.length < 1) {
         return
     }
-    const response = await axios.get(`https://api.upbit.com/v1/ticker?markets=${markets}`
+    const response = await axios.get(`/api/v1/ticker?markets=${markets}`
     )
     return response.data
 }
