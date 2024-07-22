@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "http://openapi.molit.go.kr/$1"
+            "destination": "https://api.upbit.com"
         },
         {
             "source": "/(.*)",
