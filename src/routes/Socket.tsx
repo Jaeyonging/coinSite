@@ -383,7 +383,7 @@ export const Socket = () => {
           </Table>
         </div>
       ) : (
-        <div>Loading...</div>
+        <div>7월 17일 이후로 변경되었습니다.</div>
       )}
     </>
   );
