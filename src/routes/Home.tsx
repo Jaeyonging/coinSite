@@ -120,7 +120,7 @@ export const Home = () => {
       dispatch(setCoinState(newCoinState));
     } catch (error) {
       console.error("Error updating coin prices:", error);
-      dispatch(setCoinState(newCoinState));
+      // dispatch(setCoinState(newCoinState));
     }
   };
 
