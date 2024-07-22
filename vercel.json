@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://api.upbit.com"
+            "destination": "https://api.upbit.com/$1"
         },
         {
             "source": "/(.*)",
