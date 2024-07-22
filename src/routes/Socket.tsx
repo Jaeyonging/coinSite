@@ -16,6 +16,7 @@ export const Socket = () => {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: string } | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [isRendered, setIsRendered] = useState(false)
+  const [error, setError] = useState("")
 
   const coinsState = useSelector((state: RootState) => state.coins);
   const coinKrwPriceState = useSelector((state: RootState) => state.KrwCoin);
@@ -105,7 +106,7 @@ export const Socket = () => {
       };
 
       upbtitWS.onerror = async e => {
-        console.log("error is" + e);
+        setError("웹소켓이 불안정합니다. F5를 눌러 새로고침을 해주세요")
       }
 
       upbtitWS.onmessage = async e => {
@@ -233,6 +234,7 @@ export const Socket = () => {
 
   return (
     <>
+      {error ? <div>{error}</div> : <></>}
       {fetchFinished ? (
         <div className="App" style={{ marginTop: "50px", wordBreak: "keep-all" }}>
           <Form.Control
