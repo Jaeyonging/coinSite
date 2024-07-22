@@ -5,6 +5,10 @@
             "destination": "https://api.upbit.com/$1"
         },
         {
+            "source": "/wss/(.*)",
+            "destination": "wss://api.upbit.com/$1"
+        },
+        {
             "source": "/(.*)",
             "destination": "/"
         }
