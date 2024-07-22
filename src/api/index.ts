@@ -10,17 +10,12 @@ export async function getMarketList(): Promise<Coin> {
 }
 
 export async function FetchTodayDollar() {
-    return axios.get("https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD")
+    return axios.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vQF1KDUxPDqapqgXa3qyOoyWQ7ndB8hvi4Ct0FKxGXW0wofPOLbLyqWuQeGRkvvEjhwTuwmmQ7hyM9m/pub?gid=0&single=true&output=csv")
         .then((response) => {
-            return parseFloat(response.data[0].basePrice);
+            return parseFloat(response.data);
         })
         .catch((err) => {
             console.log(err)
-            return axios.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vQF1KDUxPDqapqgXa3qyOoyWQ7ndB8hvi4Ct0FKxGXW0wofPOLbLyqWuQeGRkvvEjhwTuwmmQ7hyM9m/pub?gid=0&single=true&output=csv")
-                .then((response) => {
-                    return parseFloat(response.data);
-                })
-                ;
         });
 }
 
