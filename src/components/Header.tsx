@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { FetchTodayDollar } from '../api';
 
 export const Header = () => {
-  let [dollar, setTodayDollar] = useState(0)
+  let [dollar, setTodayDollar] = useState<number>(0)
   let navigate = useNavigate();
   FetchTodayDollar()
     .then((dollar) => {
       setTodayDollar(dollar);
     })
     .catch((error) => {
-      setTodayDollar(1389);
+      setTodayDollar(1389.0);
       console.log("Error fetching today's dollar:", error);
     });
   return (

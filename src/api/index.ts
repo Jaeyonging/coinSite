@@ -12,7 +12,7 @@ export async function getMarketList(): Promise<Coin> {
 export async function FetchTodayDollar() {
     return axios.get("https://docs.google.com/spreadsheets/d/e/2PACX-1vQF1KDUxPDqapqgXa3qyOoyWQ7ndB8hvi4Ct0FKxGXW0wofPOLbLyqWuQeGRkvvEjhwTuwmmQ7hyM9m/pub?gid=0&single=true&output=csv")
         .then((response) => {
-            return parseFloat(response.data);
+            return response.data;
         })
         .catch((err) => {
             console.log(err)
