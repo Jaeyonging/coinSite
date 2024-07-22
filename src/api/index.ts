@@ -28,7 +28,7 @@ export async function FetchKrwPrice(markets: string) {
     if (markets.length < 1) {
         return;
     }
-    const response = await axios.get(`https://api.upbit.com/v1/ticker?markets=${markets}`, {
+    const response = await axios.get(`/api/v1/ticker?markets=${markets}`, {
         transformRequest: [(data, headers) => {
             delete headers['Origin'];
             return data;
