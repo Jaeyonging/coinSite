@@ -76,7 +76,7 @@ export const Socket = () => {
 
   useEffect(() => {
     if (fetchFinished) {
-      const upbtitWS = new WebSocket("wss://api.upbit.com/websocket/v1");
+      const upbtitWS = new WebSocket("/wss/websocket/v1");
       const convertedPairs = coinsState.coinNames.map(pair => {
         const currency = pair.split('-')[1].toLowerCase();
         return `${currency}usdt@markPrice@1s`;
@@ -116,7 +116,6 @@ export const Socket = () => {
           changePercent: updatedCoins.change_rate * 100,
           absValue: updatedCoins.change_price
         };
-
         dispatch(syncKRWPrice2({ code: coinSymbol, updatedCoin }));
       };
 

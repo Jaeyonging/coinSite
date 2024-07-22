@@ -12,6 +12,11 @@ export default defineConfig({
         target: 'https://api.upbit.com',
         changeOrigin: true,
         rewrite: path => path.replace(/^\/api/, '')
+      },
+      "/wss": {
+        target: 'wss://api.upbit.com',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/wss/, '')
       }
     }
   },
