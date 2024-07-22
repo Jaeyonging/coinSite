@@ -329,7 +329,7 @@ export const Home = () => {
             })
           ) : (
             <tr>
-              <td colSpan={6}>{isLoading ? "Loading..." : isError ? "Error fetching data" : "7월 17일 이후로 변경되었습니다."}</td>
+              <td colSpan={6}>{isLoading ? "Loading..." : isError ? "Error fetching data" : "F5를 눌러 새로고침을 해주세요."}</td>
             </tr>
           )}
         </tbody>

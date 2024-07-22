@@ -104,6 +104,10 @@ export const Socket = () => {
         ]));
       };
 
+      upbtitWS.onerror = async e => {
+        console.log("error is" + e);
+      }
+
       upbtitWS.onmessage = async e => {
         const { data } = e;
         const text = await new Response(data).text();
