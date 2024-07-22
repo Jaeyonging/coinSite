@@ -45,7 +45,7 @@ export const Home = () => {
 
     const fetchKrwCoins = async () => {
       try {
-        const response = await axios.get("https://api.upbit.com/v1/market/all?isDetails=false");
+        const response = await axios.get("/api/v1/market/all?isDetails=false");
         const krwCoins = response.data.filter((coin: any) => coin.market.startsWith("KRW-"));
 
         const newCoinState: Record<string, Coin> = {};
