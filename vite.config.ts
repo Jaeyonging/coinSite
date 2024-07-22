@@ -20,7 +20,6 @@ export default defineConfig({
           "origin": ""
         },
         ws: true,
-        rewrite: path => path.replace(/^\/wss/, '')
       }
     }
   },
