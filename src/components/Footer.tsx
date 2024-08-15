@@ -23,6 +23,14 @@ export const Footer = () => {
                         <a className='github' href='https://www.linkedin.com/in/jaeyong-choi-a38b86268/'> Jaeyong</a>
                     </div>
                 </div>
+                <div className='footer-address'>
+                    <div>
+                        Portfolio:
+                    </div>
+                    <div>
+                        <a className='github' href='https://jaeyonging.vercel.app/'> Jaeyong</a>
+                    </div>
+                </div>
             </div>
         </div>
     )
