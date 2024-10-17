@@ -1,3 +1,2 @@
-* 김프 확인
-* 카카오 칼로 api 
-* 영화 api 
+- 김프 확인
+  사이트 확인: https://coin-site-tau.vercel.app/
