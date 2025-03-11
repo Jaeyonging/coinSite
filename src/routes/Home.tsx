@@ -120,7 +120,6 @@ export const Home = () => {
       dispatch(setCoinState(newCoinState));
     } catch (error) {
       console.error("Error updating coin prices:", error);
-      // dispatch(setCoinState(newCoinState));
     }
   };
 
@@ -233,7 +232,7 @@ export const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {Object.keys(coinState).length > 0 && !isLoading ? (
+          {!isLoading && Object.keys(coinState).length > 0 ? (
             filteredCoins.map((market, idx) => {
               const coin = coinState[market];
               return (

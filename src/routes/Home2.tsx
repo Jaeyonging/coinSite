@@ -112,7 +112,7 @@ export const Home2 = () => {
     {
       onSuccess: async (coinState) => {
         const updatedCoinState = await fetchCoinPrices(coinState);
-        setCoinState(updatedCoinState);  // 수정된 부분
+        setCoinState(updatedCoinState);
       },
     }
   );
