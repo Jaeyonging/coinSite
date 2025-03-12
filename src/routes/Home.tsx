@@ -199,6 +199,9 @@ export const Home = () => {
     );
   });
 
+  if(isLoading) return <div>로딩중</div>
+  if(isError) return <div>에러가 발생햇습니다.</div>
+
   return (
     <div className="App" style={{ marginTop: "50px", wordBreak: "keep-all" }}>
       <Form.Control
