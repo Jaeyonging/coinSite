@@ -38,13 +38,3 @@ export async function FetchKrwPrice(markets: string) {
 }
 
 
-
-
-export async function FetchDollarPrice() {
-    const response = await axios.get("https://api.binance.com/api/v3/ticker/24hr"
-    )
-    return response.data
-}
-
-
-

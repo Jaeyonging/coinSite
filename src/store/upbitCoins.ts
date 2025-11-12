@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { KrwCoin, UpbitCoins } from '../types/coin';
+import { KrwCoin, UpbitCoins,  } from '../types/coin';
 import { FetchKrwCoins } from '../api';
 
 

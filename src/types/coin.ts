@@ -29,32 +29,6 @@ export interface USCoin {
     };
 }
 
-export interface KrwCoin {
-    [key: string]: {
-        krwSymbol: string;
-        krwprice: number;
-        prevPrice: number;
-        change: string;
-        changePercent: number;
-        absValue: number;
-    }
-}
-
-export interface KrwCoin2 {
-    coins: {
-        [key: string]: {
-            krwprice: number;
-            prevPrice: number;
-            change: string;
-            changePercent: number;
-            absValue: number;
-        }
-    },
-
-    loading: string
-}
-
-
 export interface CoinState {
     coinNameList: {
         [key: string]: {
