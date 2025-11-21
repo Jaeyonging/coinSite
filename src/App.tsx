@@ -1,9 +1,9 @@
-import { Suspense, useEffect, useState } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Suspense, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
-import { Header } from "./components/Header";
-import { Socket } from "./routes/Socket";
-import { Footer } from "./components/Footer";
+import Header from "./components/common/Header/Header";
+import CoinListPage from "./pages/CoinListPage";
+import Footer from "./components/common/Footer/Footer";
 import ReactGA from 'react-ga4';
 
 const TRACKING_ID = import.meta.env.VITE_GA_PROPERTYID;
@@ -21,7 +21,7 @@ function App() {
       <Header></Header>
       <Suspense fallback={<div>로딩중</div>}>
         <Routes>
-          <Route path="/" element={<Socket />} />
+          <Route path="/" element={<CoinListPage />} />
         </Routes>
       </Suspense>
       <Footer></Footer>

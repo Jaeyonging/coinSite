@@ -1,28 +1,22 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CoinState } from '../types/coin';
-
-
-interface CoinsState {
-    coinNames: string[];
-}
+import { CoinsState } from '../types/coin.types';
 
 const initialState: CoinsState = {
-    coinNames: [],
+  coinNames: [],
 };
 
-const coins = createSlice({
-    name: 'coins',
-    initialState,
-    reducers: {
-        setCoinName: (state, action: PayloadAction<string>) => {
-            const { payload } = action;
-            if (!state.coinNames.includes(payload)) {
-                state.coinNames.push(payload);
-            }
-        },
+const coinsSlice = createSlice({
+  name: 'coins',
+  initialState,
+  reducers: {
+    setCoinName: (state, action: PayloadAction<string>) => {
+      const { payload } = action;
+      if (!state.coinNames.includes(payload)) {
+        state.coinNames.push(payload);
+      }
     },
+  },
 });
 
-
-export const { setCoinName } = coins.actions;
-export default coins;
+export const { setCoinName } = coinsSlice.actions;
+export default coinsSlice.reducer;

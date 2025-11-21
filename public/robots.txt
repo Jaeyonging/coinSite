@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://coin-site-tau.vercel.app/sitemap.xml

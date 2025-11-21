@@ -1,34 +1,278 @@
+:root {
+  --bg-primary: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-hover: #f1f3f5;
+  --bg-card: #ffffff;
+  
+  --text-primary: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6c757d;
+  
+  --border-color: #dee2e6;
+  --border-light: #e9ecef;
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.1);
+  
+  --rise-color: #198754;
+  --fall-color: #dc3545;
+  --rise-bg: #d1e7dd;
+  --fall-bg: #f8d7da;
+  
+  --border-radius: 8px;
+  --transition: all 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+}
+
 .App {
-  text-align: center;
-  letter-spacing: -0.8px;
+  text-align: left;
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 
-.me-auto {
-  margin-left: 90%;
-}
-
-.HomeDiv {
+.nav-bank {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-light);
 }
 
-.redColor {
-  color: red;
-  transition: 0.3s color;
+.nav-bank > div {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.blackColor {
-  color: black;
-  transition: 0.3s color;
-
+.nav-bank > span {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.rise {
-  color: green;
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 0;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
 }
 
-.fall {
-  color: red;
+/* 테이블 래퍼 - 모바일 스크롤 최적화 */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+/* 모바일 카드 컨테이너 */
+.coin-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* 모바일 코인 카드 */
+.coin-card {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  padding: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.coin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.coin-card-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.coin-card-name .logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.coin-card-korean-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.coin-card-english-name {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.chart-icon {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+  touch-action: manipulation;
+}
+
+.coin-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.coin-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.coin-card-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.coin-card-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.coin-card-value-small {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.coin-card-chart {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+  width: 100%;
+  overflow-x: auto;
+}
+
+thead th {
+  background: #f8f9fa;
+  padding: 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 2px solid var(--border-color);
+  cursor: pointer;
+  transition: var(--transition);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+thead th:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+thead th:first-child {
+  padding-left: 20px;
+}
+
+thead th:last-child {
+  padding-right: 20px;
+}
+
+tbody tr {
+  background: var(--bg-card);
+  transition: var(--transition);
+  border-bottom: 1px solid var(--border-light);
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--bg-hover);
+}
+
+tbody td {
+  padding: 16px;
+  border: none;
+  vertical-align: middle;
+}
+
+tbody td:first-child {
+  padding-left: 20px;
+}
+
+tbody td:last-child {
+  padding-right: 20px;
+}
+
+
+.coinName,
+.coinPrice,
+.prevPrice,
+.prevalue,
+.kimp,
+.prepercent {
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
 }
 
 .coinName:hover,
@@ -37,105 +281,477 @@
 .prevalue:hover,
 .kimp:hover,
 .prepercent:hover {
-  cursor: pointer;
-}
-
-.green {
-  color: green;
-}
-
-.red {
-  color: red;
-}
-
-.binance {
-  font-size: 13px;
-  color: gray;
+  color: var(--text-primary);
 }
 
 .logo {
-  width: 20px;
-  height: auto;
-  margin-right: 5px;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 50%;
+  vertical-align: middle;
+  object-fit: cover;
 }
 
-.nav-bank {
-  width: 90%;
-  margin: auto;
-  display: flex;
-  flex-direction: row;
+.font-10px {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.5;
 }
 
-.footer{
+.rise {
+  color: var(--rise-color);
+  font-weight: 600;
+}
+
+.fall {
+  color: var(--fall-color);
+  font-weight: 600;
+}
+
+.green {
+  color: var(--rise-color);
+  font-weight: 600;
+}
+
+.red {
+  color: var(--fall-color);
+  font-weight: 600;
+}
+
+.binance {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+
+.form-control {
+  background: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--border-radius) !important;
+  color: var(--text-primary) !important;
+  padding: 12px 16px !important;
+  font-size: 14px !important;
+  transition: var(--transition) !important;
+}
+
+.form-control:focus {
+  background: var(--bg-secondary) !important;
+  border-color: #86b7fe !important;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15) !important;
+  outline: none !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  margin: 60px auto 20px;
   width: 100%;
-  background-color: gray;
+  max-width: 1400px;
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 40px 30px;
   text-align: center;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
 }
 
-.footer-content{
+.footer-content {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 2;
+}
+
+.footer-content > div:first-child {
   font-size: 18px;
-  color:black;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 12px;
 }
 
-.footer-address{
-  display:flex;
+.footer-address {
+  display: flex;
   flex-direction: row;
   justify-content: center;
-
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.github{
-  color:red;
-  margin-left: 10px;
+.github {
+  color: var(--text-secondary);
+  margin-left: 8px;
   text-align: center;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition);
 }
 
-@media screen and (max-width: 768px){
-  .coinName{
-    font-size: 10px;
-  }
-  .coinPrice{
-    font-size: 10px;
-  }
-  .kimp{
-    font-size: 10px;
-  }
-  .prevPrice{
-    font-size: 10px
+.github:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+
+/* 태블릿 (768px 이하) */
+@media screen and (max-width: 768px) {
+  .App {
+    padding: 16px 12px;
+    max-width: 100%;
   }
 
-  .prevalue{
-    font-size: 10px
+  .nav-bank {
+    padding: 14px 16px;
+    flex-direction: row;
+    gap: 12px;
+    text-align: left;
+    margin-bottom: 20px;
   }
 
-  .prepercent{
+  .nav-bank > div {
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .nav-bank > span {
+    font-size: 17px;
+    word-break: keep-all;
+  }
+
+  table {
+    font-size: 13px;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    min-width: 700px;
+  }
+
+  thead th {
+    padding: 12px 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  tbody td {
+    padding: 12px 8px;
+    white-space: nowrap;
+    min-width: 80px;
+  }
+
+  .coinName,
+  .coinPrice,
+  .kimp,
+  .prevPrice,
+  .prevalue,
+  .prepercent {
+    font-size: 12px;
+  }
+
+  .logo {
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+  }
+
+  .font-10px {
+    font-size: 12px;
+  }
+
+  .binance {
     font-size: 10px;
+    margin-top: 2px;
   }
 
-  .logo{
-    width: 15px;
-    height: auto;
-  }
-  .font-10px{
-    font-size: 10px;
-  }
-
-  .binance{
-    font-size: 10px;
-  }
-
-  .display-none{
+  .display-none {
     display: none;
   }
 
-  .me-auto{
-    margin-left: 80%;
+  .footer {
+    padding: 28px 18px;
+    margin: 40px auto 16px;
   }
+
+  .footer-content {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .footer-content > div:first-child {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .footer-address {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .github {
+    font-size: 14px;
+  }
+
+  .form-control {
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    max-width: 100% !important;
+  }
+}
+
+/* 모바일 (480px 이하) */
+@media screen and (max-width: 480px) {
+  .App {
+    padding: 10px 8px;
+    max-width: 100%;
+  }
+
+  .nav-bank {
+    padding: 12px 12px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .nav-bank > div {
+    font-size: 12px;
+    justify-content: center;
+  }
+
+  .nav-bank > span {
+    font-size: 15px;
+    word-break: keep-all;
+  }
+
+  /* 모바일 테이블 스타일 - 가로 스크롤 없이 모든 정보 표시 */
+  .table-wrapper {
+    display: block;
+    overflow-x: visible;
+    width: 100%;
+  }
+
+  table {
+    font-size: 9px;
+    display: table;
+    width: 100%;
+    min-width: auto;
+    table-layout: fixed;
+  }
+
+  thead th {
+    padding: 8px 2px;
+    font-size: 7px;
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.2;
+    min-width: auto;
+  }
+
+  thead th:first-child {
+    width: 25%;
+  }
+
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+
+  thead th:nth-child(3) {
+    width: 18%;
+  }
+
+  thead th:nth-child(4) {
+    width: 0;
+    display: none;
+  }
+
+  thead th:nth-child(5) {
+    width: 18%;
+  }
+
+  thead th:nth-child(6) {
+    width: 19%;
+  }
+
+  tbody td {
+    padding: 8px 2px;
+    white-space: normal;
+    word-break: break-word;
+    min-width: auto;
+    font-size: 9px;
+  }
+
+  tbody td:first-child {
+    padding-left: 8px;
+  }
+
+  tbody td:last-child {
+    padding-right: 0;
+  }
+
+  tbody td:nth-child(4) {
+    display: none;
+  }
+
+  .coinName,
+  .coinPrice,
+  .kimp,
+  .prevPrice,
+  .prevalue,
+  .prepercent {
+    font-size: 8px;
+  }
+
+  .font-10px {
+    font-size: 9px;
+    line-height: 1.3;
+  }
+
+  .logo {
+    width: 14px;
+    height: 14px;
+    margin-right: 4px;
+  }
+
+  .binance {
+    font-size: 7px;
+    margin-top: 2px;
+  }
+
+  .coin-cards-container {
+    display: none;
+  }
+
+  .footer {
+    padding: 20px 12px;
+    margin: 32px auto 12px;
+    border-radius: 6px;
+  }
+
+  .footer-content {
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .footer-content > div:first-child {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+
+  .footer-address {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .github {
+    font-size: 12px;
+    margin-left: 0;
+  }
+
+  .form-control {
+    padding: 10px 12px !important;
+    font-size: 14px !important;
+    max-width: 100% !important;
+    margin-bottom: 16px !important;
+  }
+}
+
+/* 작은 모바일 (360px 이하) */
+@media screen and (max-width: 360px) {
+  .App {
+    padding: 8px 6px;
+  }
+
+  .nav-bank {
+    padding: 10px;
+    gap: 6px;
+  }
+
+  .nav-bank > div {
+    font-size: 11px;
+  }
+
+  .nav-bank > span {
+    font-size: 14px;
+  }
+
+  table {
+    font-size: 8px;
+  }
+
+  thead th {
+    padding: 6px 3px;
+    font-size: 7px;
+  }
+
+  tbody td {
+    padding: 6px 3px;
+    font-size: 8px;
+  }
+
+  .coinName,
+  .coinPrice,
+  .kimp,
+  .prevPrice,
+  .prevalue,
+  .prepercent {
+    font-size: 7px;
+  }
+
+  .font-10px {
+    font-size: 8px;
+  }
+
+  .logo {
+    width: 12px;
+    height: 12px;
+    margin-right: 3px;
+  }
+
+  .binance {
+    font-size: 6px;
+  }
+
+  .footer {
+    padding: 18px 10px;
+  }
+
+  .footer-content {
+    font-size: 10px;
+  }
+
+  .footer-content > div:first-child {
+    font-size: 14px;
+  }
+
+  .form-control {
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+}
+
+.me-auto {
+  margin-left: auto;
+}
+
+.redColor {
+  color: var(--fall-color);
+  transition: var(--transition);
+}
+
+.blackColor {
+  color: var(--text-primary);
+  transition: var(--transition);
 }

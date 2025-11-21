@@ -1,0 +1,88 @@
+import { useEffect, useState, useRef } from 'react';
+import { KrwCoinPriceState } from '../types/coin.types';
+import { PriceChangeDirection } from '../types/coin.types';
+import { ANIMATION_DURATION } from '../utils/constants';
+
+/**
+ * 코인 가격 변경 애니메이션 훅 (최적화 버전)
+ */
+export const useCoinPriceAnimation = (
+  coinPrices: KrwCoinPriceState['coins'],
+  fetchFinished: boolean
+) => {
+  const [animations, setAnimations] = useState<{ [key: string]: PriceChangeDirection }>({});
+  const prevPricesRef = useRef<{ [key: string]: number }>({});
+  const timeoutRefsRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
+
+  useEffect(() => {
+    if (!fetchFinished) return;
+
+    // requestAnimationFrame을 사용하여 브라우저 렌더링 사이클에 맞춤
+    const rafId = requestAnimationFrame(() => {
+      const newAnimations: { [key: string]: PriceChangeDirection } = {};
+      const marketsToUpdate: string[] = [];
+
+      Object.keys(coinPrices).forEach((market) => {
+        const currentPrice = coinPrices[market]?.krwprice;
+        const prevPrice = prevPricesRef.current[market];
+
+        if (currentPrice !== undefined && prevPrice !== undefined && currentPrice !== prevPrice) {
+          if (currentPrice > prevPrice) {
+            newAnimations[market] = 'up';
+          } else if (currentPrice < prevPrice) {
+            newAnimations[market] = 'down';
+          }
+          marketsToUpdate.push(market);
+
+          // 기존 timeout이 있으면 취소
+          if (timeoutRefsRef.current[market]) {
+            clearTimeout(timeoutRefsRef.current[market]);
+          }
+
+          // 애니메이션을 일정 시간 후 제거
+          timeoutRefsRef.current[market] = setTimeout(() => {
+            setAnimations((prev) => {
+              const updated = { ...prev };
+              if (updated[market] === newAnimations[market]) {
+                updated[market] = null;
+              }
+              delete timeoutRefsRef.current[market];
+              return updated;
+            });
+          }, ANIMATION_DURATION.PRICE_CHANGE);
+        }
+
+        // 현재 가격을 이전 가격으로 저장
+        if (currentPrice !== undefined) {
+          prevPricesRef.current[market] = currentPrice;
+        }
+      });
+
+      // 변경된 것만 업데이트
+      if (marketsToUpdate.length > 0) {
+        setAnimations((prev) => {
+          const updated = { ...prev };
+          marketsToUpdate.forEach((market) => {
+            updated[market] = newAnimations[market];
+          });
+          return updated;
+        });
+      }
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+    };
+  }, [coinPrices, fetchFinished]);
+
+  // cleanup: 컴포넌트 언마운트 시 모든 timeout 정리
+  useEffect(() => {
+    return () => {
+      Object.values(timeoutRefsRef.current).forEach((timeout) => {
+        clearTimeout(timeout);
+      });
+    };
+  }, []);
+
+  return animations;
+};
