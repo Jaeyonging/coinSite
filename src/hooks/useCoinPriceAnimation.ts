@@ -12,7 +12,7 @@ export const useCoinPriceAnimation = (
 ) => {
   const [animations, setAnimations] = useState<{ [key: string]: PriceChangeDirection }>({});
   const prevPricesRef = useRef<{ [key: string]: number }>({});
-  const timeoutRefsRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
+  const timeoutRefsRef = useRef<{ [key: string]: number }>({});
 
   useEffect(() => {
     if (!fetchFinished) return;
