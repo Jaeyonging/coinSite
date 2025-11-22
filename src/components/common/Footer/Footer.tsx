@@ -28,7 +28,7 @@ const Footer = () => {
         <div className="footer-address">
           <div>Portfolio:</div>
           <div>
-            <a className="github" href="https://jaeyonging.vercel.app/">
+            <a className="github" href="https://jaeyonging.com/">
               {' '}
               Jaeyong
             </a>
