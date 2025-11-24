@@ -1,5 +1,9 @@
 
-export const formatPrice = (price: number): string => {
+export const formatPrice = (price: number | null | undefined): string => {
+  if (price === null || price === undefined || isNaN(price)) {
+    return '0';
+  }
+  
   if (price > 1000) {
     return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   } else if (price > 100) {

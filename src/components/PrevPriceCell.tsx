@@ -2,7 +2,7 @@ import React from 'react';
 import { formatPrice } from '../utils/formatters';
 
 interface PrevPriceCellProps {
-  prevPrice: number;
+  prevPrice: number | null;
   change: string;
 }
 

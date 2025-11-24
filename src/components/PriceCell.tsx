@@ -4,7 +4,7 @@ import { COLORS, ANIMATION_DURATION } from '../utils/constants';
 import { PriceChangeDirection } from '../types/coin.types';
 
 interface PriceCellProps {
-  krwPrice: number;
+  krwPrice: number | null;
   usPrice: number;
   todayDollar: number;
   animation: PriceChangeDirection;
