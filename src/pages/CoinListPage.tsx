@@ -42,7 +42,7 @@ const CoinListPage = () => {
           <div style={{ fontSize: isMobile ? '28px' : '32px', marginBottom: isMobile ? '12px' : '16px' }}>⏳</div>
           <div style={{ fontWeight: 500, fontSize: isMobile ? '14px' : '16px' }}>데이터를 불러오는 중...</div>
           <div style={{ fontSize: isMobile ? '12px' : '14px', marginTop: '8px', color: '#6c757d' }}>
-            7월 17일 이후로 변경되었습니다.
+            11월 24일 이후로 변경되었습니다.
           </div>
         </div>
       </div>
