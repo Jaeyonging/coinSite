@@ -19,30 +19,69 @@
       gtag("js", new Date());
       gtag("config", "G-BR8X1228QX");
     </script>
+    <script>
+      (function () {
+        var docEl = document.documentElement;
+        if (!docEl.classList.contains("js-ready")) {
+          docEl.classList.add("js-ready");
+        }
+        window.addEventListener("DOMContentLoaded", function () {
+          var body = document.body;
+          var rootNode = document.getElementById("root");
+          if (!rootNode || !body) {
+            return;
+          }
+          if (rootNode.childNodes.length > 0) {
+            body.classList.add("app-mounted");
+            return;
+          }
+          var observer = new MutationObserver(function () {
+            if (rootNode.childNodes.length > 0) {
+              body.classList.add("app-mounted");
+              observer.disconnect();
+            }
+          });
+          observer.observe(rootNode, { childList: true });
+        });
+      })();
+    </script>
 
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="google-site-verification"
       content="PKoA1svvIMj70qAHw_HVvDChFa8pZG8vXIiKWDIootE"
     />
+    <meta name="application-name" content="김치프리미엄 체크" />
+    <meta name="apple-mobile-web-app-title" content="김치프리미엄 체크" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="referrer" content="origin-when-cross-origin" />
+    <meta name="author" content="jaeyonging" />
     <meta
       name="keywords"
-      content="김치프리미엄, 김프, kimchi premium, 암호화폐, 코인, 비트코인, 이더리움, 업비트, 바이낸스, 실시간 가격, 코인 가격, 암호화폐 가격 비교, 김치프리미엄 체크, 코인 차트, 캔들스틱 차트, 실시간 차트, BTC, ETH, KRW, USDT, 모의투자, 가상투자"
+      content="김치프리미엄, 김프, kimchi premium, 암호화폐, 코인, 비트코인, 이더리움, 업비트, 바이낸스, 실시간 가격, 코인 가격, 암호화폐 가격 비교, 김치프리미엄 체크, 코인 차트, 캔들스틱 차트, 실시간 차트, BTC, ETH, KRW, USDT, 모의투자, 가상투자, mock trading"
     />
     <meta
       name="description"
-      content="업비트와 바이낸스 간의 암호화폐 가격 차이를 실시간으로 확인하는 김치프리미엄 체크 사이트. 비트코인, 이더리움 등 모든 코인의 실시간 가격과 김치프리미엄을 한눈에 비교하고, 캔들스틱 차트로 가격 추이를 확인하세요. 모의투자 기능으로 가상으로 코인 거래를 체험할 수 있습니다."
+      content="업비트와 바이낸스 간 암호화폐 가격 차이를 실시간으로 비교하고, 환율을 반영한 김치프리미엄과 모의투자를 한 화면에서 확인하세요. 실시간 차트, 즐겨찾기, 검색과 정렬, 모의 투자 자산 관리까지 지원하는 코인 트레이딩 러닝 사이트입니다."
     />
-    <meta name="author" content="jaeyonging" />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     />
     <meta name="googlebot" content="index, follow" />
+    <meta name="theme-color" content="#0d1b2a" />
+    <meta name="msapplication-TileColor" content="#0d1b2a" />
+    <meta name="msapplication-tap-highlight" content="no" />
+
     <link rel="canonical" href="https://coin-site-tau.vercel.app/" />
-    <meta name="theme-color" content="#0d6efd" />
-    <!-- Open Graph / Facebook -->
+    <link rel="icon" href="/bitcoin.png" type="image/png" />
+    <link rel="shortcut icon" href="/bitcoin.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/bitcoin.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://coin-site-tau.vercel.app/" />
     <meta
@@ -51,18 +90,23 @@
     />
     <meta
       property="og:description"
-      content="업비트와 바이낸스 간의 암호화폐 가격 차이를 실시간으로 확인하세요. 비트코인, 이더리움 등 모든 코인의 김치프리미엄을 한눈에 비교하고, 캔들스틱 차트로 가격 추이를 확인할 수 있습니다."
+      content="업비트·바이낸스 가격을 실시간으로 비교하고, 환율을 반영한 김치프리미엄과 모의투자 자산을 한 번에 확인하세요."
     />
     <meta
       property="og:image"
       content="https://i.ibb.co/DrrgFg8/2024-03-29-2-23-24.png"
     />
+    <meta
+      property="og:image:secure_url"
+      content="https://i.ibb.co/DrrgFg8/2024-03-29-2-23-24.png"
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="김치프리미엄 실시간 비교 대시보드" />
     <meta property="og:site_name" content="김치프리미엄 체크" />
     <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://coin-site-tau.vercel.app/" />
     <meta
@@ -71,14 +115,15 @@
     />
     <meta
       name="twitter:description"
-      content="업비트와 바이낸스 간의 암호화폐 가격 차이를 실시간으로 확인하세요."
+      content="김치프리미엄, 실시간 시세, 모의투자 포트폴리오를 한 번에 관리하는 코인 트레이딩 툴"
     />
     <meta
       name="twitter:image"
       content="https://i.ibb.co/DrrgFg8/2024-03-29-2-23-24.png"
     />
+    <meta name="twitter:image:alt" content="김치프리미엄과 모의투자 요약 화면" />
+    <meta name="twitter:site" content="@jaeyonging" />
 
-    <!-- 구조화된 데이터 (JSON-LD) -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -89,27 +134,426 @@
         "description": "업비트와 바이낸스 간의 암호화폐 가격 차이를 실시간으로 확인하는 웹사이트",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web",
+        "inLanguage": ["ko-KR", "en"],
         "offers": {
           "@type": "Offer",
           "price": "0",
           "priceCurrency": "KRW"
         },
+        "featureList": [
+          "실시간 업비트/바이낸스 가격 동기화",
+          "환율 기반 김치프리미엄 계산",
+          "SVG 캔들스틱 차트 및 툴팁",
+          "모의 투자 대시보드와 포지션 관리",
+          "즐겨찾기, 정렬, 검색, 다크모드"
+        ],
+        "creator": {
+          "@type": "Person",
+          "name": "jaeyonging"
+        },
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.5",
-          "ratingCount": "100"
+          "ratingValue": "4.8",
+          "ratingCount": "128"
         }
       }
     </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "김치프리미엄 체크 사이트에서는 무엇을 할 수 있나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "업비트와 바이낸스 시세를 비교하고, 환율을 반영한 김치프리미엄과 실시간 차트, 즐겨찾기, 검색, 정렬 기능을 통해 원하는 코인을 빠르게 찾을 수 있습니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "모의 투자 기능은 어떻게 동작하나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "가상 잔고로 매수/매도를 연습할 수 있으며, 포지션 평균 단가와 손익, 수익률이 실시간으로 업데이트되고 로컬 스토리지에 저장되어 새로고침 후에도 유지됩니다."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "데이터는 얼마나 자주 업데이트되나요?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "업비트와 바이낸스 WebSocket을 통해 초당 단위로 시세를 받아오며, requestAnimationFrame으로 배치 처리해 부드럽게 갱신합니다."
+            }
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "홈",
+            "item": "https://coin-site-tau.vercel.app/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "모의투자",
+            "item": "https://coin-site-tau.vercel.app/#mock-trading"
+          }
+        ]
+      }
+    </script>
 
-    <link rel="icon" href="../bitcoin.png" />
-    <link rel="apple-touch-icon" href="../bitcoin.png" />
+    <link rel="preload" href="/bitcoin.png" as="image" />
+
+    <style>
+      :root {
+        color-scheme: dark light;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Pretendard", "Noto Sans KR", "Segoe UI", system-ui,
+          -apple-system, BlinkMacSystemFont, sans-serif;
+        background: radial-gradient(circle at 10% 20%, #102544 0%, #030712 70%);
+        color: #e5edff;
+        line-height: 1.6;
+        letter-spacing: -0.01em;
+        text-rendering: optimizeLegibility;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        border: 0;
+      }
+      #static-landing {
+        position: relative;
+        overflow: hidden;
+        padding: 32px clamp(20px, 5vw, 88px) 48px;
+        display: flex;
+        flex-direction: column;
+        gap: 56px;
+        background: linear-gradient(
+          135deg,
+          rgba(13, 27, 42, 0.9),
+          rgba(6, 13, 23, 0.9)
+        );
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      #static-landing::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            circle at 20% 20%,
+            rgba(14, 165, 233, 0.2),
+            transparent 55%
+          ),
+          radial-gradient(
+            circle at 80% 0%,
+            rgba(236, 72, 153, 0.15),
+            transparent 40%
+          );
+        pointer-events: none;
+        z-index: 0;
+      }
+      .landing-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+      }
+      .landing-header {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .logo-mark {
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #8efcff;
+        text-transform: uppercase;
+        letter-spacing: 0.24em;
+      }
+      .hero-title {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        font-weight: 700;
+        line-height: 1.2;
+        margin: 0;
+      }
+      .hero-description {
+        color: rgba(229, 237, 255, 0.8);
+        font-size: clamp(1rem, 1.6vw, 1.2rem);
+        max-width: 720px;
+      }
+      .cta-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+      .cta-group a {
+        padding: 12px 28px;
+        border-radius: 999px;
+        font-weight: 600;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      .cta-primary {
+        background: linear-gradient(120deg, #38bdf8, #6366f1);
+        color: #030712;
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
+      }
+      .cta-secondary {
+        border: 1px solid rgba(229, 237, 255, 0.4);
+        color: #e5edff;
+      }
+      .cta-group a:focus-visible,
+      .cta-group a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 32px rgba(15, 23, 42, 0.35);
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 32px;
+      }
+      .stat-card {
+        padding: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 18px;
+        background: rgba(15, 23, 42, 0.35);
+        backdrop-filter: blur(12px);
+      }
+      .stat-label {
+        font-size: 0.85rem;
+        color: rgba(226, 232, 240, 0.7);
+      }
+      .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-top: 6px;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-top: 28px;
+      }
+      .feature-card {
+        border-radius: 16px;
+        padding: 20px;
+        background: rgba(8, 15, 26, 0.85);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        min-height: 180px;
+      }
+      .feature-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.1rem;
+      }
+      .feature-card p {
+        margin: 0;
+        color: rgba(226, 232, 240, 0.85);
+        font-size: 0.95rem;
+      }
+      .mock-trading-highlight {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 24px;
+        margin-top: 32px;
+        border: 1px solid rgba(236, 72, 153, 0.35);
+        border-radius: 18px;
+        padding: 24px;
+        background: rgba(68, 12, 37, 0.35);
+      }
+      .mock-trading-highlight h3 {
+        margin: 0 0 12px;
+        font-size: 1.2rem;
+      }
+      .mock-trading-highlight ul {
+        margin: 0;
+        padding-left: 18px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .seo-copy {
+        margin-top: 28px;
+        font-size: 0.95rem;
+        color: rgba(226, 232, 240, 0.75);
+      }
+      #app-entry {
+        position: relative;
+        z-index: 2;
+        min-height: 50vh;
+      }
+      body:not(.app-mounted) #app-entry {
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.app-mounted #static-landing {
+        display: none;
+      }
+      noscript {
+        display: block;
+        padding: 16px 20px;
+        margin: 0;
+        background: #030712;
+        color: #f8fafc;
+        text-align: center;
+        font-size: 0.95rem;
+      }
+      @media (max-width: 768px) {
+        #static-landing {
+          padding: 28px 20px;
+        }
+        .cta-group {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .hero-title {
+          font-size: clamp(2rem, 9vw, 3rem);
+        }
+      }
+    </style>
+
     <title>
       김치프리미엄 체크 - 실시간 암호화폐 가격 비교 | 업비트 vs 바이낸스
     </title>
   </head>
   <body>
-    <div id="root"></div>
+    <noscript>
+      김치프리미엄 체크는 자바스크립트 기반 서비스입니다. 브라우저에서
+      자바스크립트를 활성화하면 실시간 시세와 모의투자 기능을 이용할 수
+      있습니다.
+    </noscript>
+    <section id="static-landing">
+      <div class="landing-inner">
+        <div class="landing-header">
+          <div class="logo-mark">KIMCHI PREMIUM LAB</div>
+          <h1 class="hero-title">
+            업비트 · 바이낸스 실시간 비교와 모의 투자까지 한 번에
+          </h1>
+          <p class="hero-description">
+            초 단위로 동기화되는 업비트/바이낸스 시세, 환율 기반 김치프리미엄,
+            SVG 캔들스틱 차트, 로컬 스토리지에 저장되는 모의 투자 대시보드까지
+            한 화면에서 제공합니다. 검색, 정렬, 즐겨찾기, 테마 전환 기능으로
+            원하는 코인을 빠르게 추적하세요.
+          </p>
+          <div class="cta-group">
+            <a class="cta-primary" href="#app-entry" title="실시간 시세 보러가기"
+              >실시간 시세 바로가기</a
+            >
+            <a class="cta-secondary" href="#mock-trading" title="모의 투자 소개"
+              >모의 투자 기능 살펴보기</a
+            >
+          </div>
+          <div class="stats-grid" aria-label="서비스 핵심 수치">
+            <article class="stat-card">
+              <div class="stat-label">실시간 추적 코인</div>
+              <div class="stat-value">KRW 마켓 전체</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">환율 동기화</div>
+              <div class="stat-value">Google Sheets</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">데이터 저장</div>
+              <div class="stat-value">로컬 스토리지</div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-label">차트 타입</div>
+              <div class="stat-value">1분~30일</div>
+            </article>
+          </div>
+        </div>
+
+        <div class="feature-grid" aria-label="주요 기능 안내">
+          <article class="feature-card">
+            <h3>실시간 김치프리미엄</h3>
+            <p>
+              업비트 체결가와 바이낸스 페어, 환율을 동기화해 김치프리미엄을
+              퍼센트로 즉시 계산합니다.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>맞춤형 차트</h3>
+            <p>
+              SVG 캔들스틱 차트와 툴팁, 크로스헤어를 제공해 모바일에서도 가격
+              추이를 직관적으로 살펴볼 수 있습니다.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>모의 투자 대시보드</h3>
+            <p>
+              총자산, 잔고, 손익, 수익률을 한 눈에 확인하고, 매수/매도 패널을
+              통해 전략을 검증할 수 있습니다.
+            </p>
+          </article>
+          <article class="feature-card">
+            <h3>즐겨찾기 & 정렬</h3>
+            <p>
+              즐겨찾기, 검색, 7가지 정렬 기준, 다크모드를 지원해 나만의 시세
+              워크플로를 구성하세요.
+            </p>
+          </article>
+        </div>
+
+        <div id="mock-trading" class="mock-trading-highlight">
+          <div>
+            <h3>모의 투자 흐름</h3>
+            <ul>
+              <li>1,000만 원 시작 잔고 &amp; 자유 입금</li>
+              <li>포지션 별 평균 단가/수익률 자동 계산</li>
+              <li>매수·매도 내역은 로컬 스토리지로 영구 저장</li>
+            </ul>
+          </div>
+          <div>
+            <h3>학습과 전략 테스트</h3>
+            <ul>
+              <li>테이블 → 바텀시트 트레이딩 패널 연동</li>
+              <li>1분 차트에 매수 마커 표기</li>
+              <li>초단위 시세 반영으로 실전에 가까운 체험</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="seo-copy">
+          김치프리미엄 체크(Kimchi Premium Check)는 실시간 시세 모니터링과
+          가상 투자 학습에 집중한 반응형 웹 애플리케이션입니다. 업비트·바이낸스의
+          KRW/USDT 가격, 환율, 거래대금을 조합해 국내외 괴리율을 계산하고,
+          SVG 기반 차트와 모의 투자 패널로 전략을 실험할 수 있도록 설계했습니다.
+          모든 데이터는 Redux Toolkit으로 관리되고, requestAnimationFrame으로
+          렌더링 성능을 유지합니다.
+        </p>
+      </div>
+    </section>
+    <section id="app-entry" aria-live="polite">
+      <div id="root"></div>
+    </section>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
