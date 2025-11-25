@@ -27,6 +27,14 @@ const AssetSummary = ({
       ? `${totalReturnPercent >= 0 ? '+' : ''}${totalReturnPercent.toFixed(2)}%`
       : '0.00%';
 
+  const formattedAssets = formatPrice(totalAssets);
+  const assetFontClass =
+    formattedAssets.length > 14
+      ? 'text-xl md:text-2xl'
+      : formattedAssets.length > 11
+      ? 'text-2xl md:text-3xl'
+      : 'text-3xl md:text-4xl';
+
   const summaryChips = [
     {
       label: '보유 현금',
@@ -71,8 +79,10 @@ const AssetSummary = ({
               총 자산
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <div className="inline-flex rounded-2xl bg-white px-4 py-2 text-3xl font-bold text-slate-900 shadow-sm md:text-4xl dark:bg-slate-800 dark:text-white">
-                {formatPrice(totalAssets)}원
+              <div
+                className={`inline-flex rounded-2xl bg-white px-4 py-2 font-bold text-slate-900 shadow-sm dark:bg-slate-800 dark:text-white ${assetFontClass}`}
+              >
+                {formattedAssets}원
               </div>
               <div
                 className={`inline-flex items-center rounded-full px-4 py-1 text-xs font-semibold md:text-sm ${

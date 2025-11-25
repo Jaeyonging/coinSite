@@ -22,6 +22,13 @@ const getInitialTheme = (): Theme => {
     return storedTheme;
   }
 
+  const isMobileUA =
+    typeof navigator !== 'undefined' && /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+  if (isMobileUA || isMobileViewport) {
+    return 'dark';
+  }
+
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   return prefersDark ? 'dark' : 'light';
 };
