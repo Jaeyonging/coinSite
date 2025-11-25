@@ -125,7 +125,7 @@ const CoinChart = React.memo(({ market, unit, position }: CoinChartProps) => {
 
       <div 
         ref={containerRef} 
-        className="bg-white relative overflow-visible w-full"
+        className="relative w-full overflow-visible bg-white dark:bg-slate-950"
         style={{ 
           width: '100%', 
           maxWidth: '100%', 
@@ -137,7 +137,7 @@ const CoinChart = React.memo(({ market, unit, position }: CoinChartProps) => {
         <div
           id="chart-scroll-container"
           ref={scrollContainerRef}
-          className="w-full overflow-auto relative box-border touch-pan-x"
+          className="w-full overflow-auto relative box-border touch-pan-x bg-white dark:bg-slate-950"
           style={{
             height: isMobileViewport
               ? `${CHART_CONFIG.MOBILE_HEIGHT}px`

@@ -41,7 +41,7 @@ const ChartMobileXAxis = ({
             return (
               <div
                 key={index}
-                className="absolute top-0 text-[9px] text-gray-500 whitespace-nowrap -translate-x-1/2"
+                className="absolute top-0 -translate-x-1/2 whitespace-nowrap text-[9px] font-semibold text-slate-600 dark:text-slate-300"
                 style={{ left: `${x}px` }}
               >
                 {label}

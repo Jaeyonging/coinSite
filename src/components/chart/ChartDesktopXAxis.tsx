@@ -25,7 +25,8 @@ const ChartDesktopXAxis = ({ chartConfig, chartData }: ChartDesktopXAxisProps) =
             y={chartHeight - padding.bottom + 20}
             textAnchor="middle"
             fontSize={11}
-            fill="#6c757d"
+            fill="currentColor"
+            className="text-slate-600 dark:text-slate-300"
             transform={`rotate(-45 ${x} ${chartHeight - padding.bottom + 20})`}
           >
             {label}

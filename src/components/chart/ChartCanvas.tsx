@@ -84,6 +84,13 @@ const ChartCanvas = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      <rect
+        x={0}
+        y={0}
+        width={chartWidth}
+        height={chartHeight}
+        className="fill-white dark:fill-slate-950"
+      />
       <ChartGridLines chartConfig={chartConfig} />
       {!isMobile && <ChartDesktopYAxis chartConfig={chartConfig} />}
       {candleElements}
@@ -111,16 +118,18 @@ const ChartCanvas = ({
         y1={padding.top}
         x2={padding.left}
         y2={padding.top + plotHeight}
-        stroke="#ced4da"
+        stroke="currentColor"
         strokeWidth={1}
+        className="text-slate-200 dark:text-slate-700"
       />
       <line
         x1={padding.left}
         y1={padding.top + plotHeight}
         x2={padding.left + plotWidth}
         y2={padding.top + plotHeight}
-        stroke="#ced4da"
+        stroke="currentColor"
         strokeWidth={1}
+        className="text-slate-200 dark:text-slate-700"
       />
     </svg>
   );

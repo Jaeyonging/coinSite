@@ -18,9 +18,10 @@ const ChartGridLines = ({ chartConfig }: ChartGridLinesProps) => {
             y1={y}
             x2={padding.left + plotWidth}
             y2={y}
-            stroke="#e9ecef"
+            stroke="currentColor"
             strokeWidth={1}
             strokeDasharray="4 4"
+            className="text-slate-200 dark:text-slate-700"
           />
         );
       })}

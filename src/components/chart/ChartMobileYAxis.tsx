@@ -37,7 +37,7 @@ const ChartMobileYAxis = ({ chartConfig, chartData }: ChartMobileYAxisProps) => 
         return (
           <div
             key={ratio}
-            className="absolute left-0 -translate-y-1/2 text-[9px] text-gray-500 font-medium text-right w-full pr-[5px]"
+            className="absolute left-0 w-full -translate-y-1/2 pr-[5px] text-right text-[9px] font-semibold text-slate-600 dark:text-slate-300"
             style={{ top: `${y}px` }}
           >
             {formatCompactNumber(price)}

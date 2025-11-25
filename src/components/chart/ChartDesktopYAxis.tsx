@@ -33,8 +33,9 @@ const ChartDesktopYAxis = ({ chartConfig }: ChartDesktopYAxisProps) => {
             y={y + 4}
             textAnchor="end"
             fontSize={12}
-            fill="#6c757d"
-            fontWeight={500}
+            fontWeight={600}
+            fill="currentColor"
+            className="text-slate-600 dark:text-slate-300"
           >
             {formatCompactNumber(price)}
           </text>
