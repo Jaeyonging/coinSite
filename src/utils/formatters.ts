@@ -3,17 +3,9 @@ export const formatPrice = (price: number | null | undefined): string => {
   if (price === null || price === undefined || isNaN(price)) {
     return '0';
   }
-  
-  if (price > 1000) {
-    return price.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  } else if (price > 100) {
-    return price.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  } else if (price < 1) {
-    const formattedPrice = parseFloat(price.toFixed(5)).toString();
-    return formattedPrice;
-  } else {
-    return price.toFixed(2);
-  }
+
+  const flooredPrice = Math.floor(price);
+  return flooredPrice.toLocaleString('ko-KR');
 };
 
 export const formatNumber = (num: number): string => {
@@ -25,4 +17,14 @@ export const formatCompactNumber = (num: number, maximumFractionDigits: number =
     notation: 'compact',
     maximumFractionDigits,
   }).format(num);
+};
+
+export const formatTradeVolume = (volume: number | null | undefined): string => {
+  if (volume === null || volume === undefined || isNaN(volume) || volume === 0) {
+    return '0억원';
+  }
+
+  const eok = volume / 100000000;
+
+  return eok.toFixed(1) + '억원';
 };

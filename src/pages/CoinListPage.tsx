@@ -1,7 +1,10 @@
-import React from 'react';
-import SearchBar from '../components/SearchBar';
-import CoinTable from '../components/CoinTable';
+import React, { useState } from 'react';
+import SearchBar from '../components/coinList/SearchBar';
+import CoinTable from '../components/coinTable';
+import MockTradingPanel from '../components/MockTradingPanel';
+import MockTradingDashboard from '../components/MockTradingDashboard';
 import { useCoinList } from '../hooks/useCoinList';
+import { useIsMobile } from '../hooks/useMediaQuery';
 
 const CoinListPage = () => {
   const {
@@ -24,24 +27,35 @@ const CoinListPage = () => {
     handleChartToggle,
   } = useCoinList();
 
+  const [selectedCoin, setSelectedCoin] = useState<{
+    market: string;
+    coin: any;
+    krCoin: any;
+  } | null>(null);
+  const [isMockTradingOpen, setIsMockTradingOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  const handleCoinClick = (market: string) => {
+    const coin = upbitCoinState[market];
+    const krCoin = coinKrwPriceState.coins[market];
+    if (coin && krCoin) {
+      setSelectedCoin({ market, coin, krCoin });
+      setIsMockTradingOpen(true);
+    }
+  };
+
+  const handleCloseMockTrading = () => {
+    setIsMockTradingOpen(false);
+    setSelectedCoin(null);
+  };
+
   if (!fetchFinished) {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 480;
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '50vh',
-          fontSize: isMobile ? '14px' : '16px',
-          color: '#6c757d',
-          padding: isMobile ? '30px 16px' : '40px 20px',
-        }}
-      >
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: isMobile ? '28px' : '32px', marginBottom: isMobile ? '12px' : '16px' }}>⏳</div>
-          <div style={{ fontWeight: 500, fontSize: isMobile ? '14px' : '16px' }}>데이터를 불러오는 중...</div>
-          <div style={{ fontSize: isMobile ? '12px' : '14px', marginTop: '8px', color: '#6c757d' }}>
+      <div className={`flex justify-center items-center min-h-[50vh] ${isMobile ? 'text-sm py-[30px] px-4' : 'text-base py-10 px-5'} text-gray-500`}>
+        <div className="text-center">
+          <div className={`${isMobile ? 'text-[28px] mb-3' : 'text-[32px] mb-4'}`}>⏳</div>
+          <div className={`font-medium ${isMobile ? 'text-sm' : 'text-base'}`}>데이터를 불러오는 중...</div>
+          <div className={`${isMobile ? 'text-xs' : 'text-sm'} mt-2 text-gray-500`}>
             11월 24일 이후로 변경되었습니다.
           </div>
         </div>
@@ -52,34 +66,16 @@ const CoinListPage = () => {
   return (
     <>
       {error && (
-        <div
-          style={{
-            color: '#dc3545',
-            padding: typeof window !== 'undefined' && window.innerWidth <= 480 ? '10px 12px' : '12px 16px',
-            margin: '0 0 16px 0',
-            background: '#f8d7da',
-            borderRadius: '6px',
-            border: '1px solid #f5c2c7',
-            fontWeight: 500,
-            fontSize: typeof window !== 'undefined' && window.innerWidth <= 480 ? '12px' : '14px',
-            wordBreak: 'keep-all',
-          }}
-        >
+        <div className={`text-fall ${isMobile ? 'py-2.5 px-3 text-xs' : 'py-3 px-4 text-sm'} mb-4 bg-red-100 rounded-md border border-red-200 font-medium break-keep`}>
           {error}
         </div>
       )}
-      <div
-        className="App"
-        style={{
-          marginTop: '0',
-          wordBreak: 'keep-all',
-          width: '100%',
-          maxWidth: '100vw',
-          overflowX: 'auto',
-          position: 'relative',
-          zIndex: 0,
-        }}
-      >
+      <div className="mt-0 break-keep w-full max-w-screen overflow-x-hidden sm:overflow-x-hidden md:overflow-x-auto relative z-0">
+        <MockTradingDashboard
+          upbitCoins={upbitCoinState}
+          krwPrices={coinKrwPriceState.coins}
+          onCoinClick={handleCoinClick}
+        />
         <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         <CoinTable
           markets={filteredCoins}
@@ -95,8 +91,16 @@ const CoinListPage = () => {
           onSort={handleSort}
           onChartToggle={handleChartToggle}
           onFavoriteToggle={toggleFavorite}
+          onCoinClick={handleCoinClick}
         />
       </div>
+      <MockTradingPanel
+        isOpen={isMockTradingOpen}
+        onClose={handleCloseMockTrading}
+        coin={selectedCoin?.coin || null}
+        krCoin={selectedCoin?.krCoin || null}
+        market={selectedCoin?.market || ''}
+      />
     </>
   );
 };

@@ -1,9 +1,8 @@
 import { Suspense, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import "./App.css";
-import Header from "./components/common/Header/Header";
+import Header from "./components/layout/Header";
 import CoinListPage from "./pages/CoinListPage";
-import Footer from "./components/common/Footer/Footer";
+import Footer from "./components/layout/Footer";
 import ReactGA from 'react-ga4';
 
 const TRACKING_ID = import.meta.env.VITE_GA_PROPERTYID;
@@ -17,16 +16,15 @@ function App() {
     ReactGA.send('pageview');
   }, [location]);
   return (
-    <>
-      <Header></Header>
-      <Suspense fallback={<div>로딩중</div>}>
+    <div className="text-left py-6 px-6 max-w-[1400px] mx-auto w-full box-border md:px-3 md:py-4 sm:px-2 sm:py-2.5">
+      <Header />
+      <Suspense fallback={<div className="text-center py-10">로딩중</div>}>
         <Routes>
           <Route path="/" element={<CoinListPage />} />
         </Routes>
       </Suspense>
-      <Footer></Footer>
-
-    </>
+      <Footer />
+    </div>
   );
 }
 

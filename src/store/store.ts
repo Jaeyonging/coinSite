@@ -8,7 +8,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: ['persist/PERSIST'],
       },
-      // 성능 최적화: 불필요한 체크 비활성화
+
       immutableCheck: false,
     }),
 });

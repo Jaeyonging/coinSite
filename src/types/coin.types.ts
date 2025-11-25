@@ -37,6 +37,7 @@ export interface KrwCoinPrice {
   change: string;
   changePercent: number;
   absValue: number;
+  accTradePrice24h: number; // 24시간 누적 거래대금
 }
 
 export interface KrwCoinPriceState {

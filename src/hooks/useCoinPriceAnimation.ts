@@ -3,9 +3,7 @@ import { KrwCoinPriceState } from '../types/coin.types';
 import { PriceChangeDirection } from '../types/coin.types';
 import { ANIMATION_DURATION } from '../utils/constants';
 
-/**
- * 코인 가격 변경 애니메이션 훅 (최적화 버전)
- */
+
 export const useCoinPriceAnimation = (
   coinPrices: KrwCoinPriceState['coins'],
   fetchFinished: boolean
@@ -17,7 +15,6 @@ export const useCoinPriceAnimation = (
   useEffect(() => {
     if (!fetchFinished) return;
 
-    // requestAnimationFrame을 사용하여 브라우저 렌더링 사이클에 맞춤
     const rafId = requestAnimationFrame(() => {
       const newAnimations: { [key: string]: PriceChangeDirection } = {};
       const marketsToUpdate: string[] = [];
@@ -34,12 +31,10 @@ export const useCoinPriceAnimation = (
           }
           marketsToUpdate.push(market);
 
-          // 기존 timeout이 있으면 취소
           if (timeoutRefsRef.current[market]) {
             clearTimeout(timeoutRefsRef.current[market]);
           }
 
-          // 애니메이션을 일정 시간 후 제거
           timeoutRefsRef.current[market] = setTimeout(() => {
             setAnimations((prev) => {
               const updated = { ...prev };
@@ -52,13 +47,11 @@ export const useCoinPriceAnimation = (
           }, ANIMATION_DURATION.PRICE_CHANGE);
         }
 
-        // 현재 가격을 이전 가격으로 저장
         if (currentPrice !== undefined) {
           prevPricesRef.current[market] = currentPrice;
         }
       });
 
-      // 변경된 것만 업데이트
       if (marketsToUpdate.length > 0) {
         setAnimations((prev) => {
           const updated = { ...prev };
@@ -75,7 +68,6 @@ export const useCoinPriceAnimation = (
     };
   }, [coinPrices, fetchFinished]);
 
-  // cleanup: 컴포넌트 언마운트 시 모든 timeout 정리
   useEffect(() => {
     return () => {
       Object.values(timeoutRefsRef.current).forEach((timeout) => {

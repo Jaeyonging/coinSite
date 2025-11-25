@@ -1,8 +1,4 @@
-/**
- * 애플리케이션 상수
- */
 
-// 차트 시간 단위 설정
 export const CHART_TIME_UNITS = {
   '1분': { unit: 'minutes/1', count: 100 },
   '5분': { unit: 'minutes/5', count: 100 },
@@ -14,20 +10,17 @@ export const CHART_TIME_UNITS = {
   '30일': { unit: 'days', count: 30 },
 } as const;
 
-// 색상 상수
 export const COLORS = {
   RISE: '#00c896',
   FALL: '#ff4757',
   NEUTRAL: '#666',
 } as const;
 
-// 애니메이션 지속 시간 (ms)
 export const ANIMATION_DURATION = {
   PRICE_CHANGE: 500,
   TRANSITION: 150,
 } as const;
 
-// 차트 설정
 export const CHART_CONFIG = {
   MIN_WIDTH: 900,
   HEIGHT: 450,
@@ -44,6 +37,6 @@ export const CHART_CONFIG = {
     top: 15,
     right: 20,
     bottom: 30,
-    left: 50,
+    left: 35,
   },
 } as const;

@@ -47,6 +47,7 @@ const coinKrwPriceSlice = createSlice({
             change: item.change,
             changePercent: item.change_rate * 100,
             absValue: item.change_price,
+            accTradePrice24h: item.acc_trade_price_24h || 0,
           };
         });
         state.loading = 'success';

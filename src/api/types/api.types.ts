@@ -1,4 +1,4 @@
-// API Response Types
+
 export interface CandleData {
   market: string;
   candle_date_time_utc: string;
@@ -26,4 +26,5 @@ export interface UpbitTicker {
   change: 'RISE' | 'FALL' | 'EVEN';
   change_rate: number;
   change_price: number;
+  acc_trade_price_24h: number; // 24시간 누적 거래대금
 }
