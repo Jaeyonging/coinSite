@@ -35,7 +35,7 @@ const CoinNameCell = React.memo(({
               src={`https://static.upbit.com/logos/${symbol}.png`}
               alt={coin.korean_name}
             />
-            <span className="w-16 lg:w-full overflow-x-hidden whitespace-nowrap overflow-ellipsis text-[9px] font-medium text-gray-900 leading-normal sm:text-[9px] sm:leading-[1.3]">
+            <span className="w-16 lg:w-full overflow-x-hidden whitespace-nowrap overflow-ellipsis text-[9px] font-medium text-gray-900 leading-normal sm:text-[9px] sm:leading-[1.3] dark:text-slate-100">
               {coin.korean_name}
             </span>
           </div>
@@ -59,7 +59,7 @@ const CoinNameCell = React.memo(({
                 title="즐겨찾기 추가"
               />
             )}
-            <span className="text-[9px] font-semibold text-gray-700 px-0.5 tracking-tight">
+            <span className="px-0.5 text-[9px] font-semibold text-gray-700 tracking-tight dark:text-slate-300">
               {symbol}
             </span>
             {isChartExpanded ? (
@@ -95,7 +95,7 @@ const CoinNameCell = React.memo(({
           src={`https://static.upbit.com/logos/${symbol}.png`}
           alt={coin.korean_name}
         />
-        <span className="text-sm font-medium text-gray-900 leading-normal flex-[0_0_auto] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap md:text-xs">
+        <span className="flex-[0_0_auto] min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-gray-900 leading-normal md:text-xs dark:text-white">
           {coin.korean_name}
         </span>
         {isFavorite ? (
@@ -137,7 +137,7 @@ const CoinNameCell = React.memo(({
           />
         )}
       </div>
-      <div className="text-sm font-medium text-gray-900 leading-normal mt-1 text-xs text-gray-500">
+      <div className="text-sm font-medium text-gray-900 leading-normal mt-1 text-xs text-gray-500 dark:text-slate-400">
         {coin.english_name} {symbol}
       </div>
     </td>

@@ -92,7 +92,7 @@ const CoinChart = React.memo(({ market, unit, position }: CoinChartProps) => {
 
   return (
     <div
-      className={`bg-white rounded-lg shadow-sm border border-gray-200 relative box-border ${
+      className={`relative box-border rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 ${
         isMobileViewport ? 'my-2' : 'mt-3 mb-3'
       }`}
       style={{

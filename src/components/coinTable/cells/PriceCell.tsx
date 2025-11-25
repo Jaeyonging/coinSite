@@ -61,16 +61,17 @@ const PriceCell = React.memo(({
     };
   }, []);
 
-  const colorClass = animation === 'up' 
-    ? 'text-rise' 
-    : animation === 'down' 
-    ? 'text-fall' 
-    : 'text-gray-900';
+  const colorClass =
+    animation === 'up'
+      ? 'text-rise'
+      : animation === 'down'
+      ? 'text-fall'
+      : 'text-slate-900 dark:text-white';
   const binanceColorClass = binanceAnimation === 'up'
     ? 'text-rise'
     : binanceAnimation === 'down'
     ? 'text-fall'
-    : 'text-gray-500';
+    : 'text-gray-500 dark:text-slate-400';
 
   return (
     <td className="text-center py-2 px-0 sm:py-1 sm:px-0 md:py-3 md:px-2 border-none align-middle first:pl-1 sm:first:pl-0.5 md:first:pl-5 last:pr-1 sm:last:pr-0.5 md:last:pr-5 md:whitespace-nowrap md:min-w-[80px] sm:whitespace-normal sm:break-words sm:min-w-0">

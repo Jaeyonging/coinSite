@@ -22,14 +22,20 @@ const PositionsTable = ({
   isMobile,
 }: PositionsTableProps) => {
   if (positions.length === 0) {
-    return <EmptyPositions isMobile={isMobile} />;
+    return (
+      <div className="rounded-2xl border border-slate-200/70 bg-white/80 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+        <EmptyPositions isMobile={isMobile} />
+      </div>
+    );
   }
 
   return (
-    <div className={`${isMobile ? 'overflow-x-visible' : 'overflow-x-auto'} -webkit-overflow-scrolling-touch`}>
+    <div
+      className={`${isMobile ? 'overflow-x-visible px-2' : 'overflow-x-auto'} -webkit-overflow-scrolling-touch rounded-2xl border border-slate-200/70 bg-white/80 shadow-sm dark:border-slate-800 dark:bg-slate-900/70`}
+    >
       <table className="w-full border-separate border-spacing-0">
         <TableHeader isMobile={isMobile} />
-        <tbody>
+        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
           {positions.map((position) => {
             const coin = upbitCoins[position.market];
             const krCoin = krwPrices[position.market];

@@ -16,15 +16,25 @@ const PanelBalanceSummary = ({
   profitLossPercent,
 }: PanelBalanceSummaryProps) => {
   return (
-    <div className="bg-gray-50 rounded-xl p-4 md:p-5 mb-5">
-      <div className="text-[11px] md:text-sm text-gray-500 mb-2">보유 현금</div>
-      <div className="text-lg md:text-[28px] font-bold mb-4">{formatPrice(balance)}원</div>
+    <div className="mb-5 space-y-4">
+      <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+        <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 md:text-sm dark:text-slate-500">
+          보유 현금
+        </div>
+        <div className="mt-1 text-lg font-bold text-slate-900 md:text-[28px] dark:text-white">
+          {formatPrice(balance)}원
+        </div>
+      </div>
 
       {currentPosition && (
-        <div className="border-t border-gray-300 pt-4 mt-4">
-          <div className="text-[11px] md:text-sm text-gray-500 mb-2">보유 수량</div>
-          <div className="text-base md:text-2xl font-bold mb-2">{currentPosition.amount}개</div>
-          <div className="text-[10px] md:text-sm text-gray-500 mb-1">
+        <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-900/70">
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400 md:text-sm dark:text-slate-500">
+            보유 수량
+          </div>
+          <div className="mt-1 text-base font-bold text-slate-900 md:text-2xl dark:text-white">
+            {currentPosition.amount}개
+          </div>
+          <div className="mt-2 text-[10px] text-slate-500 md:text-sm dark:text-slate-400">
             평균 단가: {formatPrice(currentPosition.avgPrice)}원
           </div>
           <div

@@ -51,9 +51,9 @@ const CoinTable = ({
   }
 
   return (
-    <div className="w-full overflow-x-hidden md:overflow-x-auto relative" style={{ width: '100%', maxWidth: '100%' }}>
+    <div className="relative w-full overflow-x-hidden md:overflow-x-auto" style={{ width: '100%', maxWidth: '100%' }}>
       <table
-        className={`w-full border-separate border-spacing-0 mt-0 rounded-lg overflow-hidden shadow-sm border border-gray-200 ${
+        className={`mt-0 w-full border-separate border-spacing-0 overflow-hidden rounded-2xl border border-slate-200 bg-white/90 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/80 ${
           isMobile ? 'table-fixed' : 'table-auto'
         }`}
         style={{ 
@@ -63,7 +63,7 @@ const CoinTable = ({
         }}
       >
         <TableHeader onSort={onSort} sortConfig={sortConfig} isRendered={isRendered} />
-        <tbody>
+        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
           {markets.map((market, idx) => {
             const coin = upbitCoins[market];
             const krCoin = krwPrices[market];

@@ -2,9 +2,9 @@ import React from 'react';
 
 const ChartEmptyState = () => {
   return (
-    <div className="py-10 px-5 text-center bg-white rounded-lg shadow-sm mt-3 border border-gray-300">
-      <div className="text-[32px] mb-3">📉</div>
-      <div className="text-[15px] text-gray-500 font-medium">
+    <div className="mt-3 rounded-2xl border border-slate-200 bg-white/90 py-10 px-5 text-center shadow-sm dark:border-slate-800 dark:bg-slate-900/80">
+      <div className="mb-3 text-[32px]">📉</div>
+      <div className="text-[15px] font-medium text-slate-500 dark:text-slate-300">
         데이터가 없습니다.
       </div>
     </div>

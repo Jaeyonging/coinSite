@@ -19,34 +19,34 @@ const DepositModal = ({
   onClose,
   onDepositAmountChange,
   onDeposit,
-  isMobile,
 }: DepositModalProps) => {
   if (!isOpen) return null;
 
-  const isDisabled = !depositAmount || isNaN(parseFloat(depositAmount.replace(/,/g, ''))) || parseFloat(depositAmount.replace(/,/g, '')) <= 0;
+  const parsedAmount = parseFloat(depositAmount.replace(/,/g, ''));
+  const isDisabled = !depositAmount || Number.isNaN(parsedAmount) || parsedAmount <= 0;
 
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black/50 z-[10000] ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} transition-opacity duration-300 ease-in-out`}
+        className={`fixed inset-0 z-[10000] bg-black/50 transition-opacity duration-300 ${
+          isOpen ? 'visible opacity-100' : 'invisible opacity-0'
+        }`}
         onClick={onClose}
       />
       <div
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl p-6 md:p-8 z-[10001] w-[90%] md:w-[400px] max-w-[90vw] shadow-2xl"
+        className="fixed top-1/2 left-1/2 z-[10001] w-[90%] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-slate-100 bg-white/95 p-6 shadow-2xl transition-colors md:w-[420px] md:p-8 dark:border-slate-800 dark:bg-slate-900"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-sm md:text-xl font-bold text-gray-900 m-0">
-            현금 입금
-          </h2>
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="m-0 text-sm font-bold text-slate-900 md:text-xl dark:text-white">현금 입금</h2>
           <IoMdClose
             onClick={onClose}
-            className="text-xl md:text-2xl cursor-pointer text-gray-500 transition-colors duration-200 ease-in-out hover:text-gray-900"
+            className="cursor-pointer text-xl text-slate-400 transition-colors duration-200 hover:text-slate-900 md:text-2xl dark:text-slate-500 dark:hover:text-white"
           />
         </div>
 
         <div className="mb-5">
-          <label className="block text-[11px] md:text-sm text-gray-600 mb-2 font-medium">
+          <label className="mb-2 block text-[11px] font-medium text-slate-500 md:text-sm dark:text-slate-300">
             입금 금액
           </label>
           <input
@@ -54,7 +54,7 @@ const DepositModal = ({
             value={depositAmount}
             onChange={onDepositAmountChange}
             placeholder="금액을 입력하세요"
-            className="w-full py-3 px-3 text-sm md:py-3.5 md:px-3.5 md:text-lg border-2 border-gray-300 rounded-lg outline-none box-border focus:border-blue-600 transition-colors duration-200"
+            className="w-full rounded-2xl border-2 border-slate-200 bg-white/70 py-3 px-3 text-sm outline-none transition-colors duration-200 focus:border-blue-600 md:py-3.5 md:px-3.5 md:text-lg dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:border-indigo-500"
             onKeyPress={(e) => {
               if (e.key === 'Enter') {
                 onDeposit();
@@ -62,7 +62,7 @@ const DepositModal = ({
             }}
             autoFocus
           />
-          <div className="flex gap-2 mt-3">
+          <div className="mt-3 flex gap-2">
             {[100000, 500000, 1000000, 5000000].map((amount) => (
               <button
                 key={amount}
@@ -72,7 +72,7 @@ const DepositModal = ({
                     target: { value: formatted },
                   } as React.ChangeEvent<HTMLInputElement>);
                 }}
-                className="flex-1 py-2 text-[10px] md:py-2.5 md:text-sm bg-gray-50 border border-gray-300 rounded-md cursor-pointer font-medium transition-all duration-200 ease-in-out hover:bg-gray-100 hover:border-blue-600"
+                className="flex-1 rounded-xl border border-slate-200 bg-slate-50 py-2 text-[10px] font-medium text-slate-700 transition-all duration-200 hover:border-blue-500 hover:bg-white md:py-2.5 md:text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:border-indigo-400"
               >
                 {formatPrice(amount)}
               </button>
@@ -80,13 +80,13 @@ const DepositModal = ({
           </div>
         </div>
 
-        {depositAmount && !isNaN(parseFloat(depositAmount.replace(/,/g, ''))) && (
-          <div className="bg-blue-50 p-3 md:p-4 rounded-lg mb-5">
-            <div className="text-[11px] md:text-sm text-gray-600 mb-1">
+        {depositAmount && !Number.isNaN(parsedAmount) && parsedAmount > 0 && (
+          <div className="mb-5 rounded-2xl bg-blue-50/80 p-3 text-slate-800 md:p-4 dark:bg-indigo-500/10 dark:text-white">
+            <div className="mb-1 text-[11px] font-medium text-slate-500 md:text-sm dark:text-slate-300">
               입금 후 잔액
             </div>
-            <div className="text-sm md:text-xl font-bold">
-              {formatPrice(balance + parseFloat(depositAmount.replace(/,/g, '')))}원
+            <div className="text-sm font-bold md:text-xl">
+              {formatPrice(balance + parsedAmount)}원
             </div>
           </div>
         )}
@@ -94,14 +94,18 @@ const DepositModal = ({
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 py-3 text-xs md:py-3.5 md:text-base font-semibold bg-gray-50 text-gray-900 border border-gray-300 rounded-lg cursor-pointer transition-colors duration-200 ease-in-out hover:bg-gray-100"
+            className="flex-1 rounded-2xl border border-slate-200 bg-white py-3 text-xs font-semibold text-slate-700 transition-colors duration-200 hover:bg-slate-50 md:py-3.5 md:text-base dark:border-slate-700 dark:bg-slate-800 dark:text-white dark:hover:bg-slate-700"
           >
             취소
           </button>
           <button
             onClick={onDeposit}
             disabled={isDisabled}
-            className={`flex-1 py-3 text-xs md:py-3.5 md:text-base font-bold bg-blue-600 text-white border-none rounded-lg ${isDisabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'} transition-opacity duration-200 ease-in-out hover:bg-blue-700 disabled:hover:bg-blue-600`}
+            className={`flex-1 rounded-2xl border-none py-3 text-xs font-bold text-white md:py-3.5 md:text-base ${
+              isDisabled
+                ? 'cursor-not-allowed bg-indigo-400/60 opacity-60'
+                : 'cursor-pointer bg-indigo-600 hover:bg-indigo-500'
+            }`}
           >
             입금하기
           </button>

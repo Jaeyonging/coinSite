@@ -41,7 +41,7 @@ const CoinRow = React.memo(({
     <>
       <tr
         onClick={onCoinClick}
-        className="bg-white transition-colors border-b border-gray-200 last:border-b-0 cursor-pointer hover:bg-gray-50 md:hover:bg-transparent"
+        className="bg-white/90 transition-colors border-b border-slate-100 last:border-b-0 cursor-pointer hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900/60 dark:hover:bg-slate-800/60 md:hover:bg-transparent"
       >
         <CoinNameCell
           coin={coin}
@@ -67,7 +67,7 @@ const CoinRow = React.memo(({
         <TradeVolumeCell accTradePrice24h={krCoin.accTradePrice24h} />
       </tr>
       {isChartExpanded && (
-        <tr>
+        <tr className="bg-slate-50/60 dark:bg-slate-900/40">
           <td 
             colSpan={5} 
             className="p-0 w-full max-w-full" 

@@ -17,14 +17,15 @@ const columns = [
 
 const TableHeader = ({ onSort, sortConfig, isRendered }: TableHeaderProps) => {
   return (
-    <thead className="sticky top-0 z-10 bg-gray-50">
-      <tr className="text-gray-600 font-semibold uppercase tracking-wide border-b-2 border-gray-300">
+    <thead className="sticky top-0 z-10 bg-slate-50/80 backdrop-blur dark:bg-slate-900/70">
+      <tr className="border-b-2 border-slate-200 text-slate-600 font-semibold uppercase tracking-wide dark:border-slate-800 dark:text-slate-400">
         {columns.map(({ label, key, align, smWidth }) => (
           <th
             key={key}
             onClick={() => onSort(key)}
             className={`
-              cursor-pointer hover:bg-gray-100 hover:text-gray-900 select-none
+              cursor-pointer select-none transition-colors duration-150
+              hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800/60 dark:hover:text-white
               px-2 py-2 md:px-3 md:py-3
               text-[8px] md:text-[11px] lg:text-[13px]
               whitespace-nowrap

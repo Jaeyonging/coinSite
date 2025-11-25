@@ -130,34 +130,34 @@ const MockTradingPanel: React.FC<MockTradingPanelProps> = ({
 
   return (
     <>
-      {}
       <div
-        className={`fixed inset-0 bg-black/50 z-[9998] ${isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'} transition-opacity duration-300 ease-in-out`}
+        className={`fixed inset-0 z-[9998] bg-black/60 transition-opacity duration-300 ease-in-out dark:bg-black/70 ${
+          isOpen ? 'visible opacity-100' : 'invisible opacity-0'
+        }`}
         onClick={onClose}
       />
-      
-      {}
+
       <div
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-[20px] shadow-[0_-4px_20px_rgba(0,0,0,0.15)] z-[9999] ${isOpen ? 'translate-y-0' : 'translate-y-full'} transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] max-h-[90vh] flex flex-col`}
+        className={`fixed bottom-0 left-0 right-0 z-[9999] flex max-h-[90vh] flex-col rounded-t-[28px] border border-slate-200/60 bg-white/95 shadow-[0_-25px_70px_rgba(15,23,42,0.45)] backdrop-blur transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] dark:border-slate-800 dark:bg-slate-950 ${
+          isOpen ? 'translate-y-0' : 'translate-y-full'
+        }`}
       >
-        {}
-        <div className="p-4 md:p-5 border-b border-gray-200 flex justify-between items-center">
+        <div className="flex items-center justify-between border-b border-slate-200 p-4 md:p-5 dark:border-slate-800">
           <div>
-            <div className="text-xs md:text-xl font-bold mb-1">
+            <div className="mb-1 text-xs font-bold text-slate-900 md:text-xl dark:text-white">
               {coin.korean_name}
             </div>
-            <div className="text-xs md:text-base text-gray-500">
+            <div className="text-xs text-slate-500 md:text-base dark:text-slate-400">
               {formatPrice(currentPrice)}원
             </div>
           </div>
           <IoMdClose
             onClick={onClose}
-            className="text-xl md:text-[28px] cursor-pointer text-gray-500 transition-colors duration-200 ease-in-out hover:text-gray-900"
+            className="cursor-pointer text-xl text-slate-400 transition-colors duration-200 ease-in-out hover:text-slate-900 md:text-[28px] dark:text-slate-500 dark:hover:text-white"
           />
         </div>
 
-        {}
-        <div className="overflow-y-auto flex-1 p-4 md:p-5">
+        <div className="flex-1 overflow-y-auto bg-slate-50/60 p-4 md:p-5 dark:bg-slate-900/20">
           <PanelBalanceSummary
             balance={balance}
             currentPosition={currentPosition}
@@ -165,20 +165,14 @@ const MockTradingPanel: React.FC<MockTradingPanelProps> = ({
             profitLossPercent={profitLossPercent}
           />
 
-          {}
           {coin && (
-            <div className="mb-5 rounded-lg overflow-hidden border border-gray-200">
-              <CoinChart
-                market={coin.market_KRW}
-                unit="1분"
-                position={currentPosition || null}
-              />
+            <div className="mb-5 overflow-hidden rounded-2xl border border-slate-200/80 shadow-sm dark:border-slate-800">
+              <CoinChart market={coin.market_KRW} unit="1분" position={currentPosition || null} />
             </div>
           )}
 
           <TradeTabs activeTab={activeTab} onChange={setActiveTab} />
 
-          {}
           {activeTab === 'buy' && (
             <BuyTradeForm
               buyAmount={buyAmount}

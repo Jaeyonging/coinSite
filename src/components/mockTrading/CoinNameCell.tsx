@@ -22,7 +22,7 @@ const CoinNameCell = ({ position, coin, profitLoss, profitLossPercent, isMobile 
         />
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-1">
-            <div className="font-semibold text-gray-900 text-[9px] md:text-sm whitespace-nowrap overflow-hidden text-ellipsis">
+            <div className="font-semibold text-gray-900 text-[9px] md:text-sm whitespace-nowrap overflow-hidden text-ellipsis dark:text-white">
               {coin.korean_name}
             </div>
             <div className="flex flex-col items-end gap-px flex-shrink-0 md:hidden">
@@ -41,7 +41,7 @@ const CoinNameCell = ({ position, coin, profitLoss, profitLossPercent, isMobile 
               </div>
             </div>
           </div>
-          <div className="hidden md:block text-[11px] text-gray-500 mt-px">
+          <div className="hidden md:block text-[11px] text-gray-500 mt-px dark:text-slate-400">
             {coin.english_name}
           </div>
         </div>

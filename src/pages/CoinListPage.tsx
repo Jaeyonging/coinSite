@@ -51,11 +51,11 @@ const CoinListPage = () => {
 
   if (!fetchFinished) {
     return (
-      <div className={`flex justify-center items-center min-h-[50vh] ${isMobile ? 'text-sm py-[30px] px-4' : 'text-base py-10 px-5'} text-gray-500`}>
+      <div className={`flex justify-center items-center min-h-[50vh] ${isMobile ? 'text-sm py-[30px] px-4' : 'text-base py-10 px-5'} text-slate-500 dark:text-slate-400`}>
         <div className="text-center">
           <div className={`${isMobile ? 'text-[28px] mb-3' : 'text-[32px] mb-4'}`}>⏳</div>
           <div className={`font-medium ${isMobile ? 'text-sm' : 'text-base'}`}>데이터를 불러오는 중...</div>
-          <div className={`${isMobile ? 'text-xs' : 'text-sm'} mt-2 text-gray-500`}>
+          <div className={`${isMobile ? 'text-xs' : 'text-sm'} mt-2 text-slate-500 dark:text-slate-400`}>
             11월 24일 이후로 변경되었습니다.
           </div>
         </div>
@@ -66,11 +66,11 @@ const CoinListPage = () => {
   return (
     <>
       {error && (
-        <div className={`text-fall ${isMobile ? 'py-2.5 px-3 text-xs' : 'py-3 px-4 text-sm'} mb-4 bg-red-100 rounded-md border border-red-200 font-medium break-keep`}>
+        <div className={`text-fall ${isMobile ? 'py-2.5 px-3 text-xs' : 'py-3 px-4 text-sm'} mb-4 rounded-md border border-red-200 bg-red-100 font-medium break-keep dark:border-red-500/40 dark:bg-red-500/10`}>
           {error}
         </div>
       )}
-      <div className="mt-0 break-keep w-full max-w-screen overflow-x-hidden sm:overflow-x-hidden md:overflow-x-auto relative z-0">
+      <div className="relative z-0 mt-0 w-full max-w-screen break-keep overflow-x-hidden sm:overflow-x-hidden md:overflow-x-auto">
         <MockTradingDashboard
           upbitCoins={upbitCoinState}
           krwPrices={coinKrwPriceState.coins}

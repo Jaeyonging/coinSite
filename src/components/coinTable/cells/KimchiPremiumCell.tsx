@@ -36,7 +36,7 @@ const KimchiPremiumCell = ({
       <div className={`text-[9px] md:text-sm font-medium leading-normal ${isPositive ? 'text-rise' : 'text-fall'} font-semibold whitespace-nowrap`}>
         {percentage}
       </div>
-      <div className="text-[7px] md:text-xs text-gray-500 mt-0.5 md:mt-1 font-normal whitespace-nowrap">
+      <div className="text-[7px] md:text-xs text-gray-500 mt-0.5 md:mt-1 font-normal whitespace-nowrap dark:text-slate-400">
         {usPrice !== 0 && formatPrice(difference) + '원'}
       </div>
     </td>

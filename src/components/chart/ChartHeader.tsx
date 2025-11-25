@@ -12,17 +12,20 @@ const ChartHeader = ({ currentPrice, changePercent, isRising }: ChartHeaderProps
   const chartColor = isRising ? COLORS.RISE : COLORS.FALL;
 
   return (
-    <div className="p-4 md:py-5 md:px-6 border-b border-gray-300 flex justify-between items-center flex-wrap gap-3 md:gap-4 bg-gray-50 w-full box-border" style={{ width: '100%', maxWidth: '100%', minWidth: 0 }}>
+    <div
+      className="flex w-full flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 p-4 md:gap-4 md:px-6 md:py-5 dark:border-slate-800 dark:bg-slate-900"
+      style={{ width: '100%', maxWidth: '100%', minWidth: 0 }}
+    >
       <div className="flex-shrink-0">
-        <div className="text-[10px] md:text-xs text-gray-500 mb-1 font-medium">
+        <div className="mb-1 text-[10px] font-medium text-slate-500 md:text-xs dark:text-slate-400">
           현재 가격
         </div>
-        <div className="text-[11px] md:text-xl lg:text-2xl font-bold text-gray-900">
+        <div className="text-[11px] font-bold text-slate-900 md:text-xl lg:text-2xl dark:text-white">
           {formatNumber(currentPrice)}원
         </div>
       </div>
       <div className="text-right flex-shrink-0">
-        <div className="text-[10px] md:text-xs text-gray-500 mb-1 font-medium">
+        <div className="mb-1 text-[10px] font-medium text-slate-500 md:text-xs dark:text-slate-400">
           변동률
         </div>
         <div className={`text-[10px] md:text-lg lg:text-xl font-bold ${isRising ? 'text-rise' : 'text-fall'}`}>

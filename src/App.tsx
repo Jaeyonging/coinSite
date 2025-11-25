@@ -16,14 +16,16 @@ function App() {
     ReactGA.send('pageview');
   }, [location]);
   return (
-    <div className="text-left py-6 px-6 max-w-[1400px] mx-auto w-full box-border md:px-3 md:py-4 sm:px-2 sm:py-2.5">
-      <Header />
-      <Suspense fallback={<div className="text-center py-10">로딩중</div>}>
-        <Routes>
-          <Route path="/" element={<CoinListPage />} />
-        </Routes>
-      </Suspense>
-      <Footer />
+    <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
+      <div className="text-left py-6 px-6 max-w-[1400px] mx-auto w-full box-border md:px-3 md:py-4 sm:px-2 sm:py-2.5">
+        <Header />
+        <Suspense fallback={<div className="text-center py-10 text-sm text-slate-500 dark:text-slate-400">로딩중</div>}>
+          <Routes>
+            <Route path="/" element={<CoinListPage />} />
+          </Routes>
+        </Suspense>
+        <Footer />
+      </div>
     </div>
   );
 }

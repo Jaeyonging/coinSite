@@ -74,7 +74,7 @@ const MockTradingDashboard = ({
   };
 
   return (
-    <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-gray-200 sm:p-4 sm:mb-6">
+    <div className="mb-6 rounded-3xl border border-slate-200/70 bg-white/80 p-6 shadow-lg backdrop-blur sm:mb-6 sm:p-4 dark:border-slate-800 dark:bg-slate-900/70">
       <AssetSummary
         totalAssets={totalAssets}
         balance={balance}
@@ -83,14 +83,18 @@ const MockTradingDashboard = ({
         totalReturnPercent={totalReturnPercent}
         onDepositClick={() => setIsDepositModalOpen(true)}
         onResetClick={() => setIsResetModalOpen(true)}
-        isMobile={isMobile}
       />
 
       <div>
-        <h2 className="text-sm md:text-xl font-bold mb-4 md:mb-5 text-gray-900 flex items-center gap-2">
-          <MdBarChart className="w-5 h-5 md:w-6 md:h-6" />
-          투자종목
-        </h2>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 md:mb-5 mt-[10px]">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-slate-900 md:text-xl dark:text-white">
+            <MdBarChart className="h-5 w-5 md:h-6 md:w-6" />
+            투자종목
+          </h2>
+          <div className="rounded-full border border-slate-200/70 px-3 py-1 text-[11px] font-semibold text-slate-500 dark:border-slate-700 dark:text-slate-300">
+            {positions.length > 0 ? `${positions.length}개 보유 중` : '포지션 없음'}
+          </div>
+        </div>
         <PositionsTable
           positions={positions}
           upbitCoins={upbitCoins}
