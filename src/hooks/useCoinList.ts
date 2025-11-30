@@ -34,7 +34,7 @@ export const useCoinList = () => {
       setFetchedFinished(true);
 
       if (!sortConfig) {
-        setInitialSort({ key: 'price', direction: 'descending' });
+        setInitialSort({ key: 'accTradePrice24h', direction: 'descending' });
       }
     }
   }, [coinKrwPriceState.loading, setInitialSort, sortConfig]);

@@ -31,9 +31,9 @@ const PositionsTable = ({
 
   return (
     <div
-      className={`${isMobile ? 'overflow-x-visible px-2' : 'overflow-x-auto'} -webkit-overflow-scrolling-touch rounded-2xl border border-slate-200/70 bg-white/80 shadow-sm dark:border-slate-800 dark:bg-slate-900/70`}
+      className="overflow-x-auto -webkit-overflow-scrolling-touch rounded-2xl border border-slate-200/70 bg-white/80 shadow-sm dark:border-slate-800 dark:bg-slate-900/70 p-2"
     >
-      <table className="w-full border-separate border-spacing-0">
+      <table className="w-full border-separate border-spacing-0 min-w-full">
         <TableHeader isMobile={isMobile} />
         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
           {positions.map((position) => {

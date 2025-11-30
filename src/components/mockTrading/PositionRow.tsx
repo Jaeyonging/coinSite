@@ -27,40 +27,79 @@ const PositionRow = ({ position, coin, krCoin, onCoinClick, isMobile }: Position
       onClick={() => onCoinClick(position.market)}
       className="cursor-pointer border-b border-slate-100 transition-colors duration-200 ease-in-out hover:bg-slate-50/70 dark:border-slate-800 dark:hover:bg-slate-800/40"
     >
+      {/* 종목 */}
       <CoinNameCell
         position={position}
         coin={coin}
-        profitLoss={profitLoss}
-        profitLossPercent={profitLossPercent}
         isMobile={isMobile}
       />
-      <td className="hidden md:table-cell py-3.5 px-3 text-right text-sm font-semibold text-slate-700 dark:text-slate-200">
-        {formatPrice(position.avgPrice * position.amount)}원
+      
+      {/* 투자액 */}
+      <td className="py-1.5 px-0 md:py-3.5 md:px-3 text-right whitespace-nowrap">
+        {isMobile ? (
+          <div className="text-[7px] md:text-sm font-semibold text-slate-700 dark:text-slate-200">
+            {formatPrice(position.avgPrice * position.amount)}원
+          </div>
+        ) : (
+          <div className="flex flex-col items-end">
+            <div className="text-sm font-semibold text-slate-700 dark:text-slate-200">
+              {formatPrice(position.avgPrice * position.amount)}원
+            </div>
+            <div className="text-[11px] font-medium text-slate-500 dark:text-slate-300 mt-px">
+              {position.amount.toLocaleString()}개
+            </div>
+          </div>
+        )}
       </td>
-      <td className="hidden md:table-cell py-3.5 px-3 text-right text-sm font-medium text-slate-500 dark:text-slate-300">
-        {position.amount.toLocaleString()}개
+      
+      {/* 평균단가 (모바일만 별도, 데스크톱은 다음 셀) */}
+      {isMobile && (
+        <td className="py-1.5 px-0 text-right text-[7px] md:text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
+          {formatPrice(position.avgPrice)}원
+        </td>
+      )}
+      
+      {/* 평균단가 (데스크톱) / 현재가 (모바일) */}
+      <td className="py-1.5 px-0 md:py-3.5 md:px-3 text-right text-[7px] md:text-sm text-slate-500 dark:text-slate-300 whitespace-nowrap">
+        {isMobile ? (
+          formatPrice(krCoin.krwprice) + '원'
+        ) : (
+          formatPrice(position.avgPrice) + '원'
+        )}
       </td>
-      <td className="hidden md:table-cell py-3.5 px-3 text-right text-sm text-slate-500 dark:text-slate-300">
-        {formatPrice(position.avgPrice)}원
-      </td>
-      <td className="py-1.5 px-0 text-right text-[9px] font-semibold text-slate-600 md:py-3.5 md:px-3 md:text-sm dark:text-slate-200">
-        <span className="md:hidden">{formatPrice(position.avgPrice)}원</span>
-        <span className="hidden md:inline text-slate-900 dark:text-white">
+      
+      {/* 수익률 (모바일) / 현재가 (데스크톱) */}
+      {isMobile ? (
+        <ProfitLossCell
+          profitLoss={profitLoss}
+          profitLossPercent={profitLossPercent}
+          isMobile={isMobile}
+        />
+      ) : (
+        <td className="py-3.5 px-3 text-right text-sm text-slate-900 dark:text-white whitespace-nowrap">
           {formatPrice(krCoin.krwprice)}원
-        </span>
-      </td>
+        </td>
+      )}
+      
+      {/* 평가금액 */}
       <PriceCell
-        price={isMobile ? krCoin.krwprice : currentValue}
-        change={isMobile ? krCoin.change : undefined}
+        price={currentValue}
+        change={undefined}
         isMobile={isMobile}
       />
-      <ProfitLossCell
-        profitLoss={profitLoss}
-        profitLossPercent={profitLossPercent}
-        isMobile={isMobile}
-      />
+      
+      {/* 수익률 (데스크톱) */}
       {!isMobile && (
-        <td className="py-3.5 px-3 text-center text-sm text-slate-500 dark:text-slate-400">
+        <ProfitLossCell
+          profitLoss={profitLoss}
+          profitLossPercent={profitLossPercent}
+          isMobile={isMobile}
+        />
+      )}
+      
+      {/* 일자 (데스크톱만) */}
+      {!isMobile && (
+        <td className="py-3.5 px-3 text-center text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
           {position.purchaseDate ? position.purchaseDate : '-'}
         </td>
       )}

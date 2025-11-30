@@ -60,8 +60,8 @@ export const useSortedFilteredMarkets = ({
 
       if (!sortConfig || sortConfig.direction === 'default') {
         sorted.sort((a, b) => {
-          const valueA = krwPrices[a]?.krwprice ?? 0;
-          const valueB = krwPrices[b]?.krwprice ?? 0;
+          const valueA = krwPrices[a]?.accTradePrice24h ?? 0;
+          const valueB = krwPrices[b]?.accTradePrice24h ?? 0;
           return valueB - valueA;
         });
         return sorted;
