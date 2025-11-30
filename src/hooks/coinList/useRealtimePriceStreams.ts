@@ -21,13 +21,17 @@ export const useRealtimePriceStreams = ({
       return;
     }
 
+    const trackedSymbols = new Set(
+      coinNames
+        .map((pair) => pair.split('-')[1]?.toUpperCase())
+        .filter((symbol): symbol is string => Boolean(symbol))
+    );
+    if (trackedSymbols.size === 0) {
+      return;
+    }
+
     const upbitWS = new WebSocket('wss://api.upbit.com/websocket/v1');
-    const convertedPairs = coinNames.map((pair) => {
-      const currency = pair.split('-')[1].toLowerCase();
-      return `${currency}usdt@markPrice@1s`;
-    });
-    const combinedString = convertedPairs.join('/');
-    const binanceWS = new WebSocket(`wss://fstream.binance.com/stream?streams=${combinedString}`);
+    const binanceWS = new WebSocket('wss://fstream.binance.com/ws/!markPrice@arr@1s');
 
     const krwUpdateQueue: Map<string, any> = new Map();
     const usUpdateQueue: Map<string, any> = new Map();
@@ -56,32 +60,62 @@ export const useRealtimePriceStreams = ({
       }
     };
 
-    binanceWS.onmessage = (e) => {
-      const handleData = (text: string) => {
-        try {
-          const parsed = JSON.parse(text);
-          if (parsed.data && parsed.data.s && parsed.data.p) {
-            const updatedCoins = parsed.data;
-            const usSymbol = updatedCoins.s.replace('USDT', '').toUpperCase();
-            const updatedCoin = { usprice: parseFloat(updatedCoins.p) };
-            usUpdateQueue.set(usSymbol, updatedCoin);
-            scheduleUpdate();
-          }
-        } catch (parseError) {
-          console.error('Binance data parse error:', parseError, text);
-        }
-      };
+    const processBinancePayload = (payload: any) => {
+      if (!payload) return;
 
-      if (typeof e.data === 'string') {
-        handleData(e.data);
+      let entries: any[] = [];
+      if (Array.isArray(payload)) {
+        entries = payload;
+      } else if (Array.isArray(payload.data)) {
+        entries = payload.data;
+      } else if (payload.data) {
+        entries = [payload.data];
       } else {
-        (e.data as Blob)
-          .text()
-          .then(handleData)
-          .catch((error) => {
-            console.error('Binance WS blob parse error:', error);
-          });
+        entries = [payload];
       }
+
+      let hasUpdate = false;
+
+      entries.forEach((entry) => {
+        if (!entry || !entry.s) return;
+        const usSymbol = entry.s.replace('USDT', '').toUpperCase();
+        if (!trackedSymbols.has(usSymbol)) return;
+        const priceValue = entry.p ?? entry.markPrice;
+        const parsedPrice = parseFloat(priceValue);
+        if (Number.isNaN(parsedPrice)) return;
+        usUpdateQueue.set(usSymbol, { usprice: parsedPrice });
+        hasUpdate = true;
+      });
+
+      if (hasUpdate) {
+        scheduleUpdate();
+      }
+    };
+
+    binanceWS.onmessage = (e) => {
+      if (typeof e.data === 'string') {
+        try {
+          const parsed = JSON.parse(e.data);
+          processBinancePayload(parsed);
+        } catch (parseError) {
+          console.error('Binance data parse error:', parseError, e.data);
+        }
+        return;
+      }
+
+      (e.data as Blob)
+        .text()
+        .then((text) => {
+          try {
+            const parsed = JSON.parse(text);
+            processBinancePayload(parsed);
+          } catch (parseError) {
+            console.error('Binance data parse error:', parseError, text);
+          }
+        })
+        .catch((error) => {
+          console.error('Binance WS blob parse error:', error);
+        });
     };
 
     binanceWS.onerror = (error) => {

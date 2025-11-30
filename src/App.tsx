@@ -6,15 +6,21 @@ import Footer from "./components/layout/Footer";
 import ReactGA from 'react-ga4';
 
 const TRACKING_ID = import.meta.env.VITE_GA_PROPERTYID;
-ReactGA.initialize(TRACKING_ID);
 
 function App() {
   const location = useLocation();
 
   useEffect(() => {
+    if (TRACKING_ID) {
+      ReactGA.initialize(TRACKING_ID);
+    }
+  }, [TRACKING_ID]);
+
+  useEffect(() => {
+    if (!TRACKING_ID) return;
     ReactGA.set({ page: location.pathname });
     ReactGA.send('pageview');
-  }, [location]);
+  }, [location, TRACKING_ID]);
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100">
       <div className="text-left py-6 px-6 max-w-[1400px] mx-auto w-full box-border md:px-3 md:py-4 sm:px-2 sm:py-2.5">

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { fetchUpbitMarkets } from '../../api/services/upbit.service';
 import { useAppDispatch } from '../useAppDispatch';
-import { setCoinName } from '../../store/coinsSlice';
+import { setCoinNames } from '../../store/coinsSlice';
 import { syncCoins } from '../../store/upbitCoinsSlice';
 import { setUSCoin } from '../../store/coinUsPriceSlice';
 import { UpbitCoin } from '../../types/coin.types';
@@ -20,6 +20,7 @@ export const useMarketInitialization = () => {
         const newUpbitCoinState: { [key: string]: UpbitCoin } = {};
         const newUSCOIN: { [key: string]: { usSymbol: string; usprice: number } } = {};
 
+        const marketCodes: string[] = [];
         krwCoins.forEach((coin) => {
           const coinSymbol = coin.market.substring(4);
           newUpbitCoinState[coinSymbol] = {
@@ -32,8 +33,9 @@ export const useMarketInitialization = () => {
             usSymbol: coinSymbol,
             usprice: 0,
           };
-          dispatch(setCoinName(coin.market));
+          marketCodes.push(coin.market);
         });
+        dispatch(setCoinNames(marketCodes));
         dispatch(syncCoins(newUpbitCoinState));
         dispatch(setUSCoin(newUSCOIN));
       })

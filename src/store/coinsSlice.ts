@@ -15,8 +15,12 @@ const coinsSlice = createSlice({
         state.coinNames.push(payload);
       }
     },
+    setCoinNames: (state, action: PayloadAction<string[]>) => {
+      const uniqueMarkets = Array.from(new Set(action.payload));
+      state.coinNames = uniqueMarkets;
+    },
   },
 });
 
-export const { setCoinName } = coinsSlice.actions;
+export const { setCoinName, setCoinNames } = coinsSlice.actions;
 export default coinsSlice.reducer;

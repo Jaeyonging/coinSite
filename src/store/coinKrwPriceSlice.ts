@@ -17,6 +17,7 @@ export const fetchKRWPrice = createAsyncThunk(
 const initialState: KrwCoinPriceState = {
   coins: {},
   loading: 'loading',
+  error: null,
 };
 
 const coinKrwPriceSlice = createSlice({
@@ -35,6 +36,7 @@ const coinKrwPriceSlice = createSlice({
     builder
       .addCase(fetchKRWPrice.pending, (state) => {
         state.loading = 'loading';
+        state.error = null;
       })
       .addCase(fetchKRWPrice.fulfilled, (state, action) => {
         const data = action.payload;
@@ -51,9 +53,11 @@ const coinKrwPriceSlice = createSlice({
           };
         });
         state.loading = 'success';
+        state.error = null;
       })
       .addCase(fetchKRWPrice.rejected, (state, action) => {
         state.loading = 'error';
+        state.error = action.error.message || 'KRW 시세를 불러오는 중 오류가 발생했습니다.';
         console.error('Error fetching KRW price: ', action.error.message);
       });
   },

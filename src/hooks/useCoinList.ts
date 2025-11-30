@@ -32,12 +32,18 @@ export const useCoinList = () => {
   useEffect(() => {
     if (coinKrwPriceState.loading === 'success') {
       setFetchedFinished(true);
+      setError('');
 
       if (!sortConfig) {
         setInitialSort({ key: 'accTradePrice24h', direction: 'descending' });
       }
+    } else if (coinKrwPriceState.loading === 'error') {
+      setFetchedFinished(true);
+      setError(
+        coinKrwPriceState.error || '시세 데이터를 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.'
+      );
     }
-  }, [coinKrwPriceState.loading, setInitialSort, sortConfig]);
+  }, [coinKrwPriceState.error, coinKrwPriceState.loading, setInitialSort, sortConfig]);
 
   useRealtimePriceStreams({
     enabled: fetchFinished,

@@ -45,6 +45,7 @@ export interface KrwCoinPriceState {
     [key: string]: KrwCoinPrice;
   };
   loading: 'loading' | 'success' | 'error';
+  error: string | null;
 }
 
 export interface CoinsState {

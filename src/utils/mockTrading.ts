@@ -18,13 +18,21 @@ export const calculatePositionValue = (
   return coin.krwprice * position.amount;
 };
 
-export const calculateTotalInvestmentValue = (
+export const calculatePositionCost = (position: Position) => {
+  return position.avgPrice * position.amount;
+};
+
+export const calculateTotalPositionValue = (
   positions: Position[],
   krwPrices: PriceMap
 ) => {
   return positions.reduce((total, position) => {
     return total + calculatePositionValue(position, krwPrices);
   }, 0);
+};
+
+export const calculateTotalInvestmentValue = (positions: Position[]) => {
+  return positions.reduce((total, position) => total + calculatePositionCost(position), 0);
 };
 
 export const calculateTotalProfitLoss = (
@@ -44,8 +52,8 @@ export const calculateTotalAssets = (
   krwPrices: PriceMap,
   balance: number
 ) => {
-  const totalInvestment = calculateTotalInvestmentValue(positions, krwPrices);
-  return balance + totalInvestment;
+  const totalPositionValue = calculateTotalPositionValue(positions, krwPrices);
+  return balance + totalPositionValue;
 };
 
 export const calculateReturnPercent = (
@@ -61,9 +69,10 @@ export const getMockTradingSummary = (
   krwPrices: PriceMap,
   balance: number
 ) => {
-  const totalInvestment = calculateTotalInvestmentValue(positions, krwPrices);
-  const totalAssets = balance + totalInvestment;
+  const totalInvestment = calculateTotalInvestmentValue(positions);
   const totalProfitLoss = calculateTotalProfitLoss(positions, krwPrices);
+  const totalPositionValue = totalInvestment + totalProfitLoss;
+  const totalAssets = balance + totalPositionValue;
   const totalReturnPercent = calculateReturnPercent(totalInvestment, totalProfitLoss);
 
   return {
