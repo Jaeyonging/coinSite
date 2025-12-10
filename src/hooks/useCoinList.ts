@@ -13,7 +13,7 @@ export const useCoinList = () => {
   const [fetchFinished, setFetchedFinished] = useState(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [error, setError] = useState('');
-  const [expandedCharts, setExpandedCharts] = useState<{ [key: string]: boolean }>({});
+  const [expandedTradingViewCharts, setExpandedTradingViewCharts] = useState<{ [key: string]: boolean }>({});
 
   const todayDollar = useExchangeRate();
   const coinsState = useAppSelector((state) => state.coins);
@@ -61,8 +61,8 @@ export const useCoinList = () => {
     searchTerm,
   });
 
-  const handleChartToggle = useCallback((market: string) => {
-    setExpandedCharts((prev) => ({
+  const handleTradingViewToggle = useCallback((market: string) => {
+    setExpandedTradingViewCharts((prev) => ({
       ...prev,
       [market]: !prev[market],
     }));
@@ -76,7 +76,7 @@ export const useCoinList = () => {
     setSearchTerm,
     isRendered,
     error,
-    expandedCharts,
+    expandedTradingViewCharts,
     priceAnimations,
     filteredCoins,
     upbitCoinState,
@@ -85,6 +85,6 @@ export const useCoinList = () => {
     isFavorite,
     toggleFavorite,
     handleSort,
-    handleChartToggle,
+    handleTradingViewToggle,
   };
 };

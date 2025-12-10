@@ -8,18 +8,18 @@ import { useIsMobile } from '../../../hooks/useMediaQuery';
 interface CoinNameCellProps {
   coin: UpbitCoin;
   market: string;
-  isChartExpanded: boolean;
+  isTradingViewExpanded: boolean;
   isFavorite: boolean;
-  onChartToggle: () => void;
+  onTradingViewToggle: () => void;
   onFavoriteToggle: () => void;
 }
 
 const CoinNameCell = React.memo(({
   coin,
   market,
-  isChartExpanded,
+  isTradingViewExpanded,
   isFavorite,
-  onChartToggle,
+  onTradingViewToggle,
   onFavoriteToggle,
 }: CoinNameCellProps) => {
   const isMobile = useIsMobile();
@@ -39,7 +39,7 @@ const CoinNameCell = React.memo(({
               {coin.korean_name}
             </span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center">
             {isFavorite ? (
               <AiFillStar
                 onClick={(e) => {
@@ -62,11 +62,11 @@ const CoinNameCell = React.memo(({
             <span className="px-0.5 text-[9px] font-semibold text-gray-700 tracking-tight dark:text-slate-300">
               {symbol}
             </span>
-            {isChartExpanded ? (
+            {isTradingViewExpanded ? (
               <MdShowChart
                 onClick={(e) => {
                   e.stopPropagation();
-                  onChartToggle();
+                  onTradingViewToggle();
                 }}
                 className="cursor-pointer text-sm text-blue-600 transition-all flex-shrink-0 px-0.5 touch-manipulation"
                 title="그래프 숨기기"
@@ -75,7 +75,7 @@ const CoinNameCell = React.memo(({
               <BsGraphUp
                 onClick={(e) => {
                   e.stopPropagation();
-                  onChartToggle();
+                  onTradingViewToggle();
                 }}
                 className="cursor-pointer text-sm text-gray-500 transition-all flex-shrink-0 px-0.5 touch-manipulation"
                 title="그래프 보기"
@@ -113,15 +113,15 @@ const CoinNameCell = React.memo(({
               e.stopPropagation();
               onFavoriteToggle();
             }}
-            className="cursor-pointer text-2xl text-gray-400 transition-all flex-shrink-0 py-1 px-1.5 touch-manipulation md:hover:text-yellow-500 md:hover:scale-110"
+            className="cursor-pointer text-2xl text-gray-400 flex-shrink-0 py-1 px-1.5 touch-manipulation md:hover:text-yellow-500 md:hover:scale-110"
             title="즐겨찾기 추가"
           />
         )}
-        {isChartExpanded ? (
+        {isTradingViewExpanded ? (
           <MdShowChart
             onClick={(e) => {
               e.stopPropagation();
-              onChartToggle();
+              onTradingViewToggle();
             }}
             className="cursor-pointer text-2xl text-blue-600 transition-all flex-shrink-0 py-1 px-1.5 touch-manipulation md:hover:scale-110"
             title="그래프 숨기기"
@@ -130,14 +130,14 @@ const CoinNameCell = React.memo(({
           <BsGraphUp
             onClick={(e) => {
               e.stopPropagation();
-              onChartToggle();
+              onTradingViewToggle();
             }}
-            className="cursor-pointer text-2xl text-gray-500 transition-all flex-shrink-0 py-1 px-1.5 touch-manipulation md:hover:text-blue-600 md:hover:scale-110"
+            className="cursor-pointer text-2xl text-gray-500 flex-shrink-0 py-1 px-1.5 touch-manipulation md:hover:text-blue-600 md:hover:scale-110"
             title="그래프 보기"
           />
         )}
       </div>
-      <div className="text-sm font-medium text-gray-900 leading-normal mt-1 text-xs text-gray-500 dark:text-slate-400">
+      <div className="font-medium  leading-normal mt-1 text-xs text-gray-500 dark:text-slate-400">
         {coin.english_name} {symbol}
       </div>
     </td>

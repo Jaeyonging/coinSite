@@ -3,7 +3,7 @@ import { IoMdClose } from 'react-icons/io';
 import { UpbitCoin } from '../types/coin.types';
 import { KrwCoinPrice } from '../types/coin.types';
 import { formatPrice } from '../utils/formatters';
-import CoinChart from './chart/CoinChart';
+import TradingViewChart from './chart/TradingViewChart';
 import { useMockTradingState } from '../hooks/mockTrading/useMockTradingState';
 import {
   applyBuyToPositions,
@@ -25,6 +25,7 @@ interface MockTradingPanelProps {
   coin: UpbitCoin | null;
   krCoin: KrwCoinPrice | null;
   market: string;
+  usPrice: number;
 }
 
 const MockTradingPanel: React.FC<MockTradingPanelProps> = ({
@@ -33,6 +34,7 @@ const MockTradingPanel: React.FC<MockTradingPanelProps> = ({
   coin,
   krCoin,
   market,
+  usPrice,
 }) => {
   const { balance, positions, updateState } = useMockTradingState();
   const [buyAmount, setBuyAmount] = useState<string>('');
@@ -167,7 +169,7 @@ const MockTradingPanel: React.FC<MockTradingPanelProps> = ({
 
           {coin && (
             <div className="mb-5 overflow-hidden rounded-2xl border border-slate-200/80 shadow-sm dark:border-slate-800">
-              <CoinChart market={coin.market_KRW} unit="1분" position={currentPosition || null} />
+              <TradingViewChart market={coin.market_KRW} usPrice={usPrice} />
             </div>
           )}
 

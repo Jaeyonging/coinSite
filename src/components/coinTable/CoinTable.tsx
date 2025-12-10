@@ -13,12 +13,12 @@ interface CoinTableProps {
   usPrices: { [key: string]: { usprice: number } };
   todayDollar: number;
   priceAnimations: { [key: string]: PriceChangeDirection };
-  expandedCharts: { [key: string]: boolean };
+  expandedTradingViewCharts: { [key: string]: boolean };
   sortConfig: { key: string; direction: string } | null;
   isRendered: boolean;
   isFavorite: (market: string) => boolean;
   onSort: (key: string) => void;
-  onChartToggle: (market: string) => void;
+  onTradingViewToggle: (market: string) => void;
   onFavoriteToggle: (market: string) => void;
   onCoinClick: (market: string) => void;
 }
@@ -30,12 +30,12 @@ const CoinTable = ({
   usPrices,
   todayDollar,
   priceAnimations,
-  expandedCharts,
+  expandedTradingViewCharts,
   sortConfig,
   isRendered,
   isFavorite,
   onSort,
-  onChartToggle,
+  onTradingViewToggle,
   onFavoriteToggle,
   onCoinClick,
 }: CoinTableProps) => {
@@ -80,9 +80,9 @@ const CoinTable = ({
                 usPrice={usPrice}
                 todayDollar={todayDollar}
                 priceAnimation={priceAnimations[market] || null}
-                isChartExpanded={!!expandedCharts[market]}
+                isTradingViewExpanded={!!expandedTradingViewCharts[market]}
                 isFavorite={isFavorite(market)}
-                onChartToggle={() => onChartToggle(market)}
+                onTradingViewToggle={() => onTradingViewToggle(market)}
                 onFavoriteToggle={() => onFavoriteToggle(market)}
                 onCoinClick={() => onCoinClick(market)}
               />

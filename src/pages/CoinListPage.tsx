@@ -15,7 +15,7 @@ const CoinListPage = () => {
     setSearchTerm,
     isRendered,
     error,
-    expandedCharts,
+    expandedTradingViewCharts,
     priceAnimations,
     filteredCoins,
     upbitCoinState,
@@ -24,13 +24,14 @@ const CoinListPage = () => {
     isFavorite,
     toggleFavorite,
     handleSort,
-    handleChartToggle,
+    handleTradingViewToggle,
   } = useCoinList();
 
   const [selectedCoin, setSelectedCoin] = useState<{
     market: string;
     coin: any;
     krCoin: any;
+    usPrice: number;
   } | null>(null);
   const [isMockTradingOpen, setIsMockTradingOpen] = useState(false);
   const isMobile = useIsMobile();
@@ -38,8 +39,9 @@ const CoinListPage = () => {
   const handleCoinClick = (market: string) => {
     const coin = upbitCoinState[market];
     const krCoin = coinKrwPriceState.coins[market];
+    const usPrice = coinUSPriceState[market]?.usprice || 0;
     if (coin && krCoin) {
-      setSelectedCoin({ market, coin, krCoin });
+      setSelectedCoin({ market, coin, krCoin, usPrice });
       setIsMockTradingOpen(true);
     }
   };
@@ -84,12 +86,12 @@ const CoinListPage = () => {
           usPrices={coinUSPriceState}
           todayDollar={todayDollar}
           priceAnimations={priceAnimations}
-          expandedCharts={expandedCharts}
+          expandedTradingViewCharts={expandedTradingViewCharts}
           sortConfig={sortConfig}
           isRendered={isRendered}
           isFavorite={isFavorite}
           onSort={handleSort}
-          onChartToggle={handleChartToggle}
+          onTradingViewToggle={handleTradingViewToggle}
           onFavoriteToggle={toggleFavorite}
           onCoinClick={handleCoinClick}
         />
@@ -100,6 +102,7 @@ const CoinListPage = () => {
         coin={selectedCoin?.coin || null}
         krCoin={selectedCoin?.krCoin || null}
         market={selectedCoin?.market || ''}
+        usPrice={selectedCoin?.usPrice || 0}
       />
     </>
   );

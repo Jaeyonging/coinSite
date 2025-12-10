@@ -5,7 +5,7 @@ import KimchiPremiumCell from './cells/KimchiPremiumCell';
 import PrevPriceCell from './cells/PrevPriceCell';
 import ChangeCell from './cells/ChangeCell';
 import TradeVolumeCell from './cells/TradeVolumeCell';
-import CoinChart from '../chart/CoinChart';
+import TradingViewChart from '../chart/TradingViewChart';
 import { UpbitCoin } from '../../types/coin.types';
 import { KrwCoinPrice } from '../../types/coin.types';
 import { PriceChangeDirection } from '../../types/coin.types';
@@ -17,9 +17,9 @@ interface CoinRowProps {
   usPrice: number;
   todayDollar: number;
   priceAnimation: PriceChangeDirection;
-  isChartExpanded: boolean;
+  isTradingViewExpanded: boolean;
   isFavorite: boolean;
-  onChartToggle: () => void;
+  onTradingViewToggle: () => void;
   onFavoriteToggle: () => void;
   onCoinClick: () => void;
 }
@@ -31,9 +31,9 @@ const CoinRow = React.memo(({
   usPrice,
   todayDollar,
   priceAnimation,
-  isChartExpanded,
+  isTradingViewExpanded,
   isFavorite,
-  onChartToggle,
+  onTradingViewToggle,
   onFavoriteToggle,
   onCoinClick,
 }: CoinRowProps) => {
@@ -46,9 +46,9 @@ const CoinRow = React.memo(({
         <CoinNameCell
           coin={coin}
           market={market}
-          isChartExpanded={isChartExpanded}
+          isTradingViewExpanded={isTradingViewExpanded}
           isFavorite={isFavorite}
-          onChartToggle={onChartToggle}
+          onTradingViewToggle={onTradingViewToggle}
           onFavoriteToggle={onFavoriteToggle}
         />
         <PriceCell
@@ -66,7 +66,7 @@ const CoinRow = React.memo(({
         <ChangeCell value={krCoin.changePercent} change={krCoin.change} isPercent absValue={krCoin.absValue} />
         <TradeVolumeCell accTradePrice24h={krCoin.accTradePrice24h} />
       </tr>
-      {isChartExpanded && (
+      {isTradingViewExpanded && (
         <tr className="bg-slate-50/60 dark:bg-slate-900/40">
           <td 
             colSpan={5} 
@@ -78,7 +78,7 @@ const CoinRow = React.memo(({
               margin: 0,
             }}
           >
-            <CoinChart market={coin.market_KRW} unit="1일" />
+            <TradingViewChart market={coin.market_KRW} usPrice={usPrice} />
           </td>
         </tr>
       )}
