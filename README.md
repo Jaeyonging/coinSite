@@ -2,7 +2,7 @@
 
 업비트와 바이낸스 간의 암호화폐 가격 차이를 실시간으로 확인할 수 있는 웹사이트다.
 
-🌐 **배포 사이트**: [https://coin-site-tau.vercel.app/](https://coin-site-tau.vercel.app/)
+🌐 **배포 사이트**: [https://coin.jaeyonging.com/](https://coin.jaeyonging.com/)
 
 ---
 
