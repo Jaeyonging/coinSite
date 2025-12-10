@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import CoinListPage from "./pages/CoinListPage";
 import Footer from "./components/layout/Footer";
 import ReactGA from 'react-ga4';
+import ChatWidget from "./components/chat/ChatWidget";
 
 const TRACKING_ID = import.meta.env.VITE_GA_PROPERTYID;
 
@@ -32,6 +33,7 @@ function App() {
         </Suspense>
         <Footer />
       </div>
+      <ChatWidget />
     </div>
   );
 }
