@@ -7,7 +7,6 @@ export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
   const [hasNewMessage, setHasNewMessage] = useState(false);
-  const [keyboardOpen, setKeyboardOpen] = useState(false);
   
   const chatWindowRef = useRef<ChatWindowRef>(null);
 
@@ -24,12 +23,10 @@ export default function ChatWidget() {
   const handleToggleChat = () => {
     setIsOpen((prev) => !prev);
     setHasNewMessage(false);
-    setKeyboardOpen(false);
   };
 
   const handleClose = () => {
     setIsOpen(false);
-    setKeyboardOpen(false);
   };
 
   const handleSend = () => {
@@ -49,7 +46,6 @@ export default function ChatWidget() {
         onInputChange={setInputValue}
         onSend={handleSend}
         onClose={handleClose}
-        keyboardOpen={keyboardOpen}
       />
       <ChatButton onClick={handleToggleChat} hasNewMessage={hasNewMessage} />
 

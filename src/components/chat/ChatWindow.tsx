@@ -3,7 +3,6 @@ import { Message } from './types';
 import ChatHeader from './ChatHeader';
 import ChatMessages, { ChatMessagesRef } from './ChatMessages';
 import ChatInput from './ChatInput';
-import { useChatKeyboard } from './hooks/useChatKeyboard';
 
 interface ChatWindowProps {
   isOpen: boolean;
@@ -14,7 +13,6 @@ interface ChatWindowProps {
   onInputChange: (value: string) => void;
   onSend: () => void;
   onClose: () => void;
-  keyboardOpen: boolean;
 }
 
 export interface ChatWindowRef {
@@ -31,9 +29,7 @@ const ChatWindow = forwardRef<ChatWindowRef, ChatWindowProps>(
     onInputChange,
     onSend,
     onClose,
-    keyboardOpen,
   }, ref) => {
-    const chatWindowRef = useRef<HTMLDivElement>(null);
     const chatInputRef = useRef<HTMLInputElement>(null);
     const chatMessagesRef = useRef<ChatMessagesRef>(null);
 
@@ -51,28 +47,13 @@ const ChatWindow = forwardRef<ChatWindowRef, ChatWindowProps>(
       }
     }, [isOpen, scrollToBottom]);
 
-    useChatKeyboard({
-      isOpen,
-      chatInputRef,
-      chatWindowRef,
-      onScrollToBottom: scrollToBottom,
-    });
-
     if (!isOpen) return null;
 
   return (
     <div
-      ref={chatWindowRef}
-      className={`chat-window fixed bottom-[76px] right-5 w-[380px] h-[500px] max-h-[calc(100vh-100px)] bg-white dark:bg-slate-900 rounded-2xl shadow-lg flex-col overflow-hidden transition-all flex ${
-        keyboardOpen ? 'rounded-none' : ''
-      }`}
+      className="chat-window fixed bottom-[76px] right-5 w-[380px] h-[500px] max-h-[calc(100vh-100px)] bg-white dark:bg-slate-900 rounded-2xl shadow-lg flex-col overflow-hidden transition-all flex"
       style={{
         position: 'fixed',
-        ...(keyboardOpen && {
-          bottom: 'auto',
-          top: '0',
-          right: '16px',
-        }),
       }}
     >
       <ChatHeader userCount={userCount} onClose={onClose} />
