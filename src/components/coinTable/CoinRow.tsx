@@ -78,7 +78,7 @@ const CoinRow = React.memo(({
               margin: 0,
             }}
           >
-            <TradingViewChart market={coin.market_KRW} usPrice={usPrice} />
+            <TradingViewChart market={coin.market_KRW} usPrice={usPrice} uniqueId={`table_${market}`} />
           </td>
         </tr>
       )}

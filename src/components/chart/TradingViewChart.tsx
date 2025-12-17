@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef, useMemo, useId } from 'react';
 import { useIsMobile } from '../../hooks/useMediaQuery';
 import { useTheme } from '../../context/ThemeContext';
 
 interface TradingViewChartProps {
   market: string;
   usPrice: number;
+  interval?: string;
+  uniqueId?: string;
 }
 
 declare global {
@@ -13,15 +15,15 @@ declare global {
   }
 }
 
-const TradingViewChart = ({ market, usPrice }: TradingViewChartProps) => {
+const TradingViewChart = ({ market, usPrice, interval = '15', uniqueId }: TradingViewChartProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetRef = useRef<any>(null);
   const previousSymbolRef = useRef<string | null>(null);
   const previousThemeRef = useRef<string | null>(null);
   const isMobile = useIsMobile();
   const { theme } = useTheme();
+  const defaultId = useId();
 
-  // 바이낸스에서 가져온 코인인지 확인 (usPrice가 있고 0이 아님)
   const hasBinancePrice = useMemo(() => {
     return usPrice && usPrice !== 0;
   }, [usPrice]);
@@ -34,11 +36,12 @@ const TradingViewChart = ({ market, usPrice }: TradingViewChartProps) => {
       : `UPBIT:${symbol}KRW`;
   }, [market, hasBinancePrice]);
 
-  // 고정된 containerId 생성 (market 기반)
+  // 고정된 containerId 생성 (market 기반, uniqueId로 구분)
   const containerId = useMemo(() => {
     const symbol = market.replace('KRW-', '');
-    return `tradingview_${symbol}`;
-  }, [market]);
+    const id = uniqueId || defaultId.replace(/:/g, '_');
+    return `tradingview_${symbol}_${id}`;
+  }, [market, uniqueId, defaultId]);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -77,7 +80,7 @@ const TradingViewChart = ({ market, usPrice }: TradingViewChartProps) => {
         widgetRef.current = new window.TradingView.widget({
           autosize: true,
           symbol: tradingViewSymbol,
-          interval: 'D',
+          interval: interval,
           timezone: 'Asia/Seoul',
           theme: isDark ? 'dark' : 'light',
           style: '1',
@@ -127,7 +130,7 @@ const TradingViewChart = ({ market, usPrice }: TradingViewChartProps) => {
         widgetRef.current = null;
       }
     };
-  }, [tradingViewSymbol, containerId, isMobile, theme]);
+  }, [tradingViewSymbol, containerId, isMobile, theme, interval]);
 
   return (
     <div
@@ -138,7 +141,7 @@ const TradingViewChart = ({ market, usPrice }: TradingViewChartProps) => {
         width: '100%',
         maxWidth: '100%',
         minWidth: 0,
-        height: isMobile ? undefined : '600px',
+        height: isMobile ? undefined : '400px',
       }}
     >
       <div

@@ -3,6 +3,7 @@ import SearchBar from '../components/coinList/SearchBar';
 import CoinTable from '../components/coinTable';
 import MockTradingPanel from '../components/MockTradingPanel';
 import MockTradingDashboard from '../components/MockTradingDashboard';
+import TradingViewChart from '../components/chart/TradingViewChart';
 import { useCoinList } from '../hooks/useCoinList';
 import { useIsMobile } from '../hooks/useMediaQuery';
 
@@ -77,6 +78,12 @@ const CoinListPage = () => {
           upbitCoins={upbitCoinState}
           krwPrices={coinKrwPriceState.coins}
           onCoinClick={handleCoinClick}
+        />
+        <TradingViewChart
+          market="KRW-BTC"
+          usPrice={coinUSPriceState['BTC']?.usprice || 0}
+          interval="15"
+          uniqueId="header"
         />
         <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
         <CoinTable
